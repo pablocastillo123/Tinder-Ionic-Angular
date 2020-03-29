@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Name:</ion-label>
+  <ion-input  [(ngModel)]="data_user.name" type="text" value={{data_user.name}}></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Last Name:</ion-label>
+    <ion-input  [(ngModel)]="data_user.last_name" type="text" value={{data_user.last_name}}></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Age:</ion-label>
+    <ion-input  [(ngModel)]="data_user.age" type="number" value={{data_user.age}}></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Sexo:</ion-label>
+    <ion-select  (ionChange) = "value_sexo($event)">
+      <div *ngFor = "let sexo of data_sexo">
+        <ion-select-option [value]="sexo" >{{sexo}}</ion-select-option>
+      </div>
+    </ion-select>
+  </ion-item>
+  <ion-button expand="block" (click)="Update_user()">Update</ion-button>
+</ion-content>

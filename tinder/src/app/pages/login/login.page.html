@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color = "primary">
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form (ngSubmit)="onLogin($event)">
+    <ion-item>
+    <ion-label>
+      Email
+    </ion-label>
+    <ion-input type = "text" [(ngModel)] = "user.email" name = "user"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>
+      Password
+    </ion-label>
+    <ion-input type = "password" [(ngModel)] = "user.password" name = "password" ></ion-input>
+  </ion-item>
+  <ion-item-divider>
+    <ion-button type = "submit" >Login</ion-button>
+    <ion-button routerLink="/register">Register</ion-button>
+  </ion-item-divider>
+</form>
+</ion-content>

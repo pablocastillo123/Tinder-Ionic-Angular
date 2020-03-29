@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
+    <ion-item>
+      <ion-label>Name:</ion-label>
+      <ion-input formControlName="name" type="text" [(ngModel)]="user.name"></ion-input>
+      <ion-label>Last name:</ion-label>
+      <ion-input formControlName="last_name" type="text" [(ngModel)]="user.last_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="person"></ion-icon>
+      <ion-label>Sexo:</ion-label>
+      <ion-select  (ionChange) = "value_sexo($event)">
+        <div *ngFor = "let sexo of data_sexo">
+          <ion-select-option [value]="sexo" >{{sexo}}</ion-select-option>
+        </div>
+      </ion-select>
+    
+      <ion-label>Age:</ion-label>
+      <ion-input formControlName="age" type="number" [(ngModel)]="user.age"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="mail" item-start></ion-icon>
+      <ion-label>Email:</ion-label>
+      <ion-input formControlName="email" type="email" [(ngModel)]="user.email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="eye" item-start></ion-icon>
+      <ion-label>Password:</ion-label>
+      <ion-input formControlName="password" type="password" [(ngModel)]="user.password"></ion-input>
+    </ion-item>
+    <ion-item-divider>
+      <ion-button type="submit">Register</ion-button>
+      <ion-button routerLink="/login">Login</ion-button>
+    </ion-item-divider>
+  </form>
+</ion-content>
