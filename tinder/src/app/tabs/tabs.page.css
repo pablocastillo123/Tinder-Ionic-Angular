@@ -1,0 +1,11 @@
+ion-tab-button{
+    font-size: 10px;
+    --background-focused: #F7409E;
+    --color-selected: #F7409E;
+    --padding-end: 0px;
+    --padding-start: 10px;
+    --padding-bottom: 0px;
+    --margin-left:0px;
+    --margin-right:0px;
+    max-width:100px;
+}
