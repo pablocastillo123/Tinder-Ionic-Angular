@@ -8,7 +8,7 @@ import { AlertController, NavController } from '@ionic/angular';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  styleUrls: ['./login.page.css'],
 })
 export class LoginPage implements OnInit {
 
@@ -23,6 +23,8 @@ export class LoginPage implements OnInit {
 
   async onLogin (event: any) {
 
+    const user = await this.authSvc.onLogin(this.user)
+
     if(event.target.user.value == "" && event.target.password.value == "") {
       this.alerta('Por favor llene los campos')
     }
@@ -31,23 +33,16 @@ export class LoginPage implements OnInit {
     }
     if(event.target.user.value == "" && event.target.password.value !== "") {
       this.alerta('Por favor llene el campo de usuario')
-    } 
-  //   if(event.target.user.value !== "" && event.target.password.value !== "") {
-  //     this.userServ.setUserEmail(this.user.email)
-  //     const user = await this.authSvc.onLogin(this.user);
 
-  //   if(user) {
-  //     if (user.user.email != 'admin@gmail.com') {
-  //       window.localStorage.setItem('email', this.user.email);
-  //       this.router.navigateByUrl('/user/tabs/home')
-  //   }else {
-  //     this.router.navigateByUrl('/admin/tabs/formulario')
-  //   }
-  // } else {
-  //   this.alerta('Usuario no econtrado o contraseña incorrecta')
-  // }
-  //   }
+    } if(user) {
+      
+      this.router.navigateByUrl('/tabs/tab2')
+       
+  } else {
+    this.alerta('Usuario no econtrado o contraseña incorrecta')
   }
+
+}
 
   async alerta(mensaje) {
     const alert = await this.alertController.create({

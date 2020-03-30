@@ -1,0 +1,36 @@
+ion-toolbar {
+    --color: #ffffff;
+    --background: #ED319F;
+}
+
+ion-title {
+    text-align: center;
+}
+
+ion-button {
+
+
+    --background: #F7409E;
+
+}
+
+.botonone {
+
+    width: 70%;
+    margin: 0 auto;
+    display: block;
+
+}
+
+.botontwo {
+
+    width: 70%;
+    margin: 0 auto;
+    display: block;
+
+}
+
+ion-content {
+    --background: #E2AAC3;
+}
+
