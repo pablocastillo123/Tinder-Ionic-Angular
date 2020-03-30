@@ -1,10 +1,11 @@
-<ion-header>
-  <ion-toolbar color="primary">
+<ion-header >
+  <ion-toolbar color="danger">
     <ion-title>Register</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+  
   <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
     <ion-item>
       <ion-label>Name:</ion-label>
@@ -13,7 +14,7 @@
       <ion-input formControlName="last_name" type="text" [(ngModel)]="user.last_name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-icon name="person"></ion-icon>
+      <ion-icon  name="person"></ion-icon>
       <ion-label>Sexo:</ion-label>
       <ion-select  (ionChange) = "value_sexo($event)">
         <div *ngFor = "let sexo of data_sexo">
@@ -34,9 +35,9 @@
       <ion-label>Password:</ion-label>
       <ion-input formControlName="password" type="password" [(ngModel)]="user.password"></ion-input>
     </ion-item>
-    <ion-item-divider>
-      <ion-button type="submit">Register</ion-button>
-      <ion-button routerLink="/login">Login</ion-button>
-    </ion-item-divider>
+    <div class="space">
+      <ion-button color="danger" type="submit">Register</ion-button>
+      <ion-button color="danger" routerLink="/login">Login</ion-button>
+    </div>
   </form>
 </ion-content>

@@ -18,6 +18,7 @@ export class RegisterPage {
   private exp: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
   private data_sexo = ['Hombre','Mujer'];
   private user_sexo:string;
+  private  email_user:string;
 
   constructor(
     private authSvc: AuthService,private router: Router,private utilTool:UtilToolService,
@@ -32,8 +33,13 @@ export class RegisterPage {
     age:[0,Validators.required],
   });
 
+  value_sexo(e){
+    this.user_sexo = e.target.value;
+  }
+
   onRegister(){
     const reg = this.registerForm;
+    this.verifiEmail()
 
    if(Validators.required(reg.get('name')) || Validators.required(reg.get('last_name'))
       ||Validators.required(reg.get('age')) || Validators.required(reg.get('email'))
@@ -53,7 +59,12 @@ export class RegisterPage {
         if(reg.get('password').value.length < 6){
           console.log(reg.get('password').value.length)
           this.utilTool.presentAlert('error','El password debe tener al menos 6 caracteres','ok');
-        }else{
+        
+        }if(this.email_user == reg.get('email').value){
+          this.utilTool.presentAlert('error','Elemail esta en uso','ok');
+        }
+
+        else{
           this.register();
         }
       }
@@ -69,7 +80,6 @@ export class RegisterPage {
 
       try{
         const id_user = this.utilTool.generateId();
-        const user = await this.authSvc.onRegister(this.user);
 
         this.db.collection("usuario").doc(id_user).set({
           id:id_user,
@@ -78,11 +88,15 @@ export class RegisterPage {
           email:this.user.email,
           age:this.user.age,
           sexo:this.user_sexo
-        }).then(res => console.log(res)).catch(err => console.log(err));
-
+        })
+        
+        const user = await this.authSvc.onRegister(this.user)
+        
         if(user){
         this.router.navigateByUrl('/');
         }
+
+
       }catch(error){
         this.utilTool.presentAlert('Error',error,'ok');
 
@@ -91,11 +105,8 @@ export class RegisterPage {
     }
   }
 
-  value_sexo(e){
-    this.user_sexo = e.target.value;
-  }
-
-   verifiEmail(){
+   public verifiEmail(): boolean{
+    var bool : boolean
     var coll_fb  = this.db.collection('usuario',ref => 
     ref.where('email','==',this.registerForm.get('email').value)).snapshotChanges().pipe(
       map(actions =>{
@@ -104,6 +115,12 @@ export class RegisterPage {
           return data;
         })
       })
-    ).subscribe(data => console.log(data[0]['email']));
+    ).subscribe((data) => {
+
+      this.email_user = data[0]['email']
+    });
+
+    return bool
+
   }
 }
