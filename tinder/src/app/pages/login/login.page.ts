@@ -38,9 +38,7 @@ export class LoginPage implements OnInit {
       
       this.router.navigateByUrl('/tabs/tab2')
        
-  } else {
-    this.alerta('Usuario no econtrado o contraseña incorrecta')
-  }
+    }
 
 }
 

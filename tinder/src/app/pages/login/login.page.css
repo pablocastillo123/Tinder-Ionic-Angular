@@ -12,6 +12,8 @@ ion-button {
 
     --background: #F7409E;
 
+    --border-radius: 10px;
+
 }
 
 .botonone {
@@ -19,6 +21,9 @@ ion-button {
     width: 70%;
     margin: 0 auto;
     display: block;
+
+    margin-top: 40%;
+
 
 }
 
@@ -28,9 +33,29 @@ ion-button {
     margin: 0 auto;
     display: block;
 
+    margin-top: 10%;
+
+
 }
 
 ion-content {
-    --background: #E2AAC3;
+    /* --background: #E2AAC3; */
+
+    --background: linear-gradient(0, #cc1a6769, #ffffff 69%)
 }
+
+.imagen {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    display: block;
+    margin-top: 20%;
+}
+
+ion-item {
+    --background: none;
+}
+
+
+
 

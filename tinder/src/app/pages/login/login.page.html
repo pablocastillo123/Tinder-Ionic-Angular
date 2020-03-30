@@ -8,17 +8,27 @@
   <form (ngSubmit)="onLogin($event)">
     <ion-item>
     <ion-label>
+      <ion-icon name="at"></ion-icon>         
       Email
     </ion-label>
     <ion-input type = "text" [(ngModel)] = "user.email" name = "user"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label>
-      Password
+      <ion-icon name="key"></ion-icon>
+            Password
     </ion-label>
     <ion-input type = "password" [(ngModel)] = "user.password" name = "password" ></ion-input>
   </ion-item>
-    <ion-button type = "submit" class="botonone" >Login</ion-button>
-    <ion-button routerLink="/register" class="botontwo">Register</ion-button>
+
+  <ion-img src = "../../../assets/kisspng-tinder-computer-icons-tinder-5b47ead292ba08.364455671531439826601.svg" class="imagen"></ion-img>
+    <ion-button type = "submit" class="botonone" >
+      <ion-icon name="enter"></ion-icon> 
+         Login
+    </ion-button>
+    <ion-button routerLink="/register" class="botontwo">
+      <ion-icon name="create"></ion-icon>
+        Register
+    </ion-button>
 </form>
 </ion-content>
