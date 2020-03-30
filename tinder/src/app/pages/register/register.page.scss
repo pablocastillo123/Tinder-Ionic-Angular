@@ -1,5 +1,6 @@
 ion-icon{
     margin-right: 15px;
+    --background: 'black'
 }
 
 ion-select{
@@ -16,5 +17,28 @@ ion-select{
 }
 
 ion-button{
-    background: 'red' !important;
+    --color: #ffffff;
+    --background: #bb1369
+}
+
+ion-toolbar{
+    --color: #ffffff;
+   --background: #ED319F;
+}
+
+ion-content{
+    --background: linear-gradient(0,#cc1a6769, #ffffff 69%)
+}
+
+ion-item {
+    --background: none;
+}
+
+.tinder-icon{
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 50px;
+    margin-top: 50px;
 }

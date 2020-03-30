@@ -1,5 +1,5 @@
 <ion-header >
-  <ion-toolbar color="danger">
+  <ion-toolbar >
     <ion-title>Register</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -35,9 +35,11 @@
       <ion-label>Password:</ion-label>
       <ion-input formControlName="password" type="password" [(ngModel)]="user.password"></ion-input>
     </ion-item>
+
+    <ion-icon class="tinder-icon"  src = "../../assets/iconoTinder.svg" ></ion-icon>
     <div class="space">
-      <ion-button color="danger" type="submit">Register</ion-button>
-      <ion-button color="danger" routerLink="/login">Login</ion-button>
+      <ion-button type="submit">Register</ion-button>
+      <ion-button routerLink="/login">Login</ion-button>
     </div>
   </form>
 </ion-content>
