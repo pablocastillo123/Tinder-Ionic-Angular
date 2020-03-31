@@ -36,7 +36,8 @@ export class LoginPage implements OnInit {
       this.alerta('Por favor llene el campo de usuario')
 
     } if(user) {
-      this.loading()
+      window.localStorage.setItem('email', this.user.email)
+      this.router.navigateByUrl('/tabs/tab2')
     }
 
 }
@@ -46,12 +47,8 @@ export class LoginPage implements OnInit {
       message: 'Cargando....'
     });
     await loading.present()
-      this.authSvc.onLogin(this.user).then(res => {
         loading.dismiss()
         this.router.navigateByUrl('/tabs/tab2')
-      })
-
-
   }
 
   async alerta(mensaje) {

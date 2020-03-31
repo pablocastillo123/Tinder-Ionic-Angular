@@ -1,6 +1,6 @@
 ion-toolbar {
     --color: #ffffff;
-    --background: #ED319F;
+    --background:black;
 }
 
 ion-title {
@@ -10,7 +10,7 @@ ion-title {
 ion-button {
 
 
-    --background: #F7409E;
+    --background: black;
 
     --border-radius: 10px;
 
@@ -41,7 +41,7 @@ ion-button {
 ion-content {
     /* --background: #E2AAC3; */
 
-    --background: linear-gradient(0, #cc1a6769, #ffffff 69%)
+    --background: linear-gradient(0, #feb645, #ff7c17 69%)
 }
 
 .imagen {
@@ -54,7 +54,15 @@ ion-content {
 
 ion-item {
     --background: none;
+
+
+
 }
+
+
+
+
+
 
 
 
