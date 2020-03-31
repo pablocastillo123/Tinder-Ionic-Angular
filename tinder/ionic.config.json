@@ -1,5 +1,7 @@
 {
   "name": "tinder",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

@@ -6,20 +6,4 @@ export class User {
     age: number;
     sexo: string;
     id:string;
-
-    setUserId(id:string){
-        this.id = id;
-    }
-
-    getUserId(){
-        return this.id;
-    }
-
-    setEmail(email:string){
-        this.email = email
-    }
-
-    getEmail(){
-        return this.email;
-    }
 }
