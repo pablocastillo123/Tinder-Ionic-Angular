@@ -18,7 +18,7 @@ export class RegisterPage {
   private exp: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
   private data_sexo = ['Hombre','Mujer'];
   private user_sexo:string;
-  private  email_user:string;
+  private email_user:string;
   
 
   constructor(
@@ -45,23 +45,23 @@ export class RegisterPage {
       ||Validators.required(reg.get('age')) || Validators.required(reg.get('email'))
       || Validators.required(reg.get('password'))){
 
-      this.utilTool.presentAlert('error','Campos vacios','ok');
+      this.utilTool.presentAlert('Error','Campos vacios','ok');
     
       }else{
         if(Validators.email(reg.get('email'))){
-        this.utilTool.presentAlert('error','Direccion de email invalida','ok');
+        this.utilTool.presentAlert('Error','Direccion de email invalida','ok');
         }
 
         if(reg.get('age').value > 120 || reg.get('age').value === 0){
-          this.utilTool.presentAlert('error','La edad debe ser menor de 120','ok');
+          this.utilTool.presentAlert('Error','La edad debe ser menor de 120','ok');
         }
         
         if(reg.get('password').value.length < 6){
           console.log(reg.get('password').value.length)
-          this.utilTool.presentAlert('error','El password debe tener al menos 6 caracteres','ok');
+          this.utilTool.presentAlert('Error','El password debe tener al menos 6 caracteres','ok');
         
         }if(this.email_user == reg.get('email').value){
-          this.utilTool.presentAlert('error','Elemail esta en uso','ok');
+          this.utilTool.presentAlert('Error','El email esta en uso','ok');
         }
 
         else{
@@ -99,7 +99,7 @@ export class RegisterPage {
 
       }catch(error){
         if(error.code === 'invalid-argument'){
-          this.utilTool.presentAlert('error','Campos vacios','ok');
+          this.utilTool.presentAlert('Error','Campos vacios','ok');
         }
 
       }finally{

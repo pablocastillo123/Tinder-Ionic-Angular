@@ -15,8 +15,6 @@ import { map } from 'rxjs/operators'
 export class Tab1Page {
   private user_collection: AngularFirestoreCollection<userInterface>
   private user: Observable<userInterface[]>
-  private user_sexo:string;
-  private user_email:string;
 
   private obj_user = {
     name:'',
@@ -56,9 +54,10 @@ export class Tab1Page {
     this.user.subscribe(res => {
       let res_user = res
 
-      //variable del localstorage
+      let email_user = window.localStorage.getItem('email');
+
       for(var i=0; i<res_user.length ; i++){
-        if(res_user[i].email === 'ana-cas@gmail.com' ){
+        if(res_user[i].email === email_user ){
         
           this.obj_user = {
             name: res_user[i].name,
@@ -89,12 +88,12 @@ export class Tab1Page {
 
     try {
       if(this.obj_user.age === null || this.obj_user.name === '' || this.obj_user.last_name ===''){
-        this.utilTool.presentAlert('error','Campos vacios','ok');
+        this.utilTool.presentAlert('Error','Campos vacios','ok');
         bool = false
       }
   
       if(this.obj_user.age > 120 || this.obj_user.age === 0){
-        this.utilTool.presentAlert('error','La edad debe ser menor de 120','ok');
+        this.utilTool.presentAlert('Error','La edad debe ser menor de 120','ok');
         bool = false;
       }
   
@@ -105,7 +104,7 @@ export class Tab1Page {
   
       }
     } catch (error) {
-      this.utilTool.presentAlert('error','Debe ingresar los datos de manera correcta','ok');
+      this.utilTool.presentAlert('Error','Error al hacer esta operacion','ok');
       console.log(error)
 
     }finally{
