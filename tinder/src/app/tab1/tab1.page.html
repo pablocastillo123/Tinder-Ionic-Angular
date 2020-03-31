@@ -5,5 +5,25 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+      <ion-item>
+        <ion-label>Name:</ion-label>
+      <ion-input [(ngModel)]="obj_user.name" type="text" value={{obj_user.name}}></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Last Name:</ion-label>
+        <ion-input [(ngModel)]="obj_user.last_name" type="text" value={{obj_user.last_name}}></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Age:</ion-label>
+        <ion-input [(ngModel)]="obj_user.age"  type="number" value={{obj_user.age}}></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Sexo:</ion-label>
+        <ion-select  (ionChange) = "value_sexo($event)">
+          <div *ngFor = "let sexo of data_sexo">
+            <ion-select-option [value]="sexo" >{{sexo}}</ion-select-option>
+          </div>
+        </ion-select>
+      </ion-item>
+  <ion-button expand="block" (click)="Update_user()">Update</ion-button>
 </ion-content>

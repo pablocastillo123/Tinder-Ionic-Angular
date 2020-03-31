@@ -1,0 +1,47 @@
+ion-icon{
+    margin-right: 15px;
+    --background: 'black'
+}
+
+ion-select{
+    margin-right: 20px;
+    width: 100px;
+    text-align: center;
+}
+
+.space{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin: 20px;
+}
+
+ion-button{
+    --color: #ffffff;
+    --background: #bb1369
+}
+
+ion-toolbar{
+    --color: #ffffff;
+    --background: linear-gradient(150deg,#f02f17 , #ffa200b0 61%)
+}
+
+ion-content{
+    --background: linear-gradient(0,#cc1a6769, #ffffff 69%)
+}
+
+ion-item {
+    --background: none;
+}
+
+.tinder-icon{
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    --background-focused: #F7409E;
+    --color-selected: #F7409E;
+}
+
