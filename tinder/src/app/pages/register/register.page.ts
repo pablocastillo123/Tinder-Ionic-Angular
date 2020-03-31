@@ -19,6 +19,7 @@ export class RegisterPage {
   private data_sexo = ['Hombre','Mujer'];
   private user_sexo:string;
   private  email_user:string;
+  
 
   constructor(
     private authSvc: AuthService,private router: Router,private utilTool:UtilToolService,
@@ -39,7 +40,6 @@ export class RegisterPage {
 
   onRegister(){
     const reg = this.registerForm;
-    this.verifiEmail()
 
    if(Validators.required(reg.get('name')) || Validators.required(reg.get('last_name'))
       ||Validators.required(reg.get('age')) || Validators.required(reg.get('email'))
@@ -93,34 +93,18 @@ export class RegisterPage {
         const user = await this.authSvc.onRegister(this.user)
         
         if(user){
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/tabs/tab2');
         }
 
 
       }catch(error){
-        this.utilTool.presentAlert('Error',error,'ok');
+        if(error.code === 'invalid-argument'){
+          this.utilTool.presentAlert('error','Campos vacios','ok');
+        }
 
       }finally{
       loading.dismiss();
     }
   }
 
-   public verifiEmail(): boolean{
-    var bool : boolean
-    var coll_fb  = this.db.collection('usuario',ref => 
-    ref.where('email','==',this.registerForm.get('email').value)).snapshotChanges().pipe(
-      map(actions =>{
-        return actions.map(a =>{
-          const data = a.payload.doc.data()
-          return data;
-        })
-      })
-    ).subscribe((data) => {
-
-      this.email_user = data[0]['email']
-    });
-
-    return bool
-
-  }
 }

@@ -1,3 +1,4 @@
+import { UtilToolService } from './utiltool.service';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from '../shared/user.class';
@@ -8,7 +9,7 @@ import { User } from '../shared/user.class';
 export class AuthService {
   public isLogged: any = false;
 
-  constructor(public afAuth: AngularFireAuth) { 
+  constructor(public afAuth: AngularFireAuth, private UtilToolService:UtilToolService) { 
     afAuth.authState.subscribe(user => (this.isLogged = user));
   }
 
@@ -30,7 +31,9 @@ export class AuthService {
         user.password
       );
     }catch(error){
-      console.log('Error onRegister',error)
+      if(error.code === 'auth/email-already-in-use'){
+          this.UtilToolService.presentAlert('Error','La dirección de correo electrónico ya está en uso por otra cuenta.','ok')
+      }
     }
 
   }
