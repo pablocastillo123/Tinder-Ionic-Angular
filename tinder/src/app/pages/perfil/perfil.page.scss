@@ -1,0 +1,46 @@
+.label{
+    padding-left: 22px;
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
+ion-input{
+    text-align: center;
+    margin-right: 20px;
+    --font-size: 15px;
+    --font-family: sans-serif;
+}
+
+ion-select{
+    margin-right: 20%;
+    width: 100px;
+    text-align: center;
+}
+
+.item_color{
+    --background: #9e9e9e0f;
+}
+
+ion-button{
+    margin-top: 30px;
+}
+
+ion-back-button{
+    --background-focused: #F7409E;
+}
+
+
+img{
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    margin: 0 auto;
+    margin-block-start: 20px;
+    margin-block-end: 10px;
+    display: block;
+}
+
+ion-button{
+    --background: linear-gradient(20deg,#f02f17 , #ffa200 90%);
+}
+  

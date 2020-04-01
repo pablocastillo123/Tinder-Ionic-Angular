@@ -17,7 +17,7 @@
       <ion-input formControlName="last_name" type="text" [(ngModel)]="user.last_name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-icon  name="person"></ion-icon>
+      <ion-icon  name="male-female"></ion-icon>
       <ion-label>Sexo:</ion-label>
       <ion-select  (ionChange) = "value_sexo($event)">
         <div *ngFor = "let sexo of data_sexo">

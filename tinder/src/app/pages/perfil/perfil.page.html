@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button icon="arrow-back"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Editar Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <img  (click)="modificarImg()" src="../../assets/kisspng-tinder-computer-icons-tinder-5b47ead292ba08.364455671531439826601.jpg">
+
+  <ion-item class="item_color">
+    <ion-label class="label">Name:</ion-label>
+  <ion-input [(ngModel)]="obj_user.name" type="text" value={{obj_user.name}}></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label class="label">Last Name:</ion-label>
+    <ion-input [(ngModel)]="obj_user.last_name" type="text" value={{obj_user.last_name}}></ion-input>
+  </ion-item>
+
+  <ion-item class="item_color">
+    <ion-label class="label">Age:</ion-label>
+    <ion-input [(ngModel)]="obj_user.age"  type="number" value={{obj_user.age}}></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label class="label">Sexo:</ion-label>
+    <ion-select  (ionChange) = "value_sexo($event)">
+      <div *ngFor = "let sexo of data_sexo">
+        <ion-select-option [value]="sexo" >{{sexo}}</ion-select-option>
+      </div>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="block" (click)="Update_user()">Update</ion-button>
+</ion-content>
