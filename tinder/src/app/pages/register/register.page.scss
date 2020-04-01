@@ -9,6 +9,16 @@ ion-select{
     text-align: center;
 }
 
+img{
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    margin: 0 auto;
+    margin-block-start: 20px;
+    margin-block-end: 10px;
+    display: block;
+}
+
 .space{
    display: flex;
    justify-content: center;

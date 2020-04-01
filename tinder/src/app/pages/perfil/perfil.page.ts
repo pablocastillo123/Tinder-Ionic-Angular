@@ -17,7 +17,7 @@ export class PerfilPage implements OnInit {
   private user_collection: AngularFirestoreCollection<userInterface>
   private user: Observable<userInterface[]>
 
-  private obj_user = {
+  private obj_user:userInterface = {
     name:'',
     last_name:'',
     age: 0,
@@ -60,14 +60,7 @@ export class PerfilPage implements OnInit {
       for(var i=0; i<res_user.length ; i++){
         if(res_user[i].email === email_user ){
         
-          this.obj_user = {
-            name: res_user[i].name,
-            last_name: res_user[i].last_name,
-            age: res_user[i].age,
-            sexo: res_user[i].sexo,
-            id: res_user[i].id,
-            email: res_user[i].email
-          }
+          this.obj_user = {...res_user[i]}
 
           // console.log(this.obj_user)
           break

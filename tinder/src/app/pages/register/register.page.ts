@@ -107,4 +107,8 @@ export class RegisterPage {
     }
   }
 
+  modificarImg(){
+    this.utilTool.presentAlert('mgs','se debe abrir la galeria del tfl','ok')
+  }
+
 }
