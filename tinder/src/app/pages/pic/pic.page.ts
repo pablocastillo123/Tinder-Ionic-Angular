@@ -16,20 +16,18 @@ const STORAGE_KEY = 'my_images'
   templateUrl: './pic.page.html',
   styleUrls: ['./pic.page.scss'],
 })
+
 export class PicPage implements OnInit {
 
   image = []
 
-  nombre = [0,1,2,3,4,5,6,7,8,]
-
-  
+  nombre = [0,1,2,3,4,5,6,7,8]
 
   constructor(private camera : Camera) { }
 
   ngOnInit() {
     
   }
-
 
   // presionar(index){
   //   console.log( "Este es el index: ", index)
@@ -57,7 +55,7 @@ export class PicPage implements OnInit {
       destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       mediaType: this.camera.MediaType.PICTURE,
-      allowEdit: false,
+      allowEdit: true,
       encodingType: this.camera.EncodingType.JPEG,
       targetHeight: 1024,
       targetWidth: 1024,
@@ -67,6 +65,5 @@ export class PicPage implements OnInit {
       this.image[index] = "data:image/jpeg;base64," + resultado
     })
   }
-
 
 }
