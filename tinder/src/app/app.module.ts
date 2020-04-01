@@ -14,6 +14,14 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {environment} from './../environments/environment';
 
+import { IonicStorageModule } from '@ionic/storage'
+
+import { Camera } from '@ionic-native/Camera/ngx'
+
+import { File } from '@ionic-native/file/ngx'
+
+import { WebView } from '@ionic-native/ionic-webview/ngx'
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -22,11 +30,13 @@ import {environment} from './../environments/environment';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    Camera,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]
 })
