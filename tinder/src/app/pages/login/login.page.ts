@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras  } from '@angular/router'
 import { AuthService} from '../../services/auth.service'
 import { User } from '../../shared/user.class'
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, LoadingController } from '@ionic/angular';
 
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  styleUrls: ['./login.page.css'],
 })
 export class LoginPage implements OnInit {
 
@@ -16,12 +16,15 @@ export class LoginPage implements OnInit {
 
   constructor(private router: Router, private authSvc: AuthService, 
     private navCtrl: NavController,
-    public alertController: AlertController) { }
+    public alertController: AlertController,
+    private loadingController: LoadingController) { }
 
   ngOnInit() {
   }
 
   async onLogin (event: any) {
+
+    const user = await this.authSvc.onLogin(this.user)
 
     if(event.target.user.value == "" && event.target.password.value == "") {
       this.alerta('Por favor llene los campos')
@@ -31,22 +34,21 @@ export class LoginPage implements OnInit {
     }
     if(event.target.user.value == "" && event.target.password.value !== "") {
       this.alerta('Por favor llene el campo de usuario')
-    } 
-  //   if(event.target.user.value !== "" && event.target.password.value !== "") {
-  //     this.userServ.setUserEmail(this.user.email)
-  //     const user = await this.authSvc.onLogin(this.user);
 
-  //   if(user) {
-  //     if (user.user.email != 'admin@gmail.com') {
-  //       window.localStorage.setItem('email', this.user.email);
-  //       this.router.navigateByUrl('/user/tabs/home')
-  //   }else {
-  //     this.router.navigateByUrl('/admin/tabs/formulario')
-  //   }
-  // } else {
-  //   this.alerta('Usuario no econtrado o contraseña incorrecta')
-  // }
-  //   }
+    } if(user) {
+      window.localStorage.setItem('email', this.user.email)
+      this.router.navigateByUrl('/tabs/tab2')
+    }
+
+}
+
+  async loading () {
+    const loading = await this.loadingController.create({
+      message: 'Cargando....'
+    });
+    await loading.present()
+        loading.dismiss()
+        this.router.navigateByUrl('/tabs/tab2')
   }
 
   async alerta(mensaje) {

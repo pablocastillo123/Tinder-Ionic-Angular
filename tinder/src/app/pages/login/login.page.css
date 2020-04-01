@@ -1,0 +1,69 @@
+ion-toolbar {
+    --color: #ffffff;
+    --background:black;
+}
+
+ion-title {
+    text-align: center;
+}
+
+ion-button {
+
+
+    --background: black;
+
+    --border-radius: 10px;
+
+}
+
+.botonone {
+
+    width: 70%;
+    margin: 0 auto;
+    display: block;
+
+    margin-top: 40%;
+
+
+}
+
+.botontwo {
+
+    width: 70%;
+    margin: 0 auto;
+    display: block;
+
+    margin-top: 10%;
+
+
+}
+
+ion-content {
+    /* --background: #E2AAC3; */
+
+    --background: linear-gradient(0, #feb645, #ff7c17 69%)
+}
+
+.imagen {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    display: block;
+    margin-top: 20%;
+}
+
+ion-item {
+    --background: none;
+
+
+
+}
+
+
+
+
+
+
+
+
+
