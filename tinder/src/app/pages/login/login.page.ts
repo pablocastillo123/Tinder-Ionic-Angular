@@ -72,10 +72,10 @@ export class LoginPage implements OnInit {
 
   }
 
-  // ionViewDidLeave	 () {
-  //   this.user.email = ""
-  //   this.user.password = ""
-  // }
+  ionViewDidLeave	 () {
+    this.user.email = ""
+    this.user.password = ""
+  }
 
   async alerta(mensaje) {
     const alert = await this.alertController.create({
