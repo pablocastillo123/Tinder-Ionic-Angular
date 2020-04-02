@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+import { AuthGuard  } from './guards/auth.guard'
+
 const routes: Routes = [
 
   {
@@ -11,7 +13,8 @@ const routes: Routes = [
 
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    canActivate: [AuthGuard]
   },
 
   {
@@ -34,8 +37,6 @@ const routes: Routes = [
     path: 'img-firebase',
     loadChildren: () => import('./pages/img-firebase/img-firebase.module').then( m => m.ImgFirebasePageModule)
   }
-
-
 
 ];
 @NgModule({

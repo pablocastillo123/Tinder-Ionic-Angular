@@ -31,7 +31,8 @@ import { Camera } from '@ionic-native/camera/ngx';
   providers: [
     StatusBar,Camera,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    Camera,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]
 })

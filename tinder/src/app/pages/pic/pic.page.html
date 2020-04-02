@@ -5,5 +5,24 @@
 </ion-header>
 
 <ion-content>
+<!-- 
+  <ion-button (click) = "sacarCamara()">Tomar Camara</ion-button>
+
+  <ion-button (click) = "tomarGaleria()">Tomar Galeria</ion-button> -->
+
+
+    <!-- <h1 *ngFor = "let nom of nombre" >{{  nom }}</h1> -->
+
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor = "let nom of nombre; index as i" size = "4" (click) = "tomarGaleria(i)" class="columna">
+          <ion-card>
+            <img [src] = "image[i]" [hidden]  = "!image[i]" class="imagen" />
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      </ion-grid>
+
+      <ion-button class="boton">Guardar</ion-button>
 
 </ion-content>
