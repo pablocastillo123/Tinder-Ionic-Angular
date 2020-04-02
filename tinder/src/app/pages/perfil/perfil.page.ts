@@ -103,17 +103,20 @@ export class PerfilPage implements OnInit {
   
       if(bool){
         if(this.data_image.id_img){
-          console.log(this.data_image)
           this.ImageFirebaseService.deleteImage(this.data_image.path)
           this.ImageFirebaseService.deleteImageData(this.data_image.id_img)
         }
-        console.log(this.data_image)
+
         this.db.collection('usuario').doc(this.obj_user.id).update(this.obj_user);
 
-        this.ImageFirebaseService.saveImg(this.obj_user.id,this.img_base64,'perfil')
+        if(this.img_base64){
+          this.ImageFirebaseService.saveImg(this.obj_user.id,this.img_base64,'perfil')
+        }
 
+        loading.dismiss()
         this.utilTool.presentAlert('Mensage','Datos Actualizados','ok');
       }
+      
     } catch (error) {
       this.utilTool.presentAlert('Error','Error al hacer esta operacion','ok');
       console.log(error)

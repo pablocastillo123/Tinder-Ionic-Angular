@@ -37,10 +37,6 @@ export class ImageFirebaseService {
   }
 
   public async saveImg(id_user,base64,path){
-    const loading = await this.loadingController.create({
-      message : 'Loading.....'
-    })
-    await loading.present()
 
     const id_img_storage = this.UtilToolService.generateId()
     const path_img = `${id_user}/${path}/${id_img_storage}`;
@@ -56,11 +52,6 @@ export class ImageFirebaseService {
 
     }).catch(err =>{
       this.UtilToolService.presentAlert('error',err,'ok')
-      loading.dismiss();
-
-    }).finally(()=>{
-      loading.dismiss();
-
     })
 
   }
