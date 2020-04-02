@@ -5,7 +5,7 @@ const routes: Routes = [
 
   {
     path: '',
-    redirectTo: '/img-firebase',
+    redirectTo: '/register',
     pathMatch: 'full'
   },
 

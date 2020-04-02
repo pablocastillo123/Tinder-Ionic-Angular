@@ -6,7 +6,12 @@
 
 <ion-content padding>
 
-  <!-- <img  (click)="modificarImg()" src="../../assets/kisspng-tinder-computer-icons-tinder-5b47ead292ba08.364455671531439826601.jpg"> -->
+  <ng-container *ngIf="image; else img_default">
+    <img  (click)="modificarImg()" [src] = "image">
+  </ng-container>
+  <ng-template #img_default>
+    <img (click)="modificarImg()" src = "../../../assets/image/user-default.png" >
+  </ng-template>
   
   <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
     <ion-item>
@@ -42,7 +47,6 @@
       <ion-input formControlName="password" type="password" [(ngModel)]="user.password"></ion-input>
     </ion-item>
 
-    <ion-icon class="tinder-icon"  src = "../../assets/iconoTinder.svg" ></ion-icon>
     <div class="space">
       <ion-button type="submit">Register</ion-button>
       <ion-button routerLink="/login">Login</ion-button>

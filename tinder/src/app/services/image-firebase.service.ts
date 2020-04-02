@@ -1,8 +1,11 @@
+import { imageInterface } from './../interface/image';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { UtilToolService } from './../services/utiltool.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { LoadingController } from '@ionic/angular';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore,AngularFirestoreCollection } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators'
 
 
 @Injectable({
@@ -10,31 +13,44 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class ImageFirebaseService {
 
-  public url_img:string;
+  private image_collection:AngularFirestoreCollection<imageInterface>
+  private image :Observable<imageInterface[]>
 
   constructor(private UtilToolService:UtilToolService,private db: AngularFirestore,
-    private FireStorage:AngularFireStorage,private loadingController:LoadingController) { }
+    private FireStorage:AngularFireStorage,private loadingController:LoadingController) {
+      this.image_collection = this.db.collection<imageInterface>('image')
+
+      this.image = this.image_collection.snapshotChanges().pipe(map(
+      actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data()
+          return {...data}
+        })
+      }
+    ))
+
+  }
 
   ngOnInit() {
     
   }
 
-  public async saveImg(id_user,id_img,base64){
+  public async saveImg(id_user,base64,path){
     const loading = await this.loadingController.create({
       message : 'Loading.....'
     })
     await loading.present()
 
-    const id = this.UtilToolService.generateId()
-    const ref = this.FireStorage.ref(`base64/${id}`);
+    const id_img_storage = this.UtilToolService.generateId()
+    const path_img = `${id_user}/${path}/${id_img_storage}`;
+    const ref = this.FireStorage.ref(path_img);
 
 
     ref.putString(base64, 'base64', {contentType:'image/jpg'}).then(snapshot => {
       snapshot.ref.getDownloadURL().then(downloadURL =>{
         console.log(downloadURL)
-        console.log(snapshot)
-
-        this.setImage(id_user,id_img,snapshot.metadata.name,snapshot.metadata.contentType,downloadURL)
+        
+        this.setImage(id_user,id_img_storage,path_img,snapshot.metadata.name,snapshot.metadata.contentType,downloadURL)
       })
 
     }).catch(err =>{
@@ -48,13 +64,16 @@ export class ImageFirebaseService {
 
   }
 
-  public setImage(id_user,id_img,name,type,url){
+  public setImage(id_user,id_img_storage,path_img,name,type,url){
 
-    this.db.collection('image').doc(id_img).set({
-      id_img: id_img,
+    // const id_img = this.UtilToolService.generateId()
+
+    this.db.collection('image').doc(id_img_storage).set({
+      id_img: id_img_storage,
       id_usuario: id_user,
       name: name,
       type: type,
+      path: path_img,
       url: url,
 
     }).catch(err =>{
@@ -62,8 +81,12 @@ export class ImageFirebaseService {
     })
   }
 
-  public getImage(id_user){
-    return this.db.collection('image').doc(id_user).get()
+  public getImageCollection(){
+    return this.image
+  }
+
+  public deleteImage(){
+    
   }
 
 }

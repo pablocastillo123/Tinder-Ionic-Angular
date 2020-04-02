@@ -9,7 +9,12 @@
 </ion-header>
 
 <ion-content>
-  <img  (click)="modificarImg()" src="../../assets/kisspng-tinder-computer-icons-tinder-5b47ead292ba08.364455671531439826601.jpg">
+  <ng-container *ngIf="image; else img_default">
+    <img  (click)="modificarImg()" [src]="image">
+  </ng-container>
+  <ng-template #img_default>
+    <img (click)="modificarImg()" src="../../../assets/image/user-default.png" >
+  </ng-template>
 
   <ion-item class="item_color">
     <ion-label class="label">Name:</ion-label>

@@ -6,8 +6,19 @@
   </ion-header>
 
   <div class="content">
-    <img  [routerLink]="['/perfil']" src="../../assets/kisspng-tinder-computer-icons-tinder-5b47ead292ba08.364455671531439826601.jpg">
-    <h1>Tinder, 20</h1>
+    <ng-container *ngIf="image; else img_default">
+      <img  [src]="image">
+    </ng-container>
+    <ng-template #img_default>
+      <img  src="../../../assets/image/user-default.png" >
+    </ng-template>
+   
+    <ng-container *ngIf="obj_user; else TemplateVacio">
+      <h1>{{obj_user.name}},{{obj_user.age}}</h1>
+    </ng-container>
+    <ng-template #TemplateVacio>
+      
+    </ng-template>
 
     <div class="btn_content">
       <div class="btn">

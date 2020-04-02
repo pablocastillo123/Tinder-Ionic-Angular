@@ -5,7 +5,8 @@ import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firest
 import { LoadingController } from '@ionic/angular';
 import { UtilToolService } from './../../services/utiltool.service';
 import { Observable } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { Camera } from '@ionic-native/camera/ngx';
+import { ImageFirebaseService } from './../../services/image-firebase.service';
 
 @Component({
   selector: 'app-perfil',
@@ -14,10 +15,11 @@ import { map } from 'rxjs/operators'
 })
 export class PerfilPage implements OnInit {
 
-  private user_collection: AngularFirestoreCollection<userInterface>
-  private user: Observable<userInterface[]>
+  private img_base64: string;
+  private image: string;
+  private data_image;
 
-  private obj_user:userInterface = {
+  private obj_user: userInterface = {
     name:'',
     last_name:'',
     age: 0,
@@ -29,6 +31,7 @@ export class PerfilPage implements OnInit {
   private data_sexo = ['Hombre','Mujer'];
 
   constructor(private afAuth: AngularFireAuth, private db:AngularFirestore,
+    private ImageFirebaseService:ImageFirebaseService,private camera:Camera,
     private utilTool:UtilToolService,private loadingController:LoadingController) {
   }
 
@@ -36,39 +39,38 @@ export class PerfilPage implements OnInit {
     this.initPerfil()
   }
 
+
+
   async initPerfil(){
     const loading = await this.loadingController.create({
       message : 'Loading.....',
-      duration: 10000
     })
     await loading.present()
 
-    this.user_collection = this.db.collection<userInterface>('usuario')
+    try {
+      this.obj_user = JSON.parse(window.localStorage.getItem('user'))
+      console.log(this.obj_user)
 
-    this.user = this.user_collection.snapshotChanges().pipe(map(act =>{
-      return act.map(a =>{
-        const data = a.payload.doc.data()
-        return {...data};
-      })
-    }))
-
-    this.user.subscribe(res => {
-      let res_user = res
-
-      let email_user = window.localStorage.getItem('email');
-
-      for(var i=0; i<res_user.length ; i++){
-        if(res_user[i].email === email_user ){
-        
-          this.obj_user = {...res_user[i]}
-
-          // console.log(this.obj_user)
-          break
+      this.ImageFirebaseService.getImageCollection().subscribe(image_firebase =>{
+        for(var i=0; i<image_firebase.length; i++){
+          if(image_firebase[i].id_usuario === this.obj_user.id){
+            this.image = image_firebase[i].url;
+            this.data_image = image_firebase[i]
+            
+            break;
+          }
         }
-      }
-    })
+      })
 
-    loading.dismiss()
+    }catch(error){
+      console.log(error)
+      loading.dismiss()
+
+    }finally{
+      loading.dismiss()
+    }
+    
+
   }
 
 
@@ -94,6 +96,7 @@ export class PerfilPage implements OnInit {
       if(bool){
         // console.log('modificar',this.obj_user)
         this.db.collection('usuario').doc(this.obj_user.id).update(this.obj_user);
+        // this.ImageFirebaseService.saveImg(this.obj_user.id,this.img_base64,'perfil')
         this.utilTool.presentAlert('Mensage','Datos Actualizados','ok');
   
       }
@@ -112,7 +115,26 @@ export class PerfilPage implements OnInit {
   }
 
   modificarImg(){
-    this.utilTool.presentAlert('mgs','se debe abrir la galeria del tfl','ok')
+    
+    this.camera.getPicture({
+
+    destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
+      mediaType:this.camera.MediaType.PICTURE,
+      allowEdit:false,
+      encodingType:this.camera.EncodingType.JPEG,
+      targetHeight: 300,
+      targetWidth: 300,
+      saveToPhotoAlbum:true
+        
+    }).then(res =>{
+      let base64 = 'data:image/jpeg;base64,' + res
+      this.img_base64 = res
+      this.image = base64
+
+    }).catch(err =>{
+      this.utilTool.presentAlert('error',err,'ok')
+    })
   }
 
 }

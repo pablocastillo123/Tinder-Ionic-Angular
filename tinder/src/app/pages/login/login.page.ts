@@ -1,3 +1,4 @@
+import { UserfirebseService } from './../../services/userfirebse.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras  } from '@angular/router'
 import { AuthService} from '../../services/auth.service'
@@ -15,7 +16,7 @@ export class LoginPage implements OnInit {
   user: User = new User()
 
   constructor(private router: Router, private authSvc: AuthService, 
-    private navCtrl: NavController,
+    private navCtrl: NavController,private UserfirebseService:UserfirebseService,
     public alertController: AlertController,
     private loadingController: LoadingController) { }
 
@@ -23,6 +24,10 @@ export class LoginPage implements OnInit {
   }
 
   async onLogin (event: any) {
+    const loading = await this.loadingController.create({
+      message: 'Cargando....'
+    });
+    await loading.present()
 
     const user = await this.authSvc.onLogin(this.user)
 
@@ -36,20 +41,27 @@ export class LoginPage implements OnInit {
       this.alerta('Por favor llene el campo de usuario')
 
     } if(user) {
-      window.localStorage.setItem('email', this.user.email)
+        this.UserfirebseService.getUserCollection().subscribe(res => {
+        let res_user = res
+  
+        for(var i=0; i<res_user.length ; i++){
+          if(res_user[i].email ===this.user.email ){
+          
+            let obj_user = {...res_user[i]}
+            window.localStorage.setItem('user',JSON.stringify(obj_user))
+
+            break
+          }
+        }
+      })
+
+      console.log(JSON.parse(window.localStorage.getItem('user')))
+
+      loading.dismiss()
       this.router.navigateByUrl('/tabs/tab2')
     }
 
 }
-
-  async loading () {
-    const loading = await this.loadingController.create({
-      message: 'Cargando....'
-    });
-    await loading.present()
-        loading.dismiss()
-        this.router.navigateByUrl('/tabs/tab2')
-  }
 
   async alerta(mensaje) {
     const alert = await this.alertController.create({
@@ -61,6 +73,5 @@ export class LoginPage implements OnInit {
 
     await alert.present();
   }
-
   
 }

@@ -7,6 +7,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { AngularFirestore, AngularFirestoreCollection,AngularFirestoreDocument} from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { LoadingController } from '@ionic/angular';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { ImageFirebaseService } from './../../services/image-firebase.service';
+
 
 @Component({
   selector: 'app-register',
@@ -19,10 +22,14 @@ export class RegisterPage {
   private data_sexo = ['Hombre','Mujer'];
   private user_sexo:string;
   private email_user:string;
+  private image:string;
+  private id_user = this.utilTool.generateId();
+  private img_base64:string
   
 
   constructor(
     private authSvc: AuthService,private router: Router,private utilTool:UtilToolService,
+    private ImageFirebaseService:ImageFirebaseService,private camera:Camera,
     private formBuilder: FormBuilder,private db: AngularFirestore,private loadingController:LoadingController
     ){}
 
@@ -79,21 +86,23 @@ export class RegisterPage {
     await loading.present()
 
       try{
-        const id_user = this.utilTool.generateId();
-
-        this.db.collection("usuario").doc(id_user).set({
-          id:id_user,
-          name:this.user.name,
-          last_name:this.user.last_name,
-          email:this.user.email,
-          age:this.user.age,
-          sexo:this.user_sexo
+        this.db.collection("usuario").doc(this.id_user).set({
+          id: this.id_user,
+          name: this.user.name,
+          last_name: this.user.last_name,
+          email: this.user.email,
+          age: this.user.age,
+          sexo: this.user_sexo
         })
         
         const user = await this.authSvc.onRegister(this.user)
+
+        if(this.img_base64){
+          this.ImageFirebaseService.saveImg(this.id_user,this.img_base64,'perfil')
+        }
         
         if(user){
-        this.router.navigateByUrl('/tabs/tab2');
+          this.router.navigateByUrl('/login');
         }
 
 
@@ -101,6 +110,7 @@ export class RegisterPage {
         if(error.code === 'invalid-argument'){
           this.utilTool.presentAlert('Error','Campos vacios','ok');
         }
+        loading.dismiss();
 
       }finally{
       loading.dismiss();
@@ -108,7 +118,29 @@ export class RegisterPage {
   }
 
   modificarImg(){
-    this.utilTool.presentAlert('mgs','se debe abrir la galeria del tfl','ok')
+    
+    this.camera.getPicture({
+
+    destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
+      mediaType:this.camera.MediaType.PICTURE,
+      allowEdit:false,
+      encodingType:this.camera.EncodingType.JPEG,
+      targetHeight: 300,
+      targetWidth: 300,
+      saveToPhotoAlbum:true
+        
+    }).then(res =>{
+      let base64 = 'data:image/jpeg;base64,' + res
+      this.img_base64 = res
+      this.image = base64
+
+    }).catch(err =>{
+      this.utilTool.presentAlert('error',err,'ok')
+    })
   }
+  
+
+
 
 }

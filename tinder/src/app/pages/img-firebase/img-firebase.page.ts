@@ -41,7 +41,7 @@ export class ImgFirebasePage implements OnInit {
         console.log(downloadURL)
         console.log(snapshot.ref)
         this.image = downloadURL
-        this.ImageFirebaseService.setImage(this.id_pablo,this.id_img,snapshot.metadata.name,snapshot.metadata.contentType,downloadURL)
+        // this.ImageFirebaseService.setImage(this.id_pablo,this.id_img,snapshot.metadata.name,snapshot.metadata.contentType,downloadURL)
 
       })
     })
@@ -68,7 +68,7 @@ export class ImgFirebasePage implements OnInit {
       let base64 = 'data:image/jpeg;base64,' + res
       this.image = base64
       this.ImageFirebaseService.saveImg(this.id_pablo,this.id_img,res)
-      console.log(this.ImageFirebaseService.url_img)
+      // console.log(this.ImageFirebaseService.url_img)
 
     }).catch(err =>{
       this.UtilToolService.presentAlert('error',err,'ok')
@@ -91,7 +91,7 @@ export class ImgFirebasePage implements OnInit {
         let base64 = 'data:image/jpeg;base64,' + res
         this.image = base64
         this.ImageFirebaseService.saveImg(this.id_pablo,this.id_img,res)
-        console.log(this.ImageFirebaseService.url_img)
+        // console.log(this.ImageFirebaseService.url_img)
 
       }).catch(err =>{
         this.UtilToolService.presentAlert('error',err,'ok')

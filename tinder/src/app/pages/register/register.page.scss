@@ -28,7 +28,10 @@ img{
 
 ion-button{
     --color: #ffffff;
-    --background: #bb1369
+    --background: #f02f17;
+    margin: 0 auto;
+    display: block;
+    margin-top: 50px;
 }
 
 ion-toolbar{
@@ -37,21 +40,21 @@ ion-toolbar{
 }
 
 ion-content{
-    --background: linear-gradient(0,#cc1a6769, #ffffff 69%)
+    --background: linear-gradient(0,#ffb84dc9, #ffffff 69%)
 }
 
 ion-item {
     --background: none;
 }
 
-.tinder-icon{
-    width: 100px;
-    height: 100px;
-    margin: 0 auto;
-    display: block;
-    margin-bottom: 50px;
-    margin-top: 50px;
-    --background-focused: #F7409E;
-    --color-selected: #F7409E;
-}
+// .tinder-icon{
+//     width: 100px;
+//     height: 100px;
+//     margin: 0 auto;
+//     display: block;
+//     margin-bottom: 50px;
+//     margin-top: 50px;
+//     --background-focused: #F7409E;
+//     --color-selected: #F7409E;
+// }
 
