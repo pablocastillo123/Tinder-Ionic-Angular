@@ -56,7 +56,7 @@ export class ImageFirebaseService {
 
   }
 
-  public setImage(id_user,id_img_storage,path_img,name,type,url){
+  private setImage(id_user,id_img_storage,path_img,name,type,url){
 
     this.db.collection('image').doc(id_img_storage).set({
       id_img: id_img_storage,

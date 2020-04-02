@@ -1,3 +1,8 @@
+import { imageInterface } from './../../interface/image';
+import { userInterface } from './../../interface/user';
+import { LoadingController } from '@ionic/angular';
+import { UtilToolService } from './../../services/utiltool.service';
+import { ImageFirebaseService } from './../../services/image-firebase.service';
 import { Component, OnInit } from '@angular/core';
 import { Camera } from '@ionic-native/camera/ngx'
 import { Platform } from '@ionic/angular';
@@ -12,14 +17,25 @@ const STORAGE_KEY = 'my_images'
 
 export class PicPage implements OnInit {
 
-  image = []
+  private image = []
+  private image_firebase =[]
+  private nombre = [0,1,2,3,4,5,6,7,8]
 
-  nombre = [0,1,2,3,4,5,6,7,8]
+  private obj_user: userInterface = {
+    name:'',
+    last_name:'',
+    age: 0,
+    sexo: '',
+    id:'',
+    email:''
+  }
 
-  constructor(private camera : Camera) { }
+  constructor(private camera : Camera,private ImageFirebaseService:ImageFirebaseService,
+    private utilTool:UtilToolService,private loadingController:LoadingController
+  ) { }
 
   ngOnInit() {
-    
+    this.initImage()
   }
 
   // presionar(index){
@@ -54,9 +70,64 @@ export class PicPage implements OnInit {
       targetWidth: 1024,
       correctOrientation: true,
       saveToPhotoAlbum: true
+
     }).then(resultado => {
       this.image[index] = "data:image/jpeg;base64," + resultado
+
+    }).catch(err =>{
+      console.log(err)
+      this.utilTool.presentAlert('error',err,'ok')
     })
+  }
+
+  async initImage(){
+    const loading = await this.loadingController.create({
+      message : 'Loading.....',
+    })
+    await loading.present()
+
+    try {
+      this.obj_user = JSON.parse(window.localStorage.getItem('user'))
+      console.log(this.obj_user)
+
+      this.ImageFirebaseService.getImageCollection().subscribe(res =>{
+        for(var i=0; i<res.length; i++){
+
+          if(res[i].id_usuario === this.obj_user.id){
+            this.image.push(res[i].url);
+          }
+        }
+      })
+
+    }catch(error){
+      console.log(error)
+      loading.dismiss()
+
+    }finally{
+      loading.dismiss()
+    }
+  }
+
+  async imgSaveFirebase(){
+    const str_base64 = "data:image/jpeg;base64,"
+    let img = this.image;
+
+    console.log('arreglo image',this.image)
+
+    for(var i=0; i<img.length; i++){
+      if(img[i]){
+
+        let str_img_base64 = img[i].substring(0,str_base64.length)
+        let img_sin_str_base64 = img[i].substring(str_base64.length)
+
+        if(str_base64 === str_img_base64){
+          await this.ImageFirebaseService.saveImg(this.obj_user.id,img_sin_str_base64,'historia')
+        }
+
+      }
+
+    }
+
   }
 
 }
