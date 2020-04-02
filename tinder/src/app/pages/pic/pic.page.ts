@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Camera } from '@ionic-native/Camera/ngx'
+import { Camera } from '@ionic-native/camera/ngx'
 import { Platform } from '@ionic/angular';
 
 const STORAGE_KEY = 'my_images'

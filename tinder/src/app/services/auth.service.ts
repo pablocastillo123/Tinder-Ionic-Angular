@@ -22,6 +22,14 @@ export class AuthService {
         user.password
       );
     } catch (error) {
+      if(error.code === 'auth/user-not-found'){
+        this.UtilToolService.presentAlert('Error','Usuario no encontrado','ok')
+      }
+
+      if(error.code === 'auth/wrong-password'){
+        this.UtilToolService.presentAlert('Error','La contraseña no es válida','ok')
+      }
+      
       console.log('Error onRegister user',error);
     }
   }

@@ -20,6 +20,8 @@ export class LoginPage implements OnInit {
     private loadingController: LoadingController) { }
 
   ngOnInit() {
+    window.localStorage.clear()
+
   }
 
   async onLogin (event: any) {
@@ -29,7 +31,6 @@ export class LoginPage implements OnInit {
     await loading.present()
 
     try {
-      window.localStorage.clear()
 
       const user = await this.authSvc.onLogin(this.user)
 
@@ -58,9 +59,9 @@ export class LoginPage implements OnInit {
         })
 
         console.log(JSON.parse(window.localStorage.getItem('user')))
+        this.router.navigateByUrl('/tabs/tab2')
 
         loading.dismiss()
-        this.router.navigateByUrl('/tabs/tab2')
       }
 
     } catch (error) {
