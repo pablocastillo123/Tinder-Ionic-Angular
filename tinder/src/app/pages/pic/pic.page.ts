@@ -18,6 +18,7 @@ const STORAGE_KEY = 'my_images'
 export class PicPage implements OnInit {
 
   private image = []
+  private data_img = []
   private image_firebase =[]
   private nombre = [0,1,2,3,4,5,6,7,8]
 
@@ -95,6 +96,7 @@ export class PicPage implements OnInit {
 
           if(res[i].id_usuario === this.obj_user.id){
             this.image.push(res[i].url);
+            this.data_img.push(res[i])
           }
         }
       })
@@ -109,10 +111,12 @@ export class PicPage implements OnInit {
   }
 
   async imgSaveFirebase(){
+    
     const str_base64 = "data:image/jpeg;base64,"
     let img = this.image;
 
     console.log('arreglo image',this.image)
+    console.log('arreglo data_img ',this.data_img)
 
     for(var i=0; i<img.length; i++){
       if(img[i]){
@@ -122,7 +126,14 @@ export class PicPage implements OnInit {
 
         if(str_base64 === str_img_base64){
           await this.ImageFirebaseService.saveImg(this.obj_user.id,img_sin_str_base64,'historia')
+
+          if(this.data_img[i].id_img){
+            this.ImageFirebaseService.deleteImage(this.data_img[i].path)
+            this.ImageFirebaseService.deleteImageData(this.data_img[i].id_img)
+          }
         }
+
+
 
       }
 
