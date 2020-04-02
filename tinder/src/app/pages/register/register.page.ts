@@ -95,26 +95,27 @@ export class RegisterPage {
     await loading.present()
 
       try{
-        this.db.collection("usuario").doc(this.id_user).set({
-          id: this.id_user,
-          name: this.user.name,
-          last_name: this.user.last_name,
-          email: this.user.email,
-          age: this.user.age,
-          sexo: this.user_sexo
-        })
-        
+
         const user = await this.authSvc.onRegister(this.user)
 
-        if(this.img_base64){
-          this.ImageFirebaseService.saveImg(this.id_user,this.img_base64,'perfil')
+        if(user){
+          this.db.collection("usuario").doc(this.id_user).set({
+            id: this.id_user,
+            name: this.user.name,
+            last_name: this.user.last_name,
+            email: this.user.email,
+            age: this.user.age,
+            sexo: this.user_sexo
+          })
+
+          if(this.img_base64){
+            this.ImageFirebaseService.saveImg(this.id_user,this.img_base64,'perfil')
+          }
+          
+          this.router.navigateByUrl('/login');
+
         }
         
-        if(user){
-          this.router.navigateByUrl('/login');
-        }
-
-
       }catch(error){
         if(error.code === 'invalid-argument'){
           this.utilTool.presentAlert('Error','Campos vacios','ok');
