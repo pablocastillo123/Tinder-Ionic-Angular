@@ -7,6 +7,7 @@ import { UtilToolService } from './../../services/utiltool.service';
 import { Observable } from 'rxjs'
 import { Camera } from '@ionic-native/camera/ngx';
 import { ImageFirebaseService } from './../../services/image-firebase.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil',
@@ -40,7 +41,8 @@ export class PerfilPage implements OnInit {
 
   constructor(private afAuth: AngularFireAuth, private db:AngularFirestore,
     private ImageFirebaseService:ImageFirebaseService,private camera:Camera,
-    private utilTool:UtilToolService,private loadingController:LoadingController) {
+    private utilTool:UtilToolService,private loadingController:LoadingController, 
+    private router : Router) {
   }
 
   ngOnInit() {
@@ -115,6 +117,8 @@ export class PerfilPage implements OnInit {
 
         loading.dismiss()
         this.utilTool.presentAlert('Mensage','Datos Actualizados','ok');
+        this.router.navigateByUrl('/tabs/tab1')
+        
       }
       
     } catch (error) {
