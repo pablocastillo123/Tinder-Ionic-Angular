@@ -17,10 +17,12 @@ export class LoginPage implements OnInit {
   constructor(private router: Router, private authSvc: AuthService, 
     private navCtrl: NavController,private UserfirebseService:UserfirebseService,
     public alertController: AlertController,
-    private loadingController: LoadingController) { }
+    private loadingController: LoadingController) { 
+    window.localStorage.clear()
+
+    }
 
   ngOnInit() {
-    window.localStorage.clear()
 
   }
 
@@ -52,16 +54,12 @@ export class LoginPage implements OnInit {
             
               let obj_user = {...res_user[i]}
               window.localStorage.setItem('user',JSON.stringify(obj_user))
-
+              this.router.navigateByUrl('/tabs/tab2')
+              loading.dismiss()
               break
             }
           }
         })
-
-        console.log(JSON.parse(window.localStorage.getItem('user')))
-        this.router.navigateByUrl('/tabs/tab2')
-
-        loading.dismiss()
       }
 
     } catch (error) {
@@ -74,10 +72,10 @@ export class LoginPage implements OnInit {
 
   }
 
-  ionViewDidLeave	 () {
-    this.user.email = ""
-    this.user.password = ""
-  }
+  // ionViewDidLeave	 () {
+  //   this.user.email = ""
+  //   this.user.password = ""
+  // }
 
   async alerta(mensaje) {
     const alert = await this.alertController.create({
