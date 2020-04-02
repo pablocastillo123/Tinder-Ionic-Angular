@@ -17,7 +17,7 @@
       <ion-row>
         <ion-col *ngFor = "let nom of nombre; index as i" size = "4" (click) = "tomarGaleria(i)" class="columna">
           <ion-card>
-            <img [src] = "image[i]" *ngIf = "image.length" class="imagen" />
+            <img [src] = "image[i]" [hidden]  = "!image[i]" class="imagen" />
           </ion-card>
         </ion-col>
       </ion-row>

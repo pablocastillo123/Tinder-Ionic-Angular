@@ -7,10 +7,12 @@ import { User } from '../shared/user.class';
   providedIn: 'root'
 })
 export class AuthService {
+
   public isLogged: any = false;
 
   constructor(public afAuth: AngularFireAuth, private UtilToolService:UtilToolService) { 
-    afAuth.authState.subscribe(user => (this.isLogged = user));
+    afAuth.authState.subscribe(user => 
+      (this.isLogged = user));
   }
 
   async onLogin (user:User) {

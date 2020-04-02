@@ -37,7 +37,7 @@ export class LoginPage implements OnInit {
 
     } if(user) {
       window.localStorage.setItem('email', this.user.email)
-      this.router.navigateByUrl('/tabs/tab2')
+      this.loading()
     }
 
 }
