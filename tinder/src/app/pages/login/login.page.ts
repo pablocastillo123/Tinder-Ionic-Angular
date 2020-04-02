@@ -70,6 +70,12 @@ export class LoginPage implements OnInit {
     }finally{
       loading.dismiss();
     }
+
+  }
+
+  ionViewDidLeave	 () {
+    this.user.email = ""
+    this.user.password = ""
   }
 
   async alerta(mensaje) {
