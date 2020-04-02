@@ -18,6 +18,7 @@ export class ImageFirebaseService {
 
   constructor(private UtilToolService:UtilToolService,private db: AngularFirestore,
     private FireStorage:AngularFireStorage,private loadingController:LoadingController) {
+
       this.image_collection = this.db.collection<imageInterface>('image')
 
       this.image = this.image_collection.snapshotChanges().pipe(map(
@@ -66,8 +67,6 @@ export class ImageFirebaseService {
 
   public setImage(id_user,id_img_storage,path_img,name,type,url){
 
-    // const id_img = this.UtilToolService.generateId()
-
     this.db.collection('image').doc(id_img_storage).set({
       id_img: id_img_storage,
       id_usuario: id_user,
@@ -85,8 +84,16 @@ export class ImageFirebaseService {
     return this.image
   }
 
-  public deleteImage(){
-    
+  public deleteImage(path_img){
+    let delete_img = this.FireStorage.ref(path_img)
+    delete_img.delete()
   }
+
+  public deleteImageData(id_img){
+    console.log(id_img)
+    this.db.collection('image').doc(id_img).delete().catch(err=>{console.log(err)})
+  }
+
+  
 
 }

@@ -1,8 +1,10 @@
+import { AuthService } from './../services/auth.service';
 import { userInterface } from './../interface/user';
 import { Component } from '@angular/core';
 import { ImageFirebaseService } from './../services/image-firebase.service';
 import { LoadingController } from '@ionic/angular';
 import { UtilToolService } from './../services/utiltool.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
@@ -14,7 +16,8 @@ export class Tab1Page {
   private obj_user: userInterface 
 
   constructor(private utilTool:UtilToolService,private loadingController:LoadingController,
-    private ImageFirebaseService:ImageFirebaseService) {}
+    private router: Router,
+    private ImageFirebaseService:ImageFirebaseService,private AuthService:AuthService) {}
 
   ngOnInit() {
     this.initDataUser()
@@ -51,5 +54,10 @@ export class Tab1Page {
 
   }
 
+  signOut(){
+    window.localStorage.clear();
+    this.AuthService.singOut();
+    this.router.navigateByUrl('/login');
+  }
   
 }

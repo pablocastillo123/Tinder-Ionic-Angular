@@ -32,9 +32,18 @@ export class AuthService {
       );
     }catch(error){
       if(error.code === 'auth/email-already-in-use'){
-          this.UtilToolService.presentAlert('Error','La dirección de correo electrónico ya está en uso por otra cuenta.','ok')
+        this.UtilToolService.presentAlert('Error','La dirección de correo electrónico ya está en uso por otra cuenta.','ok')
       }
     }
 
+  }
+
+  singOut(){
+    this.afAuth.auth.signOut().then(() =>{
+      console.log('singOut')
+    }).catch(err =>{
+      this.UtilToolService.presentAlert('Error','Error al momento de cerrar sesion','ok')
+      console.log(err)
+    })
   }
 }

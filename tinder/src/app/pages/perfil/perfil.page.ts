@@ -17,7 +17,15 @@ export class PerfilPage implements OnInit {
 
   private img_base64: string;
   private image: string;
-  private data_image;
+  private data_image = {
+    id_img:'',
+    id_usuario:'',
+    name:'',
+    path:'',
+    type:'',
+    url:''
+
+  };
 
   private obj_user: userInterface = {
     name:'',
@@ -55,7 +63,7 @@ export class PerfilPage implements OnInit {
         for(var i=0; i<image_firebase.length; i++){
           if(image_firebase[i].id_usuario === this.obj_user.id){
             this.image = image_firebase[i].url;
-            this.data_image = image_firebase[i]
+            this.data_image = {...image_firebase[i]}
             
             break;
           }
@@ -94,15 +102,22 @@ export class PerfilPage implements OnInit {
       }
   
       if(bool){
-        // console.log('modificar',this.obj_user)
+        if(this.data_image.id_img === ''){
+          console.log(this.data_image)
+          this.ImageFirebaseService.deleteImage(this.data_image.path)
+          this.ImageFirebaseService.deleteImageData(this.data_image.id_img)
+        }
+        console.log(this.data_image)
         this.db.collection('usuario').doc(this.obj_user.id).update(this.obj_user);
-        // this.ImageFirebaseService.saveImg(this.obj_user.id,this.img_base64,'perfil')
+
+        this.ImageFirebaseService.saveImg(this.obj_user.id,this.img_base64,'perfil')
+
         this.utilTool.presentAlert('Mensage','Datos Actualizados','ok');
-  
       }
     } catch (error) {
       this.utilTool.presentAlert('Error','Error al hacer esta operacion','ok');
       console.log(error)
+      loading.dismiss()
 
     }finally{
       loading.dismiss()

@@ -21,6 +21,14 @@
     </ng-template>
 
     <div class="btn_content">
+
+      <div class="btn">
+        <ion-fab-button class="btn_cerrar" (click)="signOut()">
+          <ion-icon name="log-out"></ion-icon>
+        </ion-fab-button>
+        <h6>Cerrar Sesion</h6>
+      </div>
+      
       <div class="btn">
         <ion-fab-button class="btn_camara" [routerLink]="['/pic']">
           <ion-icon name="camera"></ion-icon>
@@ -28,12 +36,14 @@
         <h6>Añadir Archivos </h6>
       </div>
 
-      <div>
+      <div class="btn">
         <ion-fab-button class="btn_pen" [routerLink]="['/perfil']">
           <ion-icon name="pencil"></ion-icon>
         </ion-fab-button>
         <h6>Editar Perfil</h6>
       </div>
+
+      
     </div>
 
     <div class="curva"></div>
