@@ -77,6 +77,15 @@ export class RegisterPage {
       }
   }
 
+  ionViewDidLeave	 () {
+    this.user.name = ""
+    this.user.last_name = ""
+    this.user_sexo = ""
+    this.user.age = 0
+    this.user.email = ""
+    this.user.password = ""
+  }
+
 
   async register(){
 
