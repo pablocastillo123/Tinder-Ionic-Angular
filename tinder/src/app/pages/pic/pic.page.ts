@@ -1,12 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-import { IonicStorageModule } from '@ionic/storage'
-
 import { Camera } from '@ionic-native/Camera/ngx'
-
-import { File } from '@ionic-native/file/ngx'
-
-import { WebView } from '@ionic-native/ionic-webview/ngx'
 import { Platform } from '@ionic/angular';
 
 const STORAGE_KEY = 'my_images'

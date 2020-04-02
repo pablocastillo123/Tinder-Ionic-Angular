@@ -102,7 +102,7 @@ export class PerfilPage implements OnInit {
       }
   
       if(bool){
-        if(this.data_image.id_img === ''){
+        if(this.data_image.id_img){
           console.log(this.data_image)
           this.ImageFirebaseService.deleteImage(this.data_image.path)
           this.ImageFirebaseService.deleteImageData(this.data_image.id_img)
