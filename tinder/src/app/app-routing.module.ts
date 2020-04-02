@@ -5,7 +5,7 @@ const routes: Routes = [
 
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/register',
     pathMatch: 'full'
   },
 
@@ -25,7 +25,16 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterPageModule)
+  },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+  {
+    path: 'img-firebase',
+    loadChildren: () => import('./pages/img-firebase/img-firebase.module').then( m => m.ImgFirebasePageModule)
   }
+
 
 
 ];

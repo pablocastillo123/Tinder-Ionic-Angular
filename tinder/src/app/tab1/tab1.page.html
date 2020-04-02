@@ -5,25 +5,48 @@
     </ion-toolbar>
   </ion-header>
 
-      <ion-item>
-        <ion-label>Name:</ion-label>
-      <ion-input [(ngModel)]="obj_user.name" type="text" value={{obj_user.name}}></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Last Name:</ion-label>
-        <ion-input [(ngModel)]="obj_user.last_name" type="text" value={{obj_user.last_name}}></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Age:</ion-label>
-        <ion-input [(ngModel)]="obj_user.age"  type="number" value={{obj_user.age}}></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Sexo:</ion-label>
-        <ion-select  (ionChange) = "value_sexo($event)">
-          <div *ngFor = "let sexo of data_sexo">
-            <ion-select-option [value]="sexo" >{{sexo}}</ion-select-option>
-          </div>
-        </ion-select>
-      </ion-item>
-  <ion-button expand="block" (click)="Update_user()">Update</ion-button>
+  <div class="content">
+    <ng-container *ngIf="image; else img_default">
+      <img  [src]="image">
+    </ng-container>
+    <ng-template #img_default>
+      <img  src="../../../assets/image/user-default.png" >
+    </ng-template>
+   
+    <ng-container *ngIf="obj_user; else TemplateVacio">
+      <h1>{{obj_user.name}},{{obj_user.age}}</h1>
+    </ng-container>
+    <ng-template #TemplateVacio>
+      
+    </ng-template>
+
+    <div class="btn_content">
+
+      <div class="btn">
+        <ion-fab-button class="btn_cerrar" (click)="signOut()">
+          <ion-icon name="log-out"></ion-icon>
+        </ion-fab-button>
+        <h6>Cerrar Sesion</h6>
+      </div>
+      
+      <div class="btn">
+        <ion-fab-button class="btn_camara" [routerLink]="['/pic']">
+          <ion-icon name="camera"></ion-icon>
+        </ion-fab-button>
+        <h6>Añadir Archivos </h6>
+      </div>
+
+      <div class="btn">
+        <ion-fab-button class="btn_pen" [routerLink]="['/perfil']">
+          <ion-icon name="pencil"></ion-icon>
+        </ion-fab-button>
+        <h6>Editar Perfil</h6>
+      </div>
+
+      
+    </div>
+
+    <div class="curva"></div>
+
+  </div>
 </ion-content>
