@@ -56,10 +56,19 @@ export class Tab1Page {
 
   }
 
-  signOut(){
+  async signOut(){
+    const loading = await this.loadingController.create({
+      message : 'Loading.....',
+      duration: 5000
+    })
+    await loading.present()
+
     window.localStorage.clear();
     this.AuthService.singOut();
+
+    loading.dismiss()
     this.router.navigateByUrl('/login');
+
   }
   
 }
