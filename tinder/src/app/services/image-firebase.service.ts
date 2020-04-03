@@ -17,7 +17,7 @@ export class ImageFirebaseService {
   private image :Observable<imageInterface[]>
 
   constructor(private UtilToolService:UtilToolService,private db: AngularFirestore,
-    private FireStorage:AngularFireStorage,private loadingController:LoadingController) {
+    private FireStorage:AngularFireStorage) {
 
       this.image_collection = this.db.collection<imageInterface>('image')
 
@@ -37,10 +37,6 @@ export class ImageFirebaseService {
   }
 
   public async saveImg(id_user,base64,path){
-    const loading = await this.loadingController.create({
-      message : 'Loading.....'
-    })
-    await loading.present()
 
     const id_img_storage = this.UtilToolService.generateId()
     const path_img = `${id_user}/${path}/${id_img_storage}`;
@@ -51,26 +47,22 @@ export class ImageFirebaseService {
       snapshot.ref.getDownloadURL().then(downloadURL =>{
         console.log(downloadURL)
         
-        this.setImage(id_user,id_img_storage,path_img,snapshot.metadata.name,snapshot.metadata.contentType,downloadURL)
+        this.setImage(id_user,id_img_storage,path_img,path,snapshot.metadata.name,snapshot.metadata.contentType,downloadURL)
       })
 
     }).catch(err =>{
       this.UtilToolService.presentAlert('error',err,'ok')
-      loading.dismiss();
-
-    }).finally(()=>{
-      loading.dismiss();
-
     })
 
   }
 
-  public setImage(id_user,id_img_storage,path_img,name,type,url){
+  private setImage(id_user,id_img_storage,path_img,path,name,type,url){
 
     this.db.collection('image').doc(id_img_storage).set({
       id_img: id_img_storage,
       id_usuario: id_user,
       name: name,
+      file_path: path,
       type: type,
       path: path_img,
       url: url,

@@ -23,7 +23,8 @@ const routes: Routes = [
   },
   {
     path: 'pic',
-    loadChildren: () => import('./pages/pic/pic.module').then( m => m.PicPageModule)
+    loadChildren: () => import('./pages/pic/pic.module').then( m => m.PicPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'register',
@@ -31,11 +32,8 @@ const routes: Routes = [
   },
   {
     path: 'perfil',
-    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
-  },
-  {
-    path: 'img-firebase',
-    loadChildren: () => import('./pages/img-firebase/img-firebase.module').then( m => m.ImgFirebasePageModule)
+    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule),
+    canActivate: [AuthGuard]
   }
 
 ];

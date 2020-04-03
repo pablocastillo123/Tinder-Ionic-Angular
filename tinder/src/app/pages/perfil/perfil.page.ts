@@ -4,9 +4,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore'
 import { LoadingController } from '@ionic/angular';
 import { UtilToolService } from './../../services/utiltool.service';
-import { Observable } from 'rxjs'
 import { Camera } from '@ionic-native/camera/ngx';
 import { ImageFirebaseService } from './../../services/image-firebase.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil',
@@ -38,7 +38,7 @@ export class PerfilPage implements OnInit {
   
   private data_sexo = ['Hombre','Mujer'];
 
-  constructor(private afAuth: AngularFireAuth, private db:AngularFirestore,
+  constructor(private db:AngularFirestore, private router : Router,
     private ImageFirebaseService:ImageFirebaseService,private camera:Camera,
     private utilTool:UtilToolService,private loadingController:LoadingController) {
   }
@@ -61,7 +61,7 @@ export class PerfilPage implements OnInit {
 
       this.ImageFirebaseService.getImageCollection().subscribe(image_firebase =>{
         for(var i=0; i<image_firebase.length; i++){
-          if(image_firebase[i].id_usuario === this.obj_user.id){
+          if(image_firebase[i].id_usuario === this.obj_user.email && image_firebase[i].file_path === 'perfil'){
             this.image = image_firebase[i].url;
             this.data_image = {...image_firebase[i]}
             
@@ -82,7 +82,7 @@ export class PerfilPage implements OnInit {
   }
 
 
-  async Update_user(){
+  async update_user(){
     let bool:boolean = true
 
     const loading = await this.loadingController.create({
@@ -103,17 +103,23 @@ export class PerfilPage implements OnInit {
   
       if(bool){
         if(this.data_image.id_img){
-          console.log(this.data_image)
           this.ImageFirebaseService.deleteImage(this.data_image.path)
           this.ImageFirebaseService.deleteImageData(this.data_image.id_img)
         }
-        console.log(this.data_image)
+
         this.db.collection('usuario').doc(this.obj_user.id).update(this.obj_user);
 
-        this.ImageFirebaseService.saveImg(this.obj_user.id,this.img_base64,'perfil')
+        if(this.img_base64){
+          this.ImageFirebaseService.saveImg(this.obj_user.email,this.img_base64,'perfil')
+        }
 
+        loading.dismiss()
+        window.localStorage.setItem('user',JSON.stringify(this.obj_user))
         this.utilTool.presentAlert('Mensage','Datos Actualizados','ok');
+        this.router.navigateByUrl('/tabs/tab1')
+        
       }
+      
     } catch (error) {
       this.utilTool.presentAlert('Error','Error al hacer esta operacion','ok');
       console.log(error)
@@ -133,14 +139,15 @@ export class PerfilPage implements OnInit {
     
     this.camera.getPicture({
 
-    destinationType: this.camera.DestinationType.DATA_URL,
-      sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
-      mediaType:this.camera.MediaType.PICTURE,
-      allowEdit:false,
-      encodingType:this.camera.EncodingType.JPEG,
-      targetHeight: 300,
-      targetWidth: 300,
-      saveToPhotoAlbum:true
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      mediaType: this.camera.MediaType.PICTURE,
+      allowEdit: true,
+      encodingType: this.camera.EncodingType.JPEG,
+      targetHeight: 1024,
+      targetWidth: 1024,
+      correctOrientation: true,
+      saveToPhotoAlbum: true
         
     }).then(res =>{
       let base64 = 'data:image/jpeg;base64,' + res

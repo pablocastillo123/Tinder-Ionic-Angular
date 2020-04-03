@@ -1,9 +1,3 @@
-<ion-header >
-  <ion-toolbar >
-    <ion-title>Register</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content padding>
 
   <ng-container *ngIf="image; else img_default">
@@ -14,42 +8,34 @@
   </ng-template>
   
   <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
-    <ion-item>
-      <ion-icon name="person-circle"></ion-icon>
-      <ion-label>Name:</ion-label>
-      <ion-input formControlName="name" type="text" [(ngModel)]="user.name"></ion-input>
+      <ion-input placeholder="Nombre"  formControlName="name" type="text" [(ngModel)]="user.name"></ion-input>
       
-      <ion-icon name="people-circle"></ion-icon>
-      <ion-label>Last name:</ion-label>
-      <ion-input formControlName="last_name" type="text" [(ngModel)]="user.last_name"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-icon  name="male-female"></ion-icon>
-      <ion-label>Sexo:</ion-label>
-      <ion-select  (ionChange) = "value_sexo($event)">
-        <div *ngFor = "let sexo of data_sexo">
-          <ion-select-option [value]="sexo" >{{sexo}}</ion-select-option>
-        </div>
-      </ion-select>
+      <ion-input placeholder="Apellido"  formControlName="last_name" type="text" [(ngModel)]="user.last_name"></ion-input>
+      
+      <div class="content_select">
+        <ion-label>Sexo</ion-label>
+        <ion-select  (ionChange) = "value_sexo($event)">
+          <div *ngFor = "let sexo of data_sexo">
+            <ion-select-option [value]="sexo" >{{sexo}}</ion-select-option>
+          </div>
+        </ion-select>
+       </div>
 
-      <ion-icon name="speedometer"></ion-icon>
-      <ion-label>Age:</ion-label>
-      <ion-input formControlName="age" type="number" [(ngModel)]="user.age"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-icon name="at" item-start></ion-icon>
-      <ion-label>Email:</ion-label>
-      <ion-input formControlName="email" type="email" [(ngModel)]="user.email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-icon name="key" item-start></ion-icon>
-      <ion-label>Password:</ion-label>
-      <ion-input formControlName="password" type="password" [(ngModel)]="user.password"></ion-input>
-    </ion-item>
+      <ion-input placeholder="Edad"  formControlName="age" type="number" [(ngModel)]="user.age"></ion-input>
+      
+      <ion-input placeholder="Correo"  formControlName="email" type="email" [(ngModel)]="user.email"></ion-input>
+      
+      <ion-input placeholder="Contraseña"  formControlName="password" type="password" [(ngModel)]="user.password"></ion-input>
 
     <div class="space">
-      <ion-button type="submit">Register</ion-button>
-      <ion-button routerLink="/login">Login</ion-button>
+      <ion-button type="submit">
+        <ion-icon name="create"></ion-icon>
+        REGISTRAR
+      </ion-button>
+      <ion-button class="botontwo" routerLink="/login">
+        <ion-icon name="enter"></ion-icon> 
+        INICIAR SESION
+      </ion-button>
     </div>
   </form>
 </ion-content>

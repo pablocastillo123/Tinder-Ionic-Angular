@@ -43,6 +43,10 @@ export class AuthService {
     }catch(error){
       if(error.code === 'auth/email-already-in-use'){
         this.UtilToolService.presentAlert('Error','La dirección de correo electrónico ya está en uso por otra cuenta.','ok')
+      } if (error.code === 'auth/wrong-password') {
+        this.UtilToolService.presentAlert('Error', 'Contraseña incorrecta', 'ok')
+      }if (error.code === 'auth/invalid-email') {
+        this.UtilToolService.presentAlert('Error', 'Correo invalido', 'ok')
       }
     }
 

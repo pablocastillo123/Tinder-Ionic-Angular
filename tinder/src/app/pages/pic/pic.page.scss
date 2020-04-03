@@ -1,5 +1,9 @@
 ion-grid {
-    padding-top: 7px;;
+    padding-top: 7px;
+}
+
+ion-col{
+    margin: 0;
 }
 
 ion-card {
@@ -9,6 +13,7 @@ ion-card {
     border-style: dotted;
     border-width: 2px;
     background-color: #CCCECC;
+    
 }
 
 .imagen {
@@ -17,10 +22,18 @@ ion-card {
 }
 
 .boton {
+
+    --background:  #ffffff24;
+    --border-radius: 10px;
+    width: 70%;
     margin: 0 auto;
     display: block;
-    width: 80%;
 }
+
+ion-content {
+    --background: linear-gradient(  0, #8c3754, #9e9e9e54 79% );
+}
+
 
 
 

@@ -1,9 +1,11 @@
 import { UserfirebseService } from './../../services/userfirebse.service';
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras  } from '@angular/router'
+import { Router} from '@angular/router'
 import { AuthService} from '../../services/auth.service'
 import { User } from '../../shared/user.class'
-import { AlertController, NavController, LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
+
+import { UtilToolService  } from '../../services/utiltool.service'
 
 @Component({
   selector: 'app-login',
@@ -15,9 +17,10 @@ export class LoginPage implements OnInit {
   user: User = new User()
 
   constructor(private router: Router, private authSvc: AuthService, 
-    private navCtrl: NavController,private UserfirebseService:UserfirebseService,
+    private UserfirebseService:UserfirebseService,
     public alertController: AlertController,
-    private loadingController: LoadingController) { 
+    private loadingController: LoadingController,
+    private utiltool : UtilToolService) { 
     window.localStorage.clear()
 
     }
@@ -32,18 +35,20 @@ export class LoginPage implements OnInit {
     });
     await loading.present()
 
-    try {
-
       const user = await this.authSvc.onLogin(this.user)
 
       if(event.target.user.value == "" && event.target.password.value == "") {
-        this.alerta('Por favor llene los campos')
+        this.utiltool.presentAlert('Error', 'Por favor llene los campos', 'ok')
+        loading.dismiss()
       }
       if(event.target.user.value !== "" && event.target.password.value == "") {
-        this.alerta('Por favor llene el campo de contraseña')
+        this.utiltool.presentAlert('Error', 'Por favor llene el campo de contraseña', 'ok' )
+        loading.dismiss()
+
       }
       if(event.target.user.value == "" && event.target.password.value !== "") {
-        this.alerta('Por favor llene el campo de usuario')
+        this.utiltool.presentAlert('Error', 'Por favor llene el campo de usuario', 'ok' )
+        loading.dismiss()
 
       } if(user) {
         this.UserfirebseService.getUserCollection().subscribe(res => {
@@ -54,38 +59,23 @@ export class LoginPage implements OnInit {
             
               let obj_user = {...res_user[i]}
               window.localStorage.setItem('user',JSON.stringify(obj_user))
-              this.router.navigateByUrl('/tabs/tab2')
-              loading.dismiss()
               break
             }
           }
+          this.router.navigateByUrl('/tabs/tab2')
+          loading.dismiss()
+
         })
+      }  else {
+        loading.dismiss()
       }
-
-    } catch (error) {
-      loading.dismiss()
-      this.alerta(error);
-
-    }finally{
-      loading.dismiss();
     }
 
-  }
+  
 
   ionViewDidLeave	 () {
     this.user.email = ""
     this.user.password = ""
-  }
-
-  async alerta(mensaje) {
-    const alert = await this.alertController.create({
-      header: 'Alerta',
-      subHeader: 'problema',
-      message: mensaje,
-      buttons: ['OK']
-    });
-
-    await alert.present();
   }
   
 }
