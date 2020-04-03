@@ -1,6 +1,6 @@
 ion-toolbar {
     --color: #ffffff;
-    --background:black;
+    --background:#5a0069;
 }
 
 ion-title {
@@ -8,40 +8,34 @@ ion-title {
 }
 
 ion-button {
-
-
-    --background: black;
-
+    --background:  #ffffff24;
     --border-radius: 10px;
+}
 
+ion-label{
+    --color: #ffffff;
 }
 
 .botonone {
-
     width: 70%;
     margin: 0 auto;
     display: block;
-
     margin-top: 40%;
-
-
 }
 
 .botontwo {
-
     width: 70%;
     margin: 0 auto;
     display: block;
-
     margin-top: 10%;
-
-
 }
 
 ion-content {
-    /* --background: #E2AAC3; */
-
-    --background: linear-gradient(0, #feb645, #ff7c17 69%)
+    --background: 
+    linear-gradient(  0,#8c3754, #9e9e9e54 79% ), 
+    url(../../../assets/image/arbol-rio.jpg);
+    height: 100%;
+    width: 100%;
 }
 
 .imagen {
@@ -54,10 +48,8 @@ ion-content {
 
 ion-item {
     --background: none;
-
-
-
 }
+
 
 
 
