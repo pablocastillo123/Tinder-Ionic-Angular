@@ -5,6 +5,8 @@ import { AuthService} from '../../services/auth.service'
 import { User } from '../../shared/user.class'
 import { AlertController, NavController, LoadingController } from '@ionic/angular';
 
+import { UtilToolService  } from '../../services/utiltool.service'
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -17,7 +19,8 @@ export class LoginPage implements OnInit {
   constructor(private router: Router, private authSvc: AuthService, 
     private navCtrl: NavController,private UserfirebseService:UserfirebseService,
     public alertController: AlertController,
-    private loadingController: LoadingController) { 
+    private loadingController: LoadingController,
+    private utiltool : UtilToolService) { 
     window.localStorage.clear()
 
     }
@@ -35,16 +38,16 @@ export class LoginPage implements OnInit {
       const user = await this.authSvc.onLogin(this.user)
 
       if(event.target.user.value == "" && event.target.password.value == "") {
-        this.alerta('Por favor llene los campos')
+        this.utiltool.presentAlert('Error', 'Por favor llene los campos', 'ok')
         loading.dismiss()
       }
       if(event.target.user.value !== "" && event.target.password.value == "") {
-        this.alerta('Por favor llene el campo de contraseña')
+        this.utiltool.presentAlert('Error', 'Por favor llene el campo de contraseña', 'ok' )
         loading.dismiss()
 
       }
       if(event.target.user.value == "" && event.target.password.value !== "") {
-        this.alerta('Por favor llene el campo de usuario')
+        this.utiltool.presentAlert('Error', 'Por favor llene el campo de usuario', 'ok' )
         loading.dismiss()
 
       } if(user) {
