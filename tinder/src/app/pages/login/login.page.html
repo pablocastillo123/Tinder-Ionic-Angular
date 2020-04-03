@@ -5,23 +5,25 @@
 </ion-header>
 
 <ion-content padding>
+
+  <ion-icon src="../../../assets/iconoTinder.svg" class="imagen"></ion-icon>
+
   <form (ngSubmit)="onLogin($event)">
-    <ion-item>
-    <ion-label>
+    <ion-item class="itemone">
+    <ion-label color = "light">
       <ion-icon name="at"></ion-icon>         
       Email
     </ion-label>
-    <ion-input type = "text" [(ngModel)] = "user.email" name = "user"></ion-input>
+    <ion-input type = "text" [(ngModel)] = "user.email" name = "user" ></ion-input>
   </ion-item>
-  <ion-item>
-    <ion-label>
+  <ion-item class="itemtwo">
+    <ion-label color = "light">
       <ion-icon name="key"></ion-icon>
             Password
     </ion-label>
-    <ion-input type = "password" [(ngModel)] = "user.password" name = "password" ></ion-input>
+    <ion-input type = "password" [(ngModel)] = "user.password" name = "password" class="inputtwo" ></ion-input>
   </ion-item>
 
-  <ion-icon src="../../../assets/iconoTinder.svg" class="imagen"></ion-icon>
     <ion-button type = "submit" class="botonone" >
       <ion-icon name="enter"></ion-icon> 
          Login

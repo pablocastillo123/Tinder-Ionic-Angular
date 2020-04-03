@@ -20,19 +20,19 @@ ion-label{
     width: 70%;
     margin: 0 auto;
     display: block;
-    margin-top: 40%;
+    margin-top: 30%;
 }
 
 .botontwo {
     width: 70%;
     margin: 0 auto;
     display: block;
-    margin-top: 10%;
+    margin-top: 6%;
 }
 
 ion-content {
     --background: 
-    linear-gradient(  0,#8c3754, #9e9e9e54 79% ), 
+    linear-gradient(  0, #8c3754, #9e9e9e54 79% ), 
     url(../../../assets/image/arbol-rio.jpg);
     height: 100%;
     width: 100%;
@@ -43,12 +43,28 @@ ion-content {
     height: 100px;
     margin: 0 auto;
     display: block;
-    margin-top: 20%;
+    margin-top: 10%;
 }
 
 ion-item {
+
     --background: none;
+
+    margin: 0 auto;
+    display: block;
+
+    width: 80%;
 }
+
+.itemone {
+    margin-top: 20%;
+}
+
+.itemtwo {
+
+}
+
+
 
 
 
