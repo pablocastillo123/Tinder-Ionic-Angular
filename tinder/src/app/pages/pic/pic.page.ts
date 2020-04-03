@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { Camera } from '@ionic-native/camera/ngx'
 
 import { Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 const STORAGE_KEY = 'my_images'
 
@@ -32,7 +33,8 @@ export class PicPage implements OnInit {
   }
 
   constructor(private camera : Camera,private ImageFirebaseService:ImageFirebaseService,
-    private utilTool:UtilToolService,private loadingController:LoadingController
+    private utilTool:UtilToolService,private loadingController:LoadingController,
+    private router : Router
   ) { }
 
   ngOnInit() {
@@ -135,6 +137,10 @@ export class PicPage implements OnInit {
 
         if(str_base64 === str_img_base64){
           await this.ImageFirebaseService.saveImg(this.obj_user.id,img_sin_str_base64,'historia')
+
+          this.utilTool.presentAlert('Exito', 'Archivo subido exitosamente', 'ok')
+
+          this.router.navigateByUrl('/tabs/tab1')
 
           if(this.data_img[i].id_img){
             this.ImageFirebaseService.deleteImage(this.data_img[i].path)
