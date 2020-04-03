@@ -33,34 +33,12 @@ export class PicPage implements OnInit {
   }
 
   constructor(private camera : Camera,private ImageFirebaseService:ImageFirebaseService,
-    private utilTool:UtilToolService,private loadingController:LoadingController,
-    private router : Router
-  ) { }
+    private utilTool:UtilToolService,private loadingController:LoadingController
+    ) { }
 
   ngOnInit() {
     this.initImage()
   }
-
-  // presionar(index){
-  //   console.log( "Este es el index: ", index)
-  //   this.nombre[index] = 'holaa'
-  // }
-
-  // sacarCamara () {
-  //   this.camera.getPicture({
-  //     destinationType: this.camera.DestinationType.DATA_URL,
-  //     sourceType: this.camera.PictureSourceType.CAMERA,
-  //     mediaType: this.camera.MediaType.PICTURE,
-  //     allowEdit: false,
-  //     encodingType: this.camera.EncodingType.JPEG,
-  //     targetHeight: 1024,
-  //     targetWidth: 1024,
-  //     correctOrientation: true,
-  //     saveToPhotoAlbum: true
-  //   }).then(resultado => {
-  //     this.image = "data:image/jpeg;base64," + resultado
-  //   })
-  // }
 
   tomarGaleria (index) {
     this.camera.getPicture({
@@ -97,10 +75,6 @@ export class PicPage implements OnInit {
         this.image.length = this.image.length = 0
         this.data_img.length = this.data_img.length = 0
 
-        console.log('arreglo image clear',this.image)
-        console.log('arreglo data_img clear',this.data_img)
-        
-
         for(var i=0; i<res.length; i++){
 
           if(res[i].id_usuario === this.obj_user.email && res[i].file_path === 'historia'){
@@ -121,9 +95,6 @@ export class PicPage implements OnInit {
     
     const str_base64 = "data:image/jpeg;base64,"
     let img = this.image;
-
-    console.log('arreglo image',this.image)
-    console.log('arreglo data_img ',this.data_img)
 
     for(var i=0; i<img.length; i++){
       if(img[i]){

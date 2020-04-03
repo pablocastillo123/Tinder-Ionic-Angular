@@ -4,7 +4,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore'
 import { LoadingController } from '@ionic/angular';
 import { UtilToolService } from './../../services/utiltool.service';
-import { Observable } from 'rxjs'
 import { Camera } from '@ionic-native/camera/ngx';
 import { ImageFirebaseService } from './../../services/image-firebase.service';
 import { Router } from '@angular/router';
@@ -39,10 +38,9 @@ export class PerfilPage implements OnInit {
   
   private data_sexo = ['Hombre','Mujer'];
 
-  constructor(private afAuth: AngularFireAuth, private db:AngularFirestore,
+  constructor(private db:AngularFirestore,
     private ImageFirebaseService:ImageFirebaseService,private camera:Camera,
-    private utilTool:UtilToolService,private loadingController:LoadingController, 
-    private router : Router) {
+    private utilTool:UtilToolService,private loadingController:LoadingController) {
   }
 
   ngOnInit() {
@@ -117,9 +115,7 @@ export class PerfilPage implements OnInit {
 
         loading.dismiss()
         window.localStorage.setItem('user',JSON.stringify(this.obj_user))
-        // this.obj_user = this.obj_user
         this.utilTool.presentAlert('Mensage','Datos Actualizados','ok');
-        // this.router.navigateByUrl('/tabs/tab1')
         
       }
       

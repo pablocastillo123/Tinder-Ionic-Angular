@@ -16,7 +16,7 @@ export class Tab1Page {
   private image:string;
   private obj_user: userInterface;
 
-  constructor(private utilTool:UtilToolService,private loadingController:LoadingController,
+  constructor(private loadingController:LoadingController,
     private router: Router,private UserfirebseService:UserfirebseService,
     private ImageFirebaseService:ImageFirebaseService,private AuthService:AuthService) {}
 

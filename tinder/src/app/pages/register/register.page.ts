@@ -3,11 +3,10 @@ import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { User } from './../../shared/user.class';
 import { UtilToolService } from '../../services/utiltool.service'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { AngularFirestore, AngularFirestoreCollection,AngularFirestoreDocument} from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
+import { FormBuilder, Validators } from '@angular/forms'
+import { AngularFirestore} from '@angular/fire/firestore';
 import { LoadingController } from '@ionic/angular';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 import { ImageFirebaseService } from './../../services/image-firebase.service';
 
 
@@ -115,8 +114,6 @@ export class RegisterPage {
           this.utilTool.presentAlert('Exitoso', 'Registro Exitoso', 'ok')
           
           this.router.navigateByUrl('/login');
-
-
 
         }
         

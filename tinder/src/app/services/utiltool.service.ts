@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { LoadingController, AlertController } from '@ionic/angular' 
+import {AlertController } from '@ionic/angular' 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilToolService {
 
-  constructor(private loadingController:LoadingController, private alert:AlertController) { }
+  constructor(private alert:AlertController) { }
 
 
   async presentAlert(header_text:string, msg_text:string, btn_text:string) {

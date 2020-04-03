@@ -17,7 +17,7 @@ export class ImageFirebaseService {
   private image :Observable<imageInterface[]>
 
   constructor(private UtilToolService:UtilToolService,private db: AngularFirestore,
-    private FireStorage:AngularFireStorage,private loadingController:LoadingController) {
+    private FireStorage:AngularFireStorage) {
 
       this.image_collection = this.db.collection<imageInterface>('image')
 
