@@ -32,10 +32,6 @@ const routes: Routes = [
   {
     path: 'perfil',
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
-  },
-  {
-    path: 'img-firebase',
-    loadChildren: () => import('./pages/img-firebase/img-firebase.module').then( m => m.ImgFirebasePageModule)
   }
 
 ];

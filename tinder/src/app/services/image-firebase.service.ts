@@ -47,7 +47,7 @@ export class ImageFirebaseService {
       snapshot.ref.getDownloadURL().then(downloadURL =>{
         console.log(downloadURL)
         
-        this.setImage(id_user,id_img_storage,path_img,snapshot.metadata.name,snapshot.metadata.contentType,downloadURL)
+        this.setImage(id_user,id_img_storage,path_img,path,snapshot.metadata.name,snapshot.metadata.contentType,downloadURL)
       })
 
     }).catch(err =>{
@@ -56,12 +56,13 @@ export class ImageFirebaseService {
 
   }
 
-  private setImage(id_user,id_img_storage,path_img,name,type,url){
+  private setImage(id_user,id_img_storage,path_img,path,name,type,url){
 
     this.db.collection('image').doc(id_img_storage).set({
       id_img: id_img_storage,
       id_usuario: id_user,
       name: name,
+      file_path: path,
       type: type,
       path: path_img,
       url: url,

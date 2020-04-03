@@ -63,7 +63,7 @@ export class PerfilPage implements OnInit {
 
       this.ImageFirebaseService.getImageCollection().subscribe(image_firebase =>{
         for(var i=0; i<image_firebase.length; i++){
-          if(image_firebase[i].id_usuario === this.obj_user.id){
+          if(image_firebase[i].id_usuario === this.obj_user.email && image_firebase[i].file_path === 'perfil'){
             this.image = image_firebase[i].url;
             this.data_image = {...image_firebase[i]}
             
@@ -112,12 +112,14 @@ export class PerfilPage implements OnInit {
         this.db.collection('usuario').doc(this.obj_user.id).update(this.obj_user);
 
         if(this.img_base64){
-          this.ImageFirebaseService.saveImg(this.obj_user.id,this.img_base64,'perfil')
+          this.ImageFirebaseService.saveImg(this.obj_user.email,this.img_base64,'perfil')
         }
 
         loading.dismiss()
+        window.localStorage.setItem('user',JSON.stringify(this.obj_user))
+        // this.obj_user = this.obj_user
         this.utilTool.presentAlert('Mensage','Datos Actualizados','ok');
-        this.router.navigateByUrl('/tabs/tab1')
+        // this.router.navigateByUrl('/tabs/tab1')
         
       }
       

@@ -104,7 +104,7 @@ export class PicPage implements OnInit {
 
         for(var i=0; i<res.length; i++){
 
-          if(res[i].id_usuario === this.obj_user.id){
+          if(res[i].id_usuario === this.obj_user.email && res[i].file_path === 'historia'){
             this.image.push(res[i].url);
             this.data_img.push(res[i])
           }
@@ -136,11 +136,11 @@ export class PicPage implements OnInit {
         let img_sin_str_base64 = img[i].substring(str_base64.length)
 
         if(str_base64 === str_img_base64){
-          await this.ImageFirebaseService.saveImg(this.obj_user.id,img_sin_str_base64,'historia')
+          await this.ImageFirebaseService.saveImg(this.obj_user.email,img_sin_str_base64,'historia')
 
-          this.utilTool.presentAlert('Exito', 'Archivo subido exitosamente', 'ok')
+          // this.utilTool.presentAlert('Exito', 'Archivo subido exitosamente', 'ok')
 
-          this.router.navigateByUrl('/tabs/tab1')
+          // this.router.navigateByUrl('/tabs/tab1')
 
           if(this.data_img[i].id_img){
             this.ImageFirebaseService.deleteImage(this.data_img[i].path)
@@ -149,6 +149,9 @@ export class PicPage implements OnInit {
         }
       }
     }
+
+
+
   }
 
 }
