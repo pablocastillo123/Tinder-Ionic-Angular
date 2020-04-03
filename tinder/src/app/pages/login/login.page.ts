@@ -63,6 +63,8 @@ export class LoginPage implements OnInit {
           loading.dismiss()
 
         })
+      }  else {
+        loading.dismiss()
       }
     }
 
