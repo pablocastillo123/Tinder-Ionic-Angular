@@ -90,7 +90,6 @@ export class PicPage implements OnInit {
     })
     await loading.present()
 
-    try {
       this.obj_user = JSON.parse(window.localStorage.getItem('user'))
       console.log(this.obj_user)
 
@@ -109,16 +108,13 @@ export class PicPage implements OnInit {
             this.data_img.push(res[i])
           }
         }
+
         
       })
 
-    }catch(error){
-      console.log(error)
       loading.dismiss()
 
-    }finally{
-      loading.dismiss()
-    }
+   
   }
 
   async imgSaveFirebase(){
@@ -153,5 +149,7 @@ export class PicPage implements OnInit {
 
 
   }
+
+  
 
 }

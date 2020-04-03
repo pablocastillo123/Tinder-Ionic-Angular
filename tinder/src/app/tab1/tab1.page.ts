@@ -30,7 +30,6 @@ export class Tab1Page {
     })
     await loading.present()
 
-    try {
       this.obj_user = JSON.parse(window.localStorage.getItem('user'))
       console.log(this.obj_user)
 
@@ -53,14 +52,7 @@ export class Tab1Page {
         }
       })
 
-    }catch(error){
-      console.log(error)
       loading.dismiss()
-
-    }finally{
-      loading.dismiss()
-    }
-    
 
   }
 
