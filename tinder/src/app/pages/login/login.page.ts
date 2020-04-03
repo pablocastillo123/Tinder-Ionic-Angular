@@ -36,12 +36,16 @@ export class LoginPage implements OnInit {
 
       if(event.target.user.value == "" && event.target.password.value == "") {
         this.alerta('Por favor llene los campos')
+        loading.dismiss()
       }
       if(event.target.user.value !== "" && event.target.password.value == "") {
         this.alerta('Por favor llene el campo de contraseña')
+        loading.dismiss()
+
       }
       if(event.target.user.value == "" && event.target.password.value !== "") {
         this.alerta('Por favor llene el campo de usuario')
+        loading.dismiss()
 
       } if(user) {
         this.UserfirebseService.getUserCollection().subscribe(res => {
