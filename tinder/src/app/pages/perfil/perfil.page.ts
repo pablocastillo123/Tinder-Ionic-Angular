@@ -38,7 +38,7 @@ export class PerfilPage implements OnInit {
   
   private data_sexo = ['Hombre','Mujer'];
 
-  constructor(private db:AngularFirestore,
+  constructor(private db:AngularFirestore, private router : Router,
     private ImageFirebaseService:ImageFirebaseService,private camera:Camera,
     private utilTool:UtilToolService,private loadingController:LoadingController) {
   }
@@ -116,6 +116,7 @@ export class PerfilPage implements OnInit {
         loading.dismiss()
         window.localStorage.setItem('user',JSON.stringify(this.obj_user))
         this.utilTool.presentAlert('Mensage','Datos Actualizados','ok');
+        this.router.navigateByUrl('/tabs/tab1')
         
       }
       

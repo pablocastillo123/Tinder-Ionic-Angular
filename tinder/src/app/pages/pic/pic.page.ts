@@ -32,7 +32,7 @@ export class PicPage implements OnInit {
   }
 
   constructor(private camera : Camera,private ImageFirebaseService:ImageFirebaseService,
-    private utilTool:UtilToolService,private loadingController:LoadingController,private Router:Router
+    private utilTool:UtilToolService,private loadingController:LoadingController,private router:Router
     ) { }
 
   ngOnInit() {
@@ -107,13 +107,15 @@ export class PicPage implements OnInit {
           if(this.data_img[i].id_img){
             this.ImageFirebaseService.deleteImage(this.data_img[i].path)
             this.ImageFirebaseService.deleteImageData(this.data_img[i].id_img)
+            this.utilTool.presentAlert('Exito', 'Archivo subido exitosamente', 'ok')
+            this.router.navigateByUrl('/tabs/tab1')
           }
         }
       }
+   
     }
 
-    this.utilTool.presentAlert('Exito', 'Archivo subido exitosamente', 'ok')
-    this.Router.navigateByUrl('/tabs/tab1')
+    
 
   }
 
