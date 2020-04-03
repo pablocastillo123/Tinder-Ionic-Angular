@@ -5,6 +5,7 @@ import { UtilToolService } from './../../services/utiltool.service';
 import { ImageFirebaseService } from './../../services/image-firebase.service';
 import { Component, OnInit } from '@angular/core';
 import { Camera } from '@ionic-native/camera/ngx'
+
 import { Platform } from '@ionic/angular';
 
 const STORAGE_KEY = 'my_images'
@@ -19,7 +20,6 @@ export class PicPage implements OnInit {
 
   private image = []
   private data_img = []
-  private image_firebase =[]
   private nombre = [0,1,2,3,4,5,6,7,8]
 
   private obj_user: userInterface = {
@@ -82,6 +82,7 @@ export class PicPage implements OnInit {
   }
 
   async initImage(){
+
     const loading = await this.loadingController.create({
       message : 'Loading.....',
     })
@@ -92,6 +93,13 @@ export class PicPage implements OnInit {
       console.log(this.obj_user)
 
       this.ImageFirebaseService.getImageCollection().subscribe(res =>{
+        this.image.length = this.image.length = 0
+        this.data_img.length = this.data_img.length = 0
+
+        console.log('arreglo image clear',this.image)
+        console.log('arreglo data_img clear',this.data_img)
+        
+
         for(var i=0; i<res.length; i++){
 
           if(res[i].id_usuario === this.obj_user.id){
@@ -99,6 +107,7 @@ export class PicPage implements OnInit {
             this.data_img.push(res[i])
           }
         }
+        
       })
 
     }catch(error){
@@ -132,13 +141,8 @@ export class PicPage implements OnInit {
             this.ImageFirebaseService.deleteImageData(this.data_img[i].id_img)
           }
         }
-
-
-
       }
-
     }
-
   }
 
 }
