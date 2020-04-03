@@ -1,5 +1,5 @@
-ion-content ion-toolbar {
-  --background: translucent;
+ion-content {
+  --background: linear-gradient( #8c3754 0%, #9e9e9e54 64%);
 }
 
 img{
@@ -19,16 +19,21 @@ h1{
 
 .curva{
   border-bottom-left-radius: 100%;
-  width: auto;
+  width: 100%;
   height: 50px;
   box-shadow: 7px 5px 6px 0px #0000005c;
+}
+
+.content{
+  position: absolute;
+  width: 100%;
 }
 
 .btn_content{
   justify-content: center;
   display: flex;
-  margin: 20px;
   margin-top: 40px;
+  width: 100%;
 }
 
 ion-fab-button{
@@ -36,15 +41,17 @@ ion-fab-button{
 }
 
 .btn_camara{
-  --background: linear-gradient(150deg,#f02f17 , #ffa200 60%);
+  --background: linear-gradient(150deg,#e20c55 25%, #9e9e9e54 84% );
+  margin: 0 auto;
+  margin-top: 38px;
 }
 
 .btn_pen{
-  --background: linear-gradient(150deg,#9E9E9E , #f7f7f7);
+  --background: linear-gradient(150deg,#9E9E9E 25%, #f7f7f7 84%);
 }
 
 .btn_cerrar{
-  --background: red;
+  --background: linear-gradient(150deg, red 25%, #f7f7f7 84%);
 }
 
 .btn{

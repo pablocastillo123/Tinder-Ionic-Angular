@@ -1,12 +1,17 @@
 ion-icon{
     margin-right: 15px;
-    --background: 'black'
+    --background: 'white'
 }
 
 ion-select{
     margin-right: 20px;
     width: 100px;
     text-align: center;
+}
+
+ion-label{
+    color: white;
+    padding: 10px;
 }
 
 img{
@@ -16,45 +21,61 @@ img{
     margin: 0 auto;
     margin-block-start: 20px;
     margin-block-end: 10px;
+    margin-bottom: 20px;
     display: block;
 }
 
 .space{
    display: flex;
+   flex-direction: column;
    justify-content: center;
    align-items: center;
    margin: 20px;
+   margin-top: 32px
 }
 
 ion-button{
-    --color: #ffffff;
-    --background: #f02f17;
+    --background:  #ffffff24;
+    width: 90%;
+    --border-radius: 60px 60px 60px 60px;
+}
+
+.botontwo {
+    margin-top: 4%;
+}
+
+ion-input{
+    border-radius: 60px 60px 60px 60px;
+    border: 1px solid white;
+    width: 80%;
     margin: 0 auto;
-    display: block;
-    margin-top: 50px;
+    margin-bottom: 10px;
+    --placeholder-color: white;
+    --placeholder-opacity: 1.5;
+    color: white;
 }
 
-ion-toolbar{
-    --color: #ffffff;
-    --background: linear-gradient(150deg,#f02f17 , #ffa200b0 61%)
+.content_select{
+    border-radius: 60px 60px 60px 60px;
+    border: 1px solid white;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
 }
 
-ion-content{
-    --background: linear-gradient(0,#ffb84dc9, #ffffff 69%)
+
+ion-content {
+    --background: 
+    linear-gradient(  0,#8c3754, #9e9e9e54 79% ), 
+    url(../../../assets/image/arbol-rio.jpg);
+    height: 100%;
+    width: 100%;
 }
 
 ion-item {
     --background: none;
 }
 
-// .tinder-icon{
-//     width: 100px;
-//     height: 100px;
-//     margin: 0 auto;
-//     display: block;
-//     margin-bottom: 50px;
-//     margin-top: 50px;
-//     --background-focused: #F7409E;
-//     --color-selected: #F7409E;
-// }
 
