@@ -140,14 +140,15 @@ export class PerfilPage implements OnInit {
     
     this.camera.getPicture({
 
-    destinationType: this.camera.DestinationType.DATA_URL,
-      sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
-      mediaType:this.camera.MediaType.PICTURE,
-      allowEdit:false,
-      encodingType:this.camera.EncodingType.JPEG,
-      targetHeight: 300,
-      targetWidth: 300,
-      saveToPhotoAlbum:true
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      mediaType: this.camera.MediaType.PICTURE,
+      allowEdit: true,
+      encodingType: this.camera.EncodingType.JPEG,
+      targetHeight: 1024,
+      targetWidth: 1024,
+      correctOrientation: true,
+      saveToPhotoAlbum: true
         
     }).then(res =>{
       let base64 = 'data:image/jpeg;base64,' + res
