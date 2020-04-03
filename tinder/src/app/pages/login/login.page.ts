@@ -32,8 +32,6 @@ export class LoginPage implements OnInit {
     });
     await loading.present()
 
-    try {
-
       const user = await this.authSvc.onLogin(this.user)
 
       if(event.target.user.value == "" && event.target.password.value == "") {
@@ -54,23 +52,17 @@ export class LoginPage implements OnInit {
             
               let obj_user = {...res_user[i]}
               window.localStorage.setItem('user',JSON.stringify(obj_user))
-              this.router.navigateByUrl('/tabs/tab2')
-              loading.dismiss()
               break
             }
           }
+          this.router.navigateByUrl('/tabs/tab2')
+          loading.dismiss()
+
         })
       }
-
-    } catch (error) {
-      loading.dismiss()
-      this.alerta(error);
-
-    }finally{
-      loading.dismiss();
     }
 
-  }
+  
 
   ionViewDidLeave	 () {
     this.user.email = ""
