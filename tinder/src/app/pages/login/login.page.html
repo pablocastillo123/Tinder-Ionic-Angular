@@ -1,36 +1,20 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content padding>
 
   <ion-icon src="../../../assets/iconoTinder.svg" class="imagen"></ion-icon>
 
   <form (ngSubmit)="onLogin($event)">
-    <ion-item class="itemone">
-    <ion-label color = "light">
-      <ion-icon name="at"></ion-icon>         
-      Email
-    </ion-label>
-    <ion-input type = "text" [(ngModel)] = "user.email" name = "user" ></ion-input>
-  </ion-item>
-  <ion-item class="itemtwo">
-    <ion-label color = "light">
-      <ion-icon name="key"></ion-icon>
-            Password
-    </ion-label>
-    <ion-input type = "password" [(ngModel)] = "user.password" name = "password" class="inputtwo" ></ion-input>
-  </ion-item>
+    
+    <ion-input placeholder = "correo" type = "text" [(ngModel)] = "user.email" name = "user" class="inputone" ></ion-input>
+    
+    <ion-input placeholder = "contraseña" type = "password" [(ngModel)] = "user.password" name = "password" class="inputtwo" ></ion-input>
 
     <ion-button type = "submit" class="botonone" >
       <ion-icon name="enter"></ion-icon> 
-         Login
+         Iniciar Sesion
     </ion-button>
     <ion-button routerLink="/register" class="botontwo">
       <ion-icon name="create"></ion-icon>
-        Register
+        Registrarse
     </ion-button>
 </form>
 </ion-content>
