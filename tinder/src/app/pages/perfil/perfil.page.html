@@ -16,29 +16,21 @@
     <img (click)="modificarImg()" src="../../../assets/image/user-default.png" >
   </ng-template>
 
-  <ion-item class="item_color">
-    <ion-label class="label">Name:</ion-label>
   <ion-input [(ngModel)]="obj_user.name" type="text" value={{obj_user.name}}></ion-input>
-  </ion-item>
 
-  <ion-item>
-    <ion-label class="label">Last Name:</ion-label>
     <ion-input [(ngModel)]="obj_user.last_name" type="text" value={{obj_user.last_name}}></ion-input>
-  </ion-item>
 
-  <ion-item class="item_color">
-    <ion-label class="label">Age:</ion-label>
     <ion-input [(ngModel)]="obj_user.age"  type="number" value={{obj_user.age}}></ion-input>
-  </ion-item>
 
-  <ion-item>
-    <ion-label class="label">Sexo:</ion-label>
-    <ion-select  (ionChange) = "value_sexo($event)">
-      <div *ngFor = "let sexo of data_sexo">
-        <ion-select-option [value]="sexo" >{{sexo}}</ion-select-option>
-      </div>
-    </ion-select>
-  </ion-item>
+    <ion-item>
+      <ion-label class="label" color = "light">Sexo:</ion-label>
+      <ion-select  (ionChange) = "value_sexo($event)">
+        <div *ngFor = "let sexo of data_sexo">
+          <ion-select-option [value]="sexo"  >{{sexo}}</ion-select-option>
+        </div>
+      </ion-select>
+    </ion-item>
+   
 
   <ion-button expand="full" (click)="Update_user()">Update</ion-button>
 </ion-content>
