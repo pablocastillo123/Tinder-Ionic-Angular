@@ -82,7 +82,7 @@ export class PerfilPage implements OnInit {
   }
 
 
-  async Update_user(){
+  async update_user(){
     let bool:boolean = true
 
     const loading = await this.loadingController.create({
