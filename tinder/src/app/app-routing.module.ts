@@ -7,14 +7,14 @@ const routes: Routes = [
 
   {
     path: '',
-    redirectTo: '/tabs',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
 
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
 
   {
@@ -23,7 +23,8 @@ const routes: Routes = [
   },
   {
     path: 'pic',
-    loadChildren: () => import('./pages/pic/pic.module').then( m => m.PicPageModule)
+    loadChildren: () => import('./pages/pic/pic.module').then( m => m.PicPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'register',
@@ -31,7 +32,8 @@ const routes: Routes = [
   },
   {
     path: 'perfil',
-    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule),
+    canActivate: [AuthGuard]
   }
 
 ];
