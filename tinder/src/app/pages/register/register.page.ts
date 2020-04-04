@@ -108,7 +108,7 @@ export class RegisterPage {
           })
 
           if(this.img_base64){
-            this.ImageFirebaseService.saveImg(this.id_user,this.img_base64,'perfil')
+            this.ImageFirebaseService.saveImg(this.user.email,this.img_base64,'perfil')
           }
 
           this.utilTool.presentAlert('Exitoso', 'Registro Exitoso', 'ok')
