@@ -1,11 +1,11 @@
-import { AuthService } from './../services/auth.service';
-import { userInterface } from './../interface/user';
+import { AuthService } from './../../services/auth.service';
+import { userInterface } from './../../interface/user';
 import { Component } from '@angular/core';
-import { ImageFirebaseService } from './../services/image-firebase.service';
+import { ImageFirebaseService } from './../../services/image-firebase.service';
 import { LoadingController } from '@ionic/angular';
-import { UtilToolService } from './../services/utiltool.service';
+import { UtilToolService } from './../../services/utiltool.service';
 import { Router } from '@angular/router';
-import { UserfirebseService } from '../services/userfirebse.service';
+import { UserfirebseService } from '../../services/userfirebse.service';
 
 @Component({
   selector: 'app-tab1',
