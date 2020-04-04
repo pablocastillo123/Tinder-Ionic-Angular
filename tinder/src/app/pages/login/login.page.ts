@@ -21,11 +21,11 @@ export class LoginPage implements OnInit {
     public alertController: AlertController,
     private loadingController: LoadingController,
     private utiltool : UtilToolService) { 
-    window.localStorage.clear()
 
     }
 
   ngOnInit() {
+    window.localStorage.clear()
 
   }
 
@@ -34,6 +34,7 @@ export class LoginPage implements OnInit {
       message: 'Cargando....'
     });
     await loading.present()
+      window.localStorage.clear()
 
       const user = await this.authSvc.onLogin(this.user)
 

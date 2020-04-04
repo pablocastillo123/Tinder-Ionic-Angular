@@ -63,8 +63,8 @@ export class Tab1Page {
     })
     await loading.present()
 
-    window.localStorage.clear();
-    this.AuthService.singOut();
+    await window.localStorage.clear();
+    await this.AuthService.singOut();
 
     loading.dismiss()
     this.router.navigateByUrl('/login');

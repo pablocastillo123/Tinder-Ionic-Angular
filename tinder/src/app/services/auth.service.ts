@@ -53,6 +53,8 @@ export class AuthService {
   }
 
   singOut(){
+    window.localStorage.clear()
+    this.isLogged = false
     this.afAuth.auth.signOut().then(() =>{
       console.log('singOut')
     }).catch(err =>{
