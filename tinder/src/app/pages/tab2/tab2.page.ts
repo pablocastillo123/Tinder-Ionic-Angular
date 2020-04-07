@@ -32,6 +32,14 @@ export class Tab2Page {
   constructor() {
   }
 
+  swiped (event , index) {
+
+    console.log(this.people[index].name + ' swiped ' + event)
+
+    this.people[index].visible = false
+
+  }
+
 
 
 }
