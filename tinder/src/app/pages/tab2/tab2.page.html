@@ -1,4 +1,18 @@
 <ion-content [fullscreen]="true">
+
+
+  <sw-card-wrapper #cardWrapper>
+    <div class="card" *ngFor="let person of people, let index = index"
+         [class.visible]="person.visible" [class.hidden]="!person.visible"
+         swSwipeable
+         [width]="350"
+         [height]="500"
+         [orientation]="'x'"
+         (swiped)="swiped($event, index)">
+      <img [src]="person.image" [alt]="person.name">
+      <h2>{{person.name}}, {{person.age}}</h2>
+    </div>
+  </sw-card-wrapper>
  
   <div class = "button_box">
 
