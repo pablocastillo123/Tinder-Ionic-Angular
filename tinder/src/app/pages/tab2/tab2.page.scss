@@ -1,3 +1,22 @@
 ion-content ion-toolbar {
   --background: translucent;
 }
+
+.button_box {
+  margin-top: 120%;
+  padding: 20px;
+  margin-left: 25%;
+}
+
+.boton {
+  font-size: 20px;
+  --border-radius: 60%;
+  --border-width: 8px;
+  --border-color: #f3f3f3f3;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --background-activated: #f3f3f3f3;
+  width: 80px;
+  height: 80px;
+}
+
