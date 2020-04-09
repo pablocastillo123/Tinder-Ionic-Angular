@@ -1,11 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { FCM } from '@ionic-native/fcm/ngx';
+
+
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page implements OnInit {
+
+  token;
+
+  currentIndex : number
 
   people = [
     {
@@ -29,7 +37,16 @@ export class Tab2Page {
   ]
 
 
-  constructor() {
+  constructor(private fcm : FCM) {
+    this.currentIndex = this.people.length - 1;
+    console.log(this.currentIndex)
+  }
+
+  ngOnInit () {
+    this.fcm.getToken().then(token => {
+      this.token = token
+    });
+    
   }
 
   swiped (event , index) {
@@ -38,6 +55,18 @@ export class Tab2Page {
 
     this.people[index].visible = false
 
+    this.currentIndex --
+
+  }
+
+  goLeft () {
+    this.people[this.currentIndex].visible = false
+    this.currentIndex --
+  }
+
+  goRight () {
+    this.people[this.currentIndex].visible = true
+    this.currentIndex -- 
   }
 
 
