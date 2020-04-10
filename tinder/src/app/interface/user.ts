@@ -6,6 +6,6 @@ export interface userInterface{
     age:number,
     sexo:string,
     notification_token: string,
-    visible:boolean
+    visible: boolean
 }
 

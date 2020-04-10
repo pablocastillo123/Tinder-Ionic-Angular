@@ -37,6 +37,13 @@ export class Tab2Page implements OnInit {
   currentIndex : number
 
   people : userInterface[] = []
+
+  gente = {
+    name : '',
+    age : 0,
+    image : '',
+    visible : true
+  }
   
   constructor(private fcm : FCM, private http : HttpClient, private userfirebase : UserfirebseService,
     private imagefirebase : ImageFirebaseService) {
@@ -56,11 +63,26 @@ export class Tab2Page implements OnInit {
 
     this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
       for(var i=0; i<image_firebase.length; i++){
-        console.log("Este es la people", this.people)
-        if(image_firebase[i].id_usuario === this.people[i].email && image_firebase[i].file_path === 'perfil'){
-              console.log("Este es el correo ")
+        for (var j =0; j < this.people.length; j++) {
+          console.log("Este es la people", this.people)
+        if(image_firebase[i].id_usuario === this.people[j].email && image_firebase[i].file_path === 'perfil'){
+              console.log("Este es el correo ", this.people[j])
+              console.log("Esta es su imagen ", image_firebase[i].url )
+
+              this.gente.name = this.people[j].name
+              
+              this.gente.age = this.people[j].age;
+
+              this.gente.image = image_firebase[i].url
+
+              this.gente.visible = this.people[j].visible;
+
+              console.log("Esta es la gente", this.gente)
+
           break;
         }
+        }
+        
       }
     })
 
