@@ -9,15 +9,19 @@ import { FCM } from '@ionic-native/fcm/ngx';
 })
 export class Tab2Page implements OnInit{
 
+  public token
 
   constructor(private UtilToolService:UtilToolService, private fcm:FCM ) {
   }
   ngOnInit(){
     this.fcm.getToken().then(token => {
       this.UtilToolService.presentAlert('msg',token,'ok');
+      console.log(token)
+      this.token = token
     }).catch(err =>{
       this.UtilToolService.presentAlert('msg',err,'ok');
       console.log(err)
+      this.token = err
     })
   }
   
