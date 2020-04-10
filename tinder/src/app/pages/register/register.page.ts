@@ -8,6 +8,7 @@ import { AngularFirestore} from '@angular/fire/firestore';
 import { LoadingController } from '@ionic/angular';
 import { Camera } from '@ionic-native/camera/ngx';
 import { ImageFirebaseService } from './../../services/image-firebase.service';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class RegisterPage {
 
   constructor(
     private authSvc: AuthService,private router: Router,private utilTool:UtilToolService,
-    private ImageFirebaseService:ImageFirebaseService,private camera:Camera,
+    private ImageFirebaseService:ImageFirebaseService,private camera:Camera, private fcm:FCM,
     private formBuilder: FormBuilder,private db: AngularFirestore,private loadingController:LoadingController
     ){}
 
@@ -88,12 +89,20 @@ export class RegisterPage {
 
   async register(){
 
+    let token_fcm: string;
+
     const loading = await this.loadingController.create({
       message : 'Loading.....'
     })
     await loading.present()
 
       try{
+        this.fcm.getToken().then(token => {
+          console.log(token)
+          token_fcm = token
+        }).catch(err =>{
+          console.log(err)
+        })
 
         const user = await this.authSvc.onRegister(this.user)
 
@@ -104,7 +113,9 @@ export class RegisterPage {
             last_name: this.user.last_name,
             email: this.user.email,
             age: this.user.age,
-            sexo: this.user_sexo
+            sexo: this.user_sexo,
+            notification_token: token_fcm,
+            visible: true
           })
 
           if(this.img_base64){
