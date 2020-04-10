@@ -34,7 +34,8 @@ export class PerfilPage implements OnInit {
     sexo: '',
     id:'',
     email:'',
-    visible : true
+    notification_token:'',
+    visible: true
   }
   
   private data_sexo = ['Hombre','Mujer'];

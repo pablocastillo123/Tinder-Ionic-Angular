@@ -29,6 +29,7 @@ export class PicPage implements OnInit {
     sexo: '',
     id:'',
     email:'',
+    notification_token:'',
     visible: true
   }
 
