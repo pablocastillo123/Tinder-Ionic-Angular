@@ -19,6 +19,9 @@ import { Camera } from '@ionic-native/camera/ngx';
 
 import { FCM } from '@ionic-native/fcm/ngx';
 
+import { HttpClientModule } from '@angular/common/http'; 
+
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 
 @NgModule({
@@ -29,13 +32,15 @@ import { FCM } from '@ionic-native/fcm/ngx';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,Camera,
     SplashScreen,
     Camera,
     FCM,
+    LocalNotifications,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]
