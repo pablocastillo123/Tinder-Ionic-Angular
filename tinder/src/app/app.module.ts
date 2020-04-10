@@ -17,6 +17,9 @@ import {environment} from './../environments/environment';
 
 import { Camera } from '@ionic-native/camera/ngx';
 
+import { FCM } from '@ionic-native/fcm/ngx';
+
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +35,7 @@ import { Camera } from '@ionic-native/camera/ngx';
     StatusBar,Camera,
     SplashScreen,
     Camera,
+    FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]
