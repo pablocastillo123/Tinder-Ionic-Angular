@@ -20,7 +20,7 @@ export class ImageFirebaseService {
     private FireStorage:AngularFireStorage) {
 
       this.image_collection = this.db.collection<imageInterface>('image')
-
+      
       this.image = this.image_collection.snapshotChanges().pipe(map(
       actions => {
         return actions.map(a => {
