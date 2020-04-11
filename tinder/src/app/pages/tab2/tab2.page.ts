@@ -38,7 +38,9 @@ export class Tab2Page implements OnInit {
 
   people : userInterface[] = []
 
-  gente = {
+  gente = [] 
+
+  objecto = {
     name : '',
     age : 0,
     image : '',
@@ -69,15 +71,23 @@ export class Tab2Page implements OnInit {
               console.log("Este es el correo ", this.people[j])
               console.log("Esta es su imagen ", image_firebase[i].url )
 
-              this.gente.name = this.people[j].name
+               console.log('Esta es la gente ', this.gente)
+
+               this.objecto = {
+                name : this.people[j].name,
               
-              this.gente.age = this.people[j].age;
+                age : this.people[j].age,
+ 
+                image : image_firebase[i].url,
+ 
+                visible : this.people[j].visible,
+               }
 
-              this.gente.image = image_firebase[i].url
+               this.gente.push(this.objecto)
+    
+              console.log("Esta es el objecto", this.objecto)
 
-              this.gente.visible = this.people[j].visible;
-
-              console.log("Esta es la gente", this.gente)
+              console.log("Esta es el array", this.gente)
 
           break;
         }

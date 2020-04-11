@@ -2,15 +2,15 @@
 
 
   <sw-card-wrapper #cardWrapper>
-    <div class="card" *ngFor="let person of people, let index = index"
-         [class.visible]="person.visible" [class.hidden]="!person.visible"
+    <div class="card" *ngFor="let gen of gente, let index = index"
+         [class.visible]="gen.visible" [class.hidden]="!gen.visible"
          swSwipeable
          [width]="350"
          [height]="500"
          [orientation]="'x'"
          (swiped)="swiped($event, index)">
-      <img [src]="person.image" [alt]="person.name">
-      <h2>{{person.name}}, {{person.age}}</h2>
+      <img [src]="gen.image" [alt]="gen.name">
+      <h2>{{gen.name}}, {{gen.age}}</h2>
     </div>
   </sw-card-wrapper>
 
