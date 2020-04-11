@@ -2,10 +2,13 @@ ion-content ion-toolbar {
   --background: translucent;
 }
 
+.content{
+  display: flex;
+  flex-direction: column;
+}
+
 .button_box {
-  margin-top: 120%;
-  padding: 20px;
-  margin-left: 25%;
+  margin: 0 auto;
 }
 
 .boton {
@@ -41,7 +44,6 @@ sw-card-wrapper {
 .card img {
   height: 450px;
   min-width: 100%;
-  max-width: none;
 }
 
 .card h2 {

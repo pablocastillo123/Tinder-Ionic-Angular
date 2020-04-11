@@ -1,6 +1,6 @@
 <ion-content [fullscreen]="true">
 
-
+<div class="content">
   <sw-card-wrapper #cardWrapper>
     <div class="card" *ngFor="let gen of gente, let index = index"
          [class.visible]="gen.visible" [class.hidden]="!gen.visible"
@@ -16,25 +16,14 @@
 
  
   <div class = "button_box">
-
-
     <ion-button class = "boton" shape = "round" fill = "outline" (click) = "goLeft()" >
-
       <ion-icon color = "danger" name = "close"></ion-icon>
-
     </ion-button>
 
-      
-
-    <ion-button class = "boton" shape = "round" fill = "outline" >
-
+    <ion-button class = "boton" shape = "round" fill = "outline" (click) = "goRight()">
       <ion-icon color = "success" name = "heart"></ion-icon>
-
     </ion-button>
-
-    
-
-
   </div>
+</div>
 
 </ion-content>

@@ -1,4 +1,6 @@
+import { LikeService } from './../../services/like.service';
 import { Component } from '@angular/core';
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore'
 
 
 @Component({
@@ -8,8 +10,22 @@ import { Component } from '@angular/core';
 })
 export class Tab3Page {
 
-  constructor() {}
+  constructor(private db:AngularFirestore, private LikeService:LikeService) {}
 
-  
+  ngOnInit() {
+
+    this.db.collection('like').doc().set({
+      
+    })
+
+
+    this.LikeService.getLikeCollection().subscribe(like_coll =>{
+      like_coll.forEach(like => {
+        if(like.id_from_user){
+
+        }
+      })
+    })
+  }
 
 }
