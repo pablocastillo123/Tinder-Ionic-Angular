@@ -63,23 +63,24 @@ export class Tab2Page implements OnInit {
     });
 
     this.user_login = JSON.parse(window.localStorage.getItem('user'))
+    console.log(this.user_login)
 
     this.userfirebase.getUserCollection().subscribe(res => {
       console.log("usuarios" , res)
-
-      //verificamos que el campo visible sea true y lo asignamos a people
-      res.forEach(user =>{
-        if(user.visible){
-          this.people.push(user)
-        }
-      })
-
-      console.log("usuarios con el campo visible true" , this.people)
 
       //si el arreglo gente es 0 se asigna la a currentIndex la longitud -1 del arreglo people
       //esto con el fin de que cuando se llame getUserCollection se asigne una sola vez la longitud del arreglo people
       //al arreglo gente 
       if(this.gente.length === 0){
+        //verificamos que el campo visible sea true y lo asignamos a people
+        res.forEach(user =>{
+          if(user.visible){
+            this.people.push(user)
+          }
+        })
+
+        console.log("usuarios con el campo visible true" , this.people)
+      
         this.currentIndex = this.people.length - 1;
         console.log('currentIndex',this.currentIndex)
       }
@@ -132,7 +133,7 @@ export class Tab2Page implements OnInit {
     //visible false en el front
     this.gente[index].visible = false
     //visible en la data del user se le pasa el event que contiene si es true o false
-    this.people[index].visible = false
+    // this.people[index].visible = false
 
     console.log(this.people[index].name + ' people visible is ' + this.people[index].visible)
     this.userfirebase.updateSwipeUser(this.people[index])
