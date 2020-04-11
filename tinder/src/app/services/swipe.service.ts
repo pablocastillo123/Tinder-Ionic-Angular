@@ -18,6 +18,7 @@ export class SwipeService {
       id_swipe: id_swipe,
       id_from_user: from_user.id,
       id_to_user: to_user.id,
+      visible_to_user: to_user.visible
     })
   }
 

@@ -1,3 +1,4 @@
+import { SwipeService } from './../../services/swipe.service';
 import { LikeService } from './../../services/like.service';
 import { Component, OnInit } from '@angular/core';
 import { FCM } from '@ionic-native/fcm/ngx';
@@ -35,7 +36,7 @@ export class Tab2Page implements OnInit {
   currentIndex : number
 
   private user_login:userInterface;
-
+  private swipe_user = []
   people : userInterface[] = []
 
   gente = [] 
@@ -47,7 +48,7 @@ export class Tab2Page implements OnInit {
     visible : true
   }
   
-  constructor(private fcm : FCM, private http : HttpClient, private userfirebase : UserfirebseService,
+  constructor(private fcm : FCM, private http : HttpClient, private userfirebase : UserfirebseService, private SwipeService:SwipeService,
     private LikeService:LikeService, private imagefirebase : ImageFirebaseService, private loadingController:LoadingController) {
   }
 
@@ -58,15 +59,21 @@ export class Tab2Page implements OnInit {
     // })
     // await loading.present()
 
-    this.fcm.getToken().then(token => {
-      console.log("Token: ", token)
-    });
-
     this.user_login = JSON.parse(window.localStorage.getItem('user'))
     console.log(this.user_login)
 
+    this.SwipeService.getSwipeUser(this.user_login).subscribe(res =>{
+      res.forEach(element =>{
+        this.swipe_user.push(element.data())
+      })
+    })
+
+
+
     this.userfirebase.getUserCollection().subscribe(res => {
       console.log("usuarios" , res)
+      console.log('swipe user', this.swipe_user)
+
 
       //si el arreglo gente es 0 se asigna la a currentIndex la longitud -1 del arreglo people
       //esto con el fin de que cuando se llame getUserCollection se asigne una sola vez la longitud del arreglo people
@@ -114,6 +121,12 @@ export class Tab2Page implements OnInit {
           }
         }
       }
+
+      let filter = this.gente.filter(person =>{
+        return person.name != 'nene'
+      })
+  
+      console.log('filetr',filter)
     })
 
     // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
@@ -121,6 +134,9 @@ export class Tab2Page implements OnInit {
     // })
 
     // loading.dismiss()
+
+
+    
   }
 
   async swiped (event , index) {
@@ -138,6 +154,7 @@ export class Tab2Page implements OnInit {
     console.log(this.people[index].name + ' people visible is ' + this.people[index].visible)
     this.userfirebase.updateSwipeUser(this.people[index])
     this.LikeService.setLikeUser(this.people[index],this.user_login)
+    this.SwipeService.setSwipeUser(this.user_login,this.people[index])
 
     this.currentIndex --
 
