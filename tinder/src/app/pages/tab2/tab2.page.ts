@@ -74,27 +74,30 @@ export class Tab2Page implements OnInit {
       console.log("usuarios" , res)
       console.log('swipe user', this.swipe_user)
 
+      this.people = res
 
-      //si el arreglo gente es 0 se asigna la a currentIndex la longitud -1 del arreglo people
-      //esto con el fin de que cuando se llame getUserCollection se asigne una sola vez la longitud del arreglo people
-      //al arreglo gente 
-      if(this.gente.length === 0){
-        //verificamos que el campo visible sea true y lo asignamos a people
-        res.forEach(user =>{
-          if(user.visible){
-            this.people.push(user)
-          }
-        })
-
+      //Codigo para que el usario que esta logeado no salga en los cards
+            let filter = this.people.filter(person =>{
+              return person.name != this.user_login.name
+            })
+        
+            this.people = []
+            
+            this.people.push(...filter)
+        
+            console.log('filetr',this.people)
+          
+    
         console.log("usuarios con el campo visible true" , this.people)
       
         this.currentIndex = this.people.length - 1;
         console.log('currentIndex',this.currentIndex)
-      }
+      
 
     })
 
-    
+   
+
 
     this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
       for(var i=0; i<this.people.length; i++){
@@ -103,7 +106,7 @@ export class Tab2Page implements OnInit {
           if(image_firebase[j].id_usuario === this.people[i].email && image_firebase[j].file_path === 'perfil'){
             console.log(this.people[i].name,this.people[i])
             // console.log("Esta es su imagen ", image_firebase[j].url )
-            // console.log('Esta es la gente ', this.gente)
+            // console.log('Esta es la gente ', this.gente)  
 
             this.objecto = {
               name : this.people[i].name,
@@ -114,6 +117,8 @@ export class Tab2Page implements OnInit {
 
             this.gente.push(this.objecto)
 
+           
+
             // console.log("Esta es el objecto", this.objecto)
             // console.log("Esta es el array", this.gente)
 
@@ -122,11 +127,7 @@ export class Tab2Page implements OnInit {
         }
       }
 
-      let filter = this.gente.filter(person =>{
-        return person.name != 'nene'
-      })
-  
-      console.log('filetr',filter)
+     
     })
 
     // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
