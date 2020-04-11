@@ -53,10 +53,10 @@ export class Tab2Page implements OnInit {
 
   async ngOnInit () {
     
-    const loading = await this.loadingController.create({
-      message : 'Loading.....',
-    })
-    await loading.present()
+    // const loading = await this.loadingController.create({
+    //   message : 'Loading.....',
+    // })
+    // await loading.present()
 
     this.fcm.getToken().then(token => {
       console.log("Token: ", token)
@@ -119,19 +119,20 @@ export class Tab2Page implements OnInit {
     //   console.log("Esta es la respuesta", res)
     // })
 
-    loading.dismiss()
+    // loading.dismiss()
   }
 
   async swiped (event , index) {
-    const loading = await this.loadingController.create({
-      message : 'Loading.....',
-    })
-    await loading.present()
+
+    // const loading = await this.loadingController.create({
+    //   message : 'Loading.....',
+    // })
+    // await loading.present()
 
     //visible false en el front
     this.gente[index].visible = false
     //visible en la data del user se le pasa el event que contiene si es true o false
-    this.people[index].visible = event
+    this.people[index].visible = false
 
     console.log(this.people[index].name + ' people visible is ' + this.people[index].visible)
     this.userfirebase.updateSwipeUser(this.people[index])
@@ -139,7 +140,7 @@ export class Tab2Page implements OnInit {
 
     this.currentIndex --
 
-    loading.dismiss()
+    // loading.dismiss()
   }
 
   async goLeft () {
