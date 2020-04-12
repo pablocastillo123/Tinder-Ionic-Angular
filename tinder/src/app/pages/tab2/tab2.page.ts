@@ -145,7 +145,6 @@ export class Tab2Page implements OnInit {
     })
 
   
-
     // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
     //   console.log("Esta es la respuesta", res)
     // })

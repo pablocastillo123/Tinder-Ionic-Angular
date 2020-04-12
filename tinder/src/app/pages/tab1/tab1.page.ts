@@ -12,7 +12,7 @@ import { UserfirebseService } from '../../services/userfirebse.service';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
   private image:string;
   private obj_user: userInterface;
 
@@ -67,7 +67,8 @@ export class Tab1Page {
     await this.AuthService.singOut();
 
     loading.dismiss()
-    this.router.navigateByUrl('/login');
+
+    window.location.href = '/login'
 
   }
   
