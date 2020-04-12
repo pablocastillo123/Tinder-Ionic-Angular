@@ -110,7 +110,7 @@ export class Tab2Page implements OnInit {
               name : this.people[i].name,
               age : this.people[i].age,
               image : image_firebase[j].url,
-              visible : this.people[i].visible,
+              visible : true,
             }
 
             this.gente.push(this.objecto)
@@ -133,7 +133,7 @@ export class Tab2Page implements OnInit {
             
             console.log("Este es el visible del user", this.swipe_user[i].visible_to_user)
 
-           this.gente[j].visible = this.swipe_user[j].visible_to_user
+           this.gente[j].visible = this.swipe_user[i].visible_to_user
 
           } 
 
