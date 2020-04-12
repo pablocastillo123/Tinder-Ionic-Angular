@@ -42,6 +42,7 @@ export class Tab2Page implements OnInit {
   gente = [] 
 
   objecto = {
+    id: '',
     name : '',
     age : 0,
     image : '',
@@ -67,8 +68,6 @@ export class Tab2Page implements OnInit {
         this.swipe_user.push(element.data())
       })
     })
-
-
 
     this.userfirebase.getUserCollection().subscribe(res => {
       console.log("usuarios" , res)
@@ -96,9 +95,7 @@ export class Tab2Page implements OnInit {
 
     })
 
-   
-
-
+  
     this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
       for(var i=0; i<this.people.length; i++){
         for (var j =0; j < image_firebase.length; j++) {
@@ -109,6 +106,7 @@ export class Tab2Page implements OnInit {
             // console.log('Esta es la gente ', this.gente)  
 
             this.objecto = {
+              id: this.people[i].id,
               name : this.people[i].name,
               age : this.people[i].age,
               image : image_firebase[j].url,
@@ -116,8 +114,6 @@ export class Tab2Page implements OnInit {
             }
 
             this.gente.push(this.objecto)
-
-           
 
             // console.log("Esta es el objecto", this.objecto)
             // console.log("Esta es el array", this.gente)
@@ -127,8 +123,28 @@ export class Tab2Page implements OnInit {
         }
       }
 
+      console.log("ESTA ES LA GENTE", this.gente)
+
+      for (let i = 0; i < this.swipe_user.length; i++) {
+
+        for (let j = 0; j < this.gente.length; j ++) {
+
+          if(this.swipe_user[i].id_to_user === this.gente[j].id) {
+            
+            console.log("Este es el visible del user", this.swipe_user[i].visible_to_user)
+
+           this.gente[j].visible = this.swipe_user[j].visible_to_user
+
+          } 
+
+        }
+      } 
+
+      console.log("ESTA ES LA GENTE MODIFICADA" , this.gente)
      
     })
+
+  
 
     // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
     //   console.log("Esta es la respuesta", res)
@@ -136,12 +152,11 @@ export class Tab2Page implements OnInit {
 
     // loading.dismiss()
 
-
-    
   }
 
   async swiped (event , index) {
 
+   
     // const loading = await this.loadingController.create({
     //   message : 'Loading.....',
     // })
@@ -154,8 +169,8 @@ export class Tab2Page implements OnInit {
 
     console.log(this.people[index].name + ' people visible is ' + this.people[index].visible)
     this.userfirebase.updateSwipeUser(this.people[index])
-    this.LikeService.setLikeUser(this.people[index],this.user_login)
-    this.SwipeService.setSwipeUser(this.user_login,this.people[index])
+    this.LikeService.setLikeUser(this.people[index], this.user_login)
+    this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
 
     this.currentIndex --
 
