@@ -52,8 +52,9 @@ export class Tab2Page implements OnInit {
   constructor(private fcm : FCM, private http : HttpClient, private userfirebase : UserfirebseService, private SwipeService:SwipeService,
     private LikeService:LikeService, private imagefirebase : ImageFirebaseService, private loadingController:LoadingController) {
   }
-
+  
   async ngOnInit () {
+    
     
     // const loading = await this.loadingController.create({
     //   message : 'Loading.....',
@@ -153,8 +154,28 @@ export class Tab2Page implements OnInit {
 
   }
 
+  ngOn
+
   async swiped (event , index) {
 
+    if(event) {
+
+      this.gente[index].visible = false
+
+      console.log(this.people[index].name + ' people visible is ' + this.people[index].visible)
+      this.userfirebase.updateSwipeUser(this.people[index])
+      this.LikeService.setLikeUser(this.people[index], this.user_login)
+      this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
+      this.currentIndex --
+
+    } else {
+      this.gente[index].visible = false
+
+      this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
+      this.currentIndex --
+
+
+    }
    
     // const loading = await this.loadingController.create({
     //   message : 'Loading.....',
@@ -162,54 +183,50 @@ export class Tab2Page implements OnInit {
     // await loading.present()
 
     //visible false en el front
-    this.gente[index].visible = false
     //visible en la data del user se le pasa el event que contiene si es true o false
     // this.people[index].visible = false
 
-    console.log(this.people[index].name + ' people visible is ' + this.people[index].visible)
-    this.userfirebase.updateSwipeUser(this.people[index])
-    this.LikeService.setLikeUser(this.people[index], this.user_login)
-    this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
+   
+
+
+    // loading.dismiss()
+  }
+
+  async goLeft () {
+    // const loading = await this.loadingController.create({
+    //   message : 'Loading.....',
+    // })
+    // await loading.present()
+
+    this.gente[this.currentIndex].visible = false
+
+
+    console.log('goLeft '+this.people[this.currentIndex].name + ' people visible is ' + this.people[this.currentIndex].visible)
+
+    this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
+    this.SwipeService.setSwipeUser(this.user_login, this.gente[this.currentIndex])
 
     this.currentIndex --
 
     // loading.dismiss()
   }
 
-  async goLeft () {
-    const loading = await this.loadingController.create({
-      message : 'Loading.....',
-    })
-    await loading.present()
-
-    this.gente[this.currentIndex].visible = false
-    this.people[this.currentIndex].visible = false
-
-    console.log('goLeft '+this.people[this.currentIndex].name + ' people visible is ' + this.people[this.currentIndex].visible)
-
-    this.userfirebase.updateSwipeUser(this.people)
-    this.LikeService.setLikeUser(this.people[this.currentIndex],this.user_login)
-
-    this.currentIndex --
-
-    loading.dismiss()
-  }
-
   async goRight () {
-    const loading = await this.loadingController.create({
-      message : 'Loading.....',
-    })
-    await loading.present()
+    // const loading = await this.loadingController.create({
+    //   message : 'Loading.....',
+    // })
+    // await loading.present()
 
     this.gente[this.currentIndex].visible = false
-    console.log('goRight '+this.people[this.currentIndex].name + ' people visible is ' + this.people[this.currentIndex].visible)
 
-    this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
-    this.LikeService.setLikeUser(this.people[this.currentIndex],this.user_login)
+      console.log(this.people[this.currentIndex].name + ' people visible is ' + this.people[this.currentIndex].visible)
+      this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
+      this.LikeService.setLikeUser(this.people[this.currentIndex], this.user_login)
+      this.SwipeService.setSwipeUser(this.user_login, this.gente[this.currentIndex])
+      this.currentIndex --
 
-    this.currentIndex -- 
 
-    loading.dismiss()
+    // loading.dismiss()
   }
 }
 
