@@ -1,3 +1,4 @@
+import { SwipeService } from './../../services/swipe.service';
 import { LikeService } from './../../services/like.service';
 import { Component, OnInit } from '@angular/core';
 import { FCM } from '@ionic-native/fcm/ngx';
@@ -35,60 +36,67 @@ export class Tab2Page implements OnInit {
   currentIndex : number
 
   private user_login:userInterface;
-
+  private swipe_user = []
   people : userInterface[] = []
 
   gente = [] 
 
   objecto = {
+    id: '',
     name : '',
     age : 0,
     image : '',
     visible : true
   }
   
-  constructor(private fcm : FCM, private http : HttpClient, private userfirebase : UserfirebseService,
+  constructor(private fcm : FCM, private http : HttpClient, private userfirebase : UserfirebseService, private SwipeService:SwipeService,
     private LikeService:LikeService, private imagefirebase : ImageFirebaseService, private loadingController:LoadingController) {
   }
-
+  
   async ngOnInit () {
+    
     
     // const loading = await this.loadingController.create({
     //   message : 'Loading.....',
     // })
     // await loading.present()
 
-    this.fcm.getToken().then(token => {
-      console.log("Token: ", token)
-    });
-
     this.user_login = JSON.parse(window.localStorage.getItem('user'))
     console.log(this.user_login)
 
+    this.SwipeService.getSwipeUser(this.user_login).subscribe(res =>{
+      res.forEach(element =>{
+        this.swipe_user.push(element.data())
+      })
+    })
+
     this.userfirebase.getUserCollection().subscribe(res => {
       console.log("usuarios" , res)
+      console.log('swipe user', this.swipe_user)
 
-      //si el arreglo gente es 0 se asigna la a currentIndex la longitud -1 del arreglo people
-      //esto con el fin de que cuando se llame getUserCollection se asigne una sola vez la longitud del arreglo people
-      //al arreglo gente 
-      if(this.gente.length === 0){
-        //verificamos que el campo visible sea true y lo asignamos a people
-        res.forEach(user =>{
-          if(user.visible){
-            this.people.push(user)
-          }
-        })
+      this.people = res
 
+      //Codigo para que el usario que esta logeado no salga en los cards
+            let filter = this.people.filter(person =>{
+              return person.name != this.user_login.name
+            })
+        
+            this.people = []
+            
+            this.people.push(...filter)
+        
+            console.log('filetr',this.people)
+          
+    
         console.log("usuarios con el campo visible true" , this.people)
       
         this.currentIndex = this.people.length - 1;
         console.log('currentIndex',this.currentIndex)
-      }
+      
 
     })
 
-    
-
+  
     this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
       for(var i=0; i<this.people.length; i++){
         for (var j =0; j < image_firebase.length; j++) {
@@ -96,13 +104,14 @@ export class Tab2Page implements OnInit {
           if(image_firebase[j].id_usuario === this.people[i].email && image_firebase[j].file_path === 'perfil'){
             console.log(this.people[i].name,this.people[i])
             // console.log("Esta es su imagen ", image_firebase[j].url )
-            // console.log('Esta es la gente ', this.gente)
+            // console.log('Esta es la gente ', this.gente)  
 
             this.objecto = {
+              id: this.people[i].id,
               name : this.people[i].name,
               age : this.people[i].age,
               image : image_firebase[j].url,
-              visible : this.people[i].visible,
+              visible : true,
             }
 
             this.gente.push(this.objecto)
@@ -114,70 +123,110 @@ export class Tab2Page implements OnInit {
           }
         }
       }
+
+      console.log("ESTA ES LA GENTE", this.gente)
+
+      for (let i = 0; i < this.swipe_user.length; i++) {
+
+        for (let j = 0; j < this.gente.length; j ++) {
+
+          if(this.swipe_user[i].id_to_user === this.gente[j].id) {
+            
+            console.log("Este es el visible del user", this.swipe_user[i].visible_to_user)
+
+           this.gente[j].visible = this.swipe_user[i].visible_to_user
+
+          } 
+
+        }
+      } 
+
+      console.log("ESTA ES LA GENTE MODIFICADA" , this.gente)
+     
     })
 
+  
     // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
     //   console.log("Esta es la respuesta", res)
     // })
 
     // loading.dismiss()
+
   }
+
+  ngOn
 
   async swiped (event , index) {
 
+    if(event) {
+
+      this.gente[index].visible = false
+
+      console.log(this.people[index].name + ' people visible is ' + this.people[index].visible)
+      this.userfirebase.updateSwipeUser(this.people[index])
+      this.LikeService.setLikeUser(this.people[index], this.user_login)
+      this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
+      this.currentIndex --
+
+    } else {
+      this.gente[index].visible = false
+
+      this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
+      this.currentIndex --
+
+
+    }
+   
     // const loading = await this.loadingController.create({
     //   message : 'Loading.....',
     // })
     // await loading.present()
 
     //visible false en el front
-    this.gente[index].visible = false
     //visible en la data del user se le pasa el event que contiene si es true o false
     // this.people[index].visible = false
 
-    console.log(this.people[index].name + ' people visible is ' + this.people[index].visible)
-    this.userfirebase.updateSwipeUser(this.people[index])
-    this.LikeService.setLikeUser(this.people[index],this.user_login)
+   
+
+
+    // loading.dismiss()
+  }
+
+  async goLeft () {
+    // const loading = await this.loadingController.create({
+    //   message : 'Loading.....',
+    // })
+    // await loading.present()
+
+    this.gente[this.currentIndex].visible = false
+
+
+    console.log('goLeft '+this.people[this.currentIndex].name + ' people visible is ' + this.people[this.currentIndex].visible)
+
+    this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
+    this.SwipeService.setSwipeUser(this.user_login, this.gente[this.currentIndex])
 
     this.currentIndex --
 
     // loading.dismiss()
   }
 
-  async goLeft () {
-    const loading = await this.loadingController.create({
-      message : 'Loading.....',
-    })
-    await loading.present()
-
-    this.gente[this.currentIndex].visible = false
-    this.people[this.currentIndex].visible = false
-
-    console.log('goLeft '+this.people[this.currentIndex].name + ' people visible is ' + this.people[this.currentIndex].visible)
-
-    this.userfirebase.updateSwipeUser(this.people)
-    this.LikeService.setLikeUser(this.people[this.currentIndex],this.user_login)
-
-    this.currentIndex --
-
-    loading.dismiss()
-  }
-
   async goRight () {
-    const loading = await this.loadingController.create({
-      message : 'Loading.....',
-    })
-    await loading.present()
+    // const loading = await this.loadingController.create({
+    //   message : 'Loading.....',
+    // })
+    // await loading.present()
 
     this.gente[this.currentIndex].visible = false
-    console.log('goRight '+this.people[this.currentIndex].name + ' people visible is ' + this.people[this.currentIndex].visible)
 
-    this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
-    this.LikeService.setLikeUser(this.people[this.currentIndex],this.user_login)
+      console.log(this.people[this.currentIndex].name + ' people visible is ' + this.people[this.currentIndex].visible)
+      this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
+      this.LikeService.setLikeUser(this.people[this.currentIndex], this.user_login)
+      this.SwipeService.setSwipeUser(this.user_login, this.gente[this.currentIndex])
+      this.currentIndex --
 
-    this.currentIndex -- 
 
-    loading.dismiss()
+    // loading.dismiss()
   }
 }
 

@@ -1,6 +1,6 @@
 import { AuthService } from './../../services/auth.service';
 import { userInterface } from './../../interface/user';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ImageFirebaseService } from './../../services/image-firebase.service';
 import { LoadingController } from '@ionic/angular';
 import { UtilToolService } from './../../services/utiltool.service';
@@ -12,7 +12,7 @@ import { UserfirebseService } from '../../services/userfirebse.service';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
   private image:string;
   private obj_user: userInterface;
 
@@ -23,6 +23,8 @@ export class Tab1Page {
   ngOnInit() {
     this.initDataUser()
   }
+
+  
 
   async initDataUser(){
     const loading = await this.loadingController.create({
@@ -55,6 +57,7 @@ export class Tab1Page {
       loading.dismiss()
 
   }
+  
 
   async signOut(){
     const loading = await this.loadingController.create({
@@ -67,8 +70,8 @@ export class Tab1Page {
     await this.AuthService.singOut();
 
     loading.dismiss()
-    this.router.navigateByUrl('/login');
 
+    window.location.href = '/login'
   }
   
 }
