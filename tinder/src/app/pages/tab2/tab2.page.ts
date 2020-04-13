@@ -80,10 +80,18 @@ export class Tab2Page implements OnInit {
             let filter = this.people.filter(person =>{
               return person.name != this.user_login.name
             })
+
+            console.log("ESTE ES EL FILTER ", this.user_login)
+
+            let array_sexo = filter.filter(sexo => {
+              return sexo.sexo != this.user_login.sexo
+            })
+
+            console.log("RESULT FINAL", array_sexo)
         
             this.people = []
             
-            this.people.push(...filter)
+            this.people.push(...array_sexo)
         
             console.log('filetr',this.people)
           
@@ -134,7 +142,7 @@ export class Tab2Page implements OnInit {
             
             console.log("Este es el visible del user", this.swipe_user[i].visible_to_user)
 
-           this.gente[j].visible = this.swipe_user[i].visible_to_user
+           this.gente[j].visible = false
 
           } 
 
@@ -154,28 +162,27 @@ export class Tab2Page implements OnInit {
 
   }
 
-  ngOn
 
   async swiped (event , index) {
 
     if(event) {
 
       this.gente[index].visible = false
-
       console.log(this.people[index].name + ' people visible is ' + this.people[index].visible)
       this.userfirebase.updateSwipeUser(this.people[index])
       this.LikeService.setLikeUser(this.people[index], this.user_login)
       this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
-      this.currentIndex --
 
     } else {
+
       this.gente[index].visible = false
 
       this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
-      this.currentIndex --
-
 
     }
+
+    this.currentIndex --
+
    
     // const loading = await this.loadingController.create({
     //   message : 'Loading.....',
@@ -185,9 +192,6 @@ export class Tab2Page implements OnInit {
     //visible false en el front
     //visible en la data del user se le pasa el event que contiene si es true o false
     // this.people[index].visible = false
-
-   
-
 
     // loading.dismiss()
   }
