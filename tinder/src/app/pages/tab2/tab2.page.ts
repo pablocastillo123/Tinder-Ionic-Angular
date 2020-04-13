@@ -48,6 +48,8 @@ export class Tab2Page implements OnInit {
     image : '',
     visible : true
   }
+
+  array_final = []
   
   constructor(private fcm : FCM, private http : HttpClient, private userfirebase : UserfirebseService, private SwipeService:SwipeService,
     private LikeService:LikeService, private imagefirebase : ImageFirebaseService, private loadingController:LoadingController) {
@@ -87,8 +89,9 @@ export class Tab2Page implements OnInit {
               return sexo.sexo != this.user_login.sexo
             })
 
+
             console.log("RESULT FINAL", array_sexo)
-        
+
             this.people = []
             
             this.people.push(...array_sexo)
@@ -134,24 +137,18 @@ export class Tab2Page implements OnInit {
 
       console.log("ESTA ES LA GENTE", this.gente)
 
-      for (let i = 0; i < this.swipe_user.length; i++) {
-
-        for (let j = 0; j < this.gente.length; j ++) {
-
-          if(this.swipe_user[i].id_to_user === this.gente[j].id) {
+      const results = this.gente.filter(({ id: id1 }) => 
             
-            console.log("Este es el visible del user", this.swipe_user[i].visible_to_user)
+            !this.swipe_user.some(({ id_to_user : id2 }) => id2 === id1));
 
-           this.gente[j].visible = false
+            this.gente = []
 
-          } 
+            this.gente.push(...results)
 
-        }
-      } 
-
-      console.log("ESTA ES LA GENTE MODIFICADA" , this.gente)
-     
+            console.log("ESTO ES SIN LOS QUE TINENE SWIPE", this.gente)
+            
     })
+
 
   
     // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
