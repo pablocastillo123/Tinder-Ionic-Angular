@@ -114,8 +114,7 @@ export class RegisterPage {
             email: this.user.email,
             age: this.user.age,
             sexo: this.user_sexo,
-            notification_token: token_fcm,
-            visible: true
+            notification_token: token_fcm
           })
 
           if(this.img_base64){

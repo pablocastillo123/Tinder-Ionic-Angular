@@ -5,7 +5,6 @@ export interface userInterface{
     email:string,
     age:number,
     sexo:string,
-    notification_token: string,
-    visible: boolean
+    notification_token: string
 }
 

@@ -29,8 +29,7 @@ export class PicPage implements OnInit {
     sexo: '',
     id:'',
     email:'',
-    notification_token:'',
-    visible: true
+    notification_token:''
   }
 
   constructor(private camera : Camera,private ImageFirebaseService:ImageFirebaseService,
