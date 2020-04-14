@@ -51,13 +51,18 @@ export class Tab2Page implements OnInit {
   }
 
   array_final = []
+
+  likes = []
   
   constructor(private fcm : FCM, private http : HttpClient, private userfirebase : UserfirebseService, private SwipeService:SwipeService,
     private LikeService:LikeService, private imagefirebase : ImageFirebaseService, private loadingController:LoadingController) {
   }
   
   async ngOnInit () {
-    
+
+    this.LikeService.getLikeCollection().subscribe(res => {
+      this.likes = res
+    })
     
     // const loading = await this.loadingController.create({
     //   message : 'Loading.....',
@@ -106,7 +111,6 @@ export class Tab2Page implements OnInit {
 
     })
 
-  
     this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
       for(var i=0; i<this.people.length; i++){
         for (var j =0; j < image_firebase.length; j++) {
@@ -149,15 +153,31 @@ export class Tab2Page implements OnInit {
 
             console.log("ESTO ES SIN LOS QUE TINENE SWIPE", this.gente)
 
+            for (let i = 0; i < this.likes.length; i ++ ) {
+
+              for (let j = 0; j < this.likes.length; j++) {
+
+                if(this.likes[i].id_from_user === this.likes[j].id_to_user && this.likes[j].id_from_user === this.likes[i].id_to_user && this.user_login.id === this.likes[j].id_to_user ) {
+
+                  console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
+                  console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
+ 
+                }
+
+              }  
+        }
+
     })
 
+   
 
-  
     // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
     //   console.log("Esta es la respuesta", res)
     // })
 
     // loading.dismiss()
+
+
 
   }
 
@@ -171,6 +191,8 @@ export class Tab2Page implements OnInit {
       this.userfirebase.updateSwipeUser(this.people[index])
       this.LikeService.setLikeUser(this.people[index], this.user_login)
       this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
+
+
 
     } else {
 
