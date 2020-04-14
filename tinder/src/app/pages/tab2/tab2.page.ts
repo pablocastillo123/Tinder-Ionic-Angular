@@ -1,6 +1,6 @@
 import { SwipeService } from './../../services/swipe.service';
 import { LikeService } from './../../services/like.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChange } from '@angular/core';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserfirebseService } from '../../services/userfirebse.service'
@@ -39,6 +39,8 @@ export class Tab2Page implements OnInit {
   private swipe_user = []
   people : userInterface[] = []
 
+  user_pic = []
+
   gente = [] 
 
   objecto = {
@@ -57,6 +59,7 @@ export class Tab2Page implements OnInit {
   constructor(private fcm : FCM, private http : HttpClient, private userfirebase : UserfirebseService, private SwipeService:SwipeService,
     private LikeService:LikeService, private imagefirebase : ImageFirebaseService, private loadingController:LoadingController) {
   }
+
   
   async ngOnInit () {
 
@@ -112,6 +115,17 @@ export class Tab2Page implements OnInit {
     })
 
     this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
+
+      console.log("LA RESPUESTA ", image_firebase)
+
+      this.user_pic = image_firebase.filter(elemento => {
+          if(elemento.file_path === 'perfil' ) {
+
+        return elemento.id_usuario === this.user_login.email
+          }
+      })
+
+
       for(var i=0; i<this.people.length; i++){
         for (var j =0; j < image_firebase.length; j++) {
             // console.log("Este es la people", this.people)
@@ -175,11 +189,16 @@ export class Tab2Page implements OnInit {
 
     // loading.dismiss()
 
+
   }
 
 
 
+
   async swiped (event , index) {
+
+    console.log('LA IMAGEN DEL USUARIO', this.user_pic)
+
 
     if(event) {
 
@@ -239,7 +258,7 @@ export class Tab2Page implements OnInit {
     // await loading.present()
 
 
-      console.log(this.people[this.gente.length -1].name + ' people visible is ' + this.people[this.gente.length].visible)
+      console.log(this.people[this.gente.length -1].name + ' people visible is ' + this.people[this.gente.length -1 ].visible)
       this.userfirebase.updateSwipeUser(this.people[this.gente.length-1])
       this.LikeService.setLikeUser(this.people[this.gente.length-1], this.user_login)
       this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length-1])

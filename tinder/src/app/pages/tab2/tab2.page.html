@@ -31,7 +31,10 @@
 
 
 <ng-template #nothing >
-  <h1>No hay mas usuarios que mostrar</h1>
+  <ion-avatar *ngFor = "let profile of user_pic" class="imagen" > 
+    <img [src]= "profile.url">
+  </ion-avatar>
+  <h1 class="aviso">No hay mas usuarios que mostrar</h1>
 </ng-template>
 
 
