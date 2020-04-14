@@ -202,12 +202,13 @@ export class Tab2Page implements OnInit {
 
     if(event) {
 
-      this.gente.splice(index, 1)
-      console.log("LA GENTE AHORA", this.gente)
+    
       console.log(this.gente[index].name + ' people visible is ' + this.gente[index].visible)
       // this.userfirebase.updateSwipeUser(this.people[index])
       this.LikeService.setLikeUser(this.gente[index], this.user_login)
       this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
+      this.gente.splice(index, 1)
+      console.log("LA GENTE AHORA", this.gente)
 
     } else {
 
