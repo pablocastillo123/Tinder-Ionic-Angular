@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Imagenes del usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngFor = "let imagenes of imagenes_user">
+      <img [src] = imagenes.url >
+  </div>
+  
+</ion-content>

@@ -2,8 +2,8 @@
 
 <div class="content">
   <sw-card-wrapper #cardWrapper>
-    <div class="card" *ngFor="let gen of gente, let index = index"
-         [class.visible]="gen.visible" [class.hidden]="!gen.visible"
+    <div  class="card" *ngFor="let gen of gente, let index = index"
+         [class.visible]="gen.visible" [class.hidden]="!gen.visible" button [routerLink] = "['/viewpics', gen.email]"
          swSwipeable
          [width]="350"
          [height]="500"
@@ -14,13 +14,12 @@
     </div>
   </sw-card-wrapper>
 
- 
   <div class = "button_box">
-    <ion-button class = "boton" shape = "round" fill = "outline" (click) = "goLeft(index)" >
+    <ion-button class = "boton" shape = "round" fill = "outline" (click) = "goLeft()" >
       <ion-icon color = "danger" name = "close"></ion-icon>
     </ion-button>
 
-    <ion-button class = "boton" shape = "round" fill = "outline" (click) = "goRight(index)">
+    <ion-button class = "boton" shape = "round" fill = "outline" (click) = "goRight()">
       <ion-icon color = "success" name = "heart"></ion-icon>
     </ion-button>
   </div>

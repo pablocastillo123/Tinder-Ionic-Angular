@@ -43,6 +43,7 @@ export class Tab2Page implements OnInit {
 
   objecto = {
     id: '',
+    email: '',
     name : '',
     age : 0,
     image : '',
@@ -117,6 +118,7 @@ export class Tab2Page implements OnInit {
 
             this.objecto = {
               id: this.people[i].id,
+              email: this.people[i].email,
               name : this.people[i].name,
               age : this.people[i].age,
               image : image_firebase[j].url,
@@ -191,6 +193,10 @@ export class Tab2Page implements OnInit {
     // this.people[index].visible = false
 
     // loading.dismiss()
+  }
+
+  goToPics () {
+    
   }
 
   async goLeft () {
