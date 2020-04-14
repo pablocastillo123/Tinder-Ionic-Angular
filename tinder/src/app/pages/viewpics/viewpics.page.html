@@ -1,13 +1,30 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button icon="arrow-back"></ion-back-button>
+    </ion-buttons>
     <ion-title>Imagenes del usuario</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
-  <div *ngFor = "let imagenes of imagenes_user">
+  
+  <ng-container *ngIf = "imagenes_user.length; else nothing">
+  <div *ngFor = "let imagenes of imagenes_user" >
       <img [src] = imagenes.url >
   </div>
+</ng-container>
+
+
+<ng-template #nothing >
+    <h1 class="aviso">No hay imagenes que mostrar</h1>
+</ng-template>
+
+  <!-- <ng-container *ngIf="image; else img_default">
+    <img  (click)="modificarImg()" [src] = "image">
+  </ng-container>
+  <ng-template #img_default>
+    <img (click)="modificarImg()" src = "../../../assets/image/user-default.png" >
+  </ng-template> -->
   
 </ion-content>
