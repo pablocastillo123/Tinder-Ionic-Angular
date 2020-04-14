@@ -98,10 +98,8 @@ export class Tab2Page implements OnInit {
         
             console.log('filetr',this.people)
           
-    
         console.log("usuarios con el campo visible true" , this.people)
       
-        this.currentIndex = this.people.length - 1;
         console.log('currentIndex',this.currentIndex)
       
 
@@ -145,8 +143,10 @@ export class Tab2Page implements OnInit {
 
             this.gente.push(...results)
 
+            this.currentIndex = this.people.length - 1;
+
             console.log("ESTO ES SIN LOS QUE TINENE SWIPE", this.gente)
-            
+
     })
 
 
@@ -224,6 +224,7 @@ export class Tab2Page implements OnInit {
       this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
       this.LikeService.setLikeUser(this.people[this.currentIndex], this.user_login)
       this.SwipeService.setSwipeUser(this.user_login, this.gente[this.currentIndex])
+
       this.currentIndex --
 
 
