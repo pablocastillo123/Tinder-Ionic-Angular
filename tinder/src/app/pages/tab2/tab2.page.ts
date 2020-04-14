@@ -16,22 +16,22 @@ import { LoadingController } from '@ionic/angular';
 })
 export class Tab2Page implements OnInit {
 
-  // url = 'https://fcm.googleapis.com/fcm/send';
+  url = 'https://fcm.googleapis.com/fcm/send';
 
-  // body = {
-  //   "notification": {
-  //     "title" : "Pablo es marico",
-  //     "body": "Este mensaje lo envie desde el metodo post"
-  //   }, 
-  //   "to" : "fcd1_52frkg:APA91bGWPNkZ5ZHnVWesiUTl7KPRs8IaE2smdfonTjSHVJZF6525IVYBftJ3hEmu6iMDH16HicsEdL8311wQ30s9mZu4mkw51PEGrjQYHGTIs5VimxWYx9xrf8A1z-46xA8vtstQkc5n"
-  // }
+  body = {
+    "notification": {
+      "title" : "Pablo es marico",
+      "body": "Este mensaje lo envie desde el metodo post"
+    }, 
+    "to" : "f-R48AU5QjA:APA91bG-kS4q6h-LjycIhGMgcNUr0GjQjk5oxKWE3lSDB3lAhbW0itlPphitWTwQDjJGLvx-DL7jIdYTbRgC6jcg1XEnRwBvqEJ6S2arbuofy79Op6NbkWCsODvDJ_PJxh8hCN5uyWA2"
+  }
 
-  // httpOptions = {
-  //   headers: new HttpHeaders({
-  //     'Content-Type' : 'application/json',
-  //     'Authorization' : 'key=AAAAbX3ephE:APA91bEXNAd8DjERzfrEYzOZQdd9Op8Sscu4x-7zxwClBobgTlDZpeD-FlzCzSEz5ctf_g8jeEb3uEvRAv1nIhLofDL0BpPJXBMnmoTtUJn-9o-Rxcl4_A4fc7XVu8_2v4Y2_FxcdeEU'
-  //   })
-  // }
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type' : 'application/json',
+      'Authorization' : 'key=AAAAbX3ephE:APA91bEXNAd8DjERzfrEYzOZQdd9Op8Sscu4x-7zxwClBobgTlDZpeD-FlzCzSEz5ctf_g8jeEb3uEvRAv1nIhLofDL0BpPJXBMnmoTtUJn-9o-Rxcl4_A4fc7XVu8_2v4Y2_FxcdeEU'
+    })
+  }
 
   currentIndex : number
 
@@ -55,14 +55,33 @@ export class Tab2Page implements OnInit {
   array_final = []
 
   likes = []
+
   
   constructor(private fcm : FCM, private http : HttpClient, private userfirebase : UserfirebseService, private SwipeService:SwipeService,
     private LikeService:LikeService, private imagefirebase : ImageFirebaseService, private loadingController:LoadingController) {
   }
 
   
-  async ngOnInit () {
+  ngOnInit () {
 
+    
+
+
+    // this.fcm.getToken().then(token => {
+    //   console.log("Token: ", token)
+    // });
+
+    
+    // this.fcm.onTokenRefresh().subscribe(newtoken => {
+    //   console.log('NEW TOKEN', newtoken)
+    // })
+
+    // this.fcm.getToken().then(token => {
+    //   console.log('NUEVO TOKEN', token)
+    // })
+
+
+    
     this.LikeService.getLikeCollection().subscribe(res => {
       this.likes = res
     })
@@ -97,7 +116,6 @@ export class Tab2Page implements OnInit {
             let array_sexo = filter.filter(sexo => {
               return sexo.sexo != this.user_login.sexo
             })
-
 
             console.log("RESULT FINAL", array_sexo)
 
@@ -167,6 +185,8 @@ export class Tab2Page implements OnInit {
 
             console.log("ESTO ES SIN LOS QUE TINENE SWIPE", this.gente)
 
+            console.log("LOS LIKES", this.likes)
+
             for (let i = 0; i < this.likes.length; i ++ ) {
 
               for (let j = 0; j < this.likes.length; j++) {
@@ -175,49 +195,70 @@ export class Tab2Page implements OnInit {
 
                   console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
                   console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
-                  
-                }
 
+                }
               }  
         }
 
     })
 
-    // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
-    //   console.log("Esta es la respuesta", res)
-    // })
+    
 
     // loading.dismiss()
 
-
   }
-
-
-
 
   async swiped (event , index) {
 
-    console.log('LA IMAGEN DEL USUARIO', this.user_pic)
+    console.log("LIKES ANTES", this.likes)
 
+    console.log('LA IMAGEN DEL USUARIO', this.user_pic)
 
     if(event) {
 
-    
       console.log(this.gente[index].name + ' people visible is ' + this.gente[index].visible)
       // this.userfirebase.updateSwipeUser(this.people[index])
       this.LikeService.setLikeUser(this.gente[index], this.user_login)
+
+      this.LikeService.getLikeCollection().subscribe(res => {
+        this.likes = res
+        for (let i = 0; i < this.likes.length; i ++ ) {
+
+          for (let j = 0; j < this.likes.length; j++) {
+    
+            if(this.likes[i].id_from_user === this.likes[j].id_to_user && this.likes[j].id_from_user === this.likes[i].id_to_user && this.user_login.id === this.likes[j].id_to_user ) {
+    
+              console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
+              console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
+
+              
+              // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
+              //   console.log("Esta es la respuesta", res)
+              // })
+              
+            }
+    
+          }  
+    }
+    
+        console.log("LIKES AHORA", this.likes)
+      })
+
       this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
       this.gente.splice(index, 1)
-      console.log("LA GENTE AHORA", this.gente)
 
+      
     } else {
 
-     
       this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
       this.gente.splice(index, 1)
       console.log("LA GENTE AHORA", this.gente)
 
     }
+
+    
+
+
 
     // this.currentIndex --
 
