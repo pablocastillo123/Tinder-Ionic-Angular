@@ -1,6 +1,8 @@
 import { SwipeService } from './../../services/swipe.service';
 import { LikeService } from './../../services/like.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChange } from '@angular/core';
+import { FCM } from '@ionic-native/fcm/ngx';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserfirebseService } from '../../services/userfirebse.service'
 import { ImageFirebaseService } from '../../services/image-firebase.service'
 import { userInterface } from '../../interface/user'
@@ -12,25 +14,82 @@ import { userInterface } from '../../interface/user'
 })
 export class Tab2Page implements OnInit {
 
-  private currentIndex : number
+  url = 'https://fcm.googleapis.com/fcm/send';
+
+  body = {
+    "notification": {
+      "title" : "Pablo es marico",
+      "body": "Este mensaje lo envie desde el metodo post"
+    }, 
+    "to" : "f-R48AU5QjA:APA91bG-kS4q6h-LjycIhGMgcNUr0GjQjk5oxKWE3lSDB3lAhbW0itlPphitWTwQDjJGLvx-DL7jIdYTbRgC6jcg1XEnRwBvqEJ6S2arbuofy79Op6NbkWCsODvDJ_PJxh8hCN5uyWA2"
+  }
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type' : 'application/json',
+      'Authorization' : 'key=AAAAbX3ephE:APA91bEXNAd8DjERzfrEYzOZQdd9Op8Sscu4x-7zxwClBobgTlDZpeD-FlzCzSEz5ctf_g8jeEb3uEvRAv1nIhLofDL0BpPJXBMnmoTtUJn-9o-Rxcl4_A4fc7XVu8_2v4Y2_FxcdeEU'
+    })
+  }
+
+  currentIndex : number
+
   private user_login:userInterface;
   private swipe_user = []
   private people : userInterface[] = []
   private gente = [] 
 
-  private objecto = {
+  user_pic = []
+
+  gente = [] 
+
+  objecto = {
     id: '',
+    email: '',
     name : '',
     age : 0,
     image : '',
-    visible : true
-  }
+    visible: true
+    }
+
+  array_final = []
+
+  likes = []
+
   
   constructor(private userfirebase : UserfirebseService, private SwipeService:SwipeService,
     private LikeService:LikeService, private imagefirebase : ImageFirebaseService) {
   }
+
   
-  async ngOnInit () {
+  ngOnInit () {
+
+    
+
+
+    // this.fcm.getToken().then(token => {
+    //   console.log("Token: ", token)
+    // });
+
+    
+    // this.fcm.onTokenRefresh().subscribe(newtoken => {
+    //   console.log('NEW TOKEN', newtoken)
+    // })
+
+    // this.fcm.getToken().then(token => {
+    //   console.log('NUEVO TOKEN', token)
+    // })
+
+
+    
+    this.LikeService.getLikeCollection().subscribe(res => {
+      this.likes = res
+    })
+    
+    // const loading = await this.loadingController.create({
+    //   message : 'Loading.....',
+    // })
+    // await loading.present()
+
     this.user_login = JSON.parse(window.localStorage.getItem('user'))
     console.log(this.user_login)
 
@@ -49,32 +108,55 @@ export class Tab2Page implements OnInit {
       this.currentIndex = 0
       
       //Codigo para que el usario que esta logeado no salga en los cards
-      let filter = this.people.filter(person =>{
-        return person.id != this.user_login.id
-      })
-  
-      this.people = []
-      this.people.push(...filter)
-      this.currentIndex = this.people.length -1;
-  
-      console.log('filter people',this.people)
-    
+            let filter = this.people.filter(person =>{
+              return person.name != this.user_login.name
+            })
+
+            console.log("ESTE ES EL FILTER ", this.user_login)
+
+            let array_sexo = filter.filter(sexo => {
+              return sexo.sexo != this.user_login.sexo
+            })
+
+            console.log("RESULT FINAL", array_sexo)
+
+            this.people = []
+            
+            this.people.push(...array_sexo)
+        
+            console.log('filetr',this.people)
+          
+        console.log("usuarios con el campo visible true" , this.people)
       
+        console.log('currentIndex',this.currentIndex)
+      
+
     })
 
-  
     this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
+
+      console.log("LA RESPUESTA ", image_firebase)
+
+      this.user_pic = image_firebase.filter(elemento => {
+          if(elemento.file_path === 'perfil' ) {
+
+        return elemento.id_usuario === this.user_login.email
+          }
+      })
+
+
       for(var i=0; i<this.people.length; i++){
         for (var j =0; j < image_firebase.length; j++) {
           if(image_firebase[j].id_usuario === this.people[i].email && image_firebase[j].file_path === 'perfil'){
 
             this.objecto = {
               id: this.people[i].id,
+              email: this.people[i].email,
               name : this.people[i].name,
               age : this.people[i].age,
               image : image_firebase[j].url,
-              visible : true,
-            }
+              visible: true
+             }
 
             this.gente.push(this.objecto)
 
@@ -85,70 +167,142 @@ export class Tab2Page implements OnInit {
 
       console.log("ESTA ES LA GENTE", this.gente)
 
-      for (let i = 0; i < this.swipe_user.length; i++) {
-        for (let j = 0; j < this.gente.length; j ++) {
-          if(this.swipe_user[i].id_to_user === this.gente[j].id) {
+      const results = this.gente.filter(({ id: id1 }) => 
             
-            console.log("Este es el visible del user", this.swipe_user[i].visible_to_user)
-            this.gente[j].visible = false
-            this.currentIndex --
+            !this.swipe_user.some(({ id_to_user : id2 }) => id2 === id1));
 
-          } 
+            this.gente = []
+
+            this.gente.push(...results)
+
+            this.currentIndex = this.people.length - 1;
+
+            console.log("ESTO ES SIN LOS QUE TINENE SWIPE", this.gente)
+
+            console.log("LOS LIKES", this.likes)
+
+            for (let i = 0; i < this.likes.length; i ++ ) {
+
+              for (let j = 0; j < this.likes.length; j++) {
+
+                if(this.likes[i].id_from_user === this.likes[j].id_to_user && this.likes[j].id_from_user === this.likes[i].id_to_user && this.user_login.id === this.likes[j].id_to_user ) {
+
+                  console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
+                  console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
+
+                }
+              }  
         }
-      } 
 
-      console.log('currentIndex',this.currentIndex)
-
-      console.log("ESTA ES LA GENTE MODIFICADA" , this.gente)
     })
+
+    
+
+    // loading.dismiss()
 
   }
 
   async swiped (event , index) {
+
+    console.log("LIKES ANTES", this.likes)
+
+    console.log('LA IMAGEN DEL USUARIO', this.user_pic)
+
     if(event) {
 
-      this.gente[index].visible = false
+      console.log(this.gente[index].name + ' people visible is ' + this.gente[index].visible)
+      // this.userfirebase.updateSwipeUser(this.people[index])
+      this.LikeService.setLikeUser(this.gente[index], this.user_login)
 
-      console.log(this.people[index].name + '  swipe is ' + event)
-      this.userfirebase.updateSwipeUser(this.people[index])
-      this.LikeService.setLikeUser(this.people[index], this.user_login)
+      this.LikeService.getLikeCollection().subscribe(res => {
+        this.likes = res
+        for (let i = 0; i < this.likes.length; i ++ ) {
+
+          for (let j = 0; j < this.likes.length; j++) {
+    
+            if(this.likes[i].id_from_user === this.likes[j].id_to_user && this.likes[j].id_from_user === this.likes[i].id_to_user && this.user_login.id === this.likes[j].id_to_user ) {
+    
+              console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
+              console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
+
+              
+              // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
+              //   console.log("Esta es la respuesta", res)
+              // })
+              
+            }
+    
+          }  
+    }
+    
+        console.log("LIKES AHORA", this.likes)
+      })
+
       this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
-      this.currentIndex --
-      console.log(' currentIndex',this.currentIndex)
+      this.gente.splice(index, 1)
 
-
+      
     } else {
-      this.gente[index].visible = false
 
       this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
-
-      this.currentIndex --
-      console.log(' currentIndex',this.currentIndex)
-
+      this.gente.splice(index, 1)
+      console.log("LA GENTE AHORA", this.gente)
 
     }
 
+    
+
+
+
+    // this.currentIndex --
+
+   
+    // const loading = await this.loadingController.create({
+    //   message : 'Loading.....',
+    // })
+    // await loading.present()
+
+    //visible false en el front
+    //visible en la data del user se le pasa el event que contiene si es true o false
+    // this.people[index].visible = false
+
+    // loading.dismiss()
   }
 
-  async goLeft () {
-    this.gente[this.currentIndex].visible = false
-    console.log('goLeft '+this.people[this.currentIndex].name + ' swipe is flase')
-    
-    this.SwipeService.setSwipeUser(this.user_login, this.gente[this.currentIndex])
+  
 
-    this.currentIndex --
-    console.log('goleft currentIndex',this.currentIndex)
+  async goLeft () {
+    // const loading = await this.loadingController.create({
+    //   message : 'Loading.....',
+    // })
+    // await loading.present()
+
+    console.log('goLeft '+this.gente[this.gente.length -1].name + ' people visible is ' + this.gente[this.gente.length -1].visible)
+
+    // this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
+    this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length -1])
+
+    this.gente.splice(this.gente.length -1, 1)
+    console.log("LA GENTE AHORA", this.gente)
+    // loading.dismiss()
   }
 
   async goRight () {
-    this.gente[this.currentIndex].visible = false
-    console.log('goRight '+this.people[this.currentIndex].name + ' swipe is true')
+    // const loading = await this.loadingController.create({
+    //   message : 'Loading.....',
+    // })
+    // await loading.present()
 
-    this.LikeService.setLikeUser(this.people[this.currentIndex], this.user_login)
-    this.SwipeService.setSwipeUser(this.user_login, this.gente[this.currentIndex])
 
-    this.currentIndex --
-    console.log('goright currentIndex',this.currentIndex)
+      console.log(this.people[this.gente.length -1].name + ' people visible is ' + this.people[this.gente.length -1 ].visible)
+      this.userfirebase.updateSwipeUser(this.people[this.gente.length-1])
+      this.LikeService.setLikeUser(this.people[this.gente.length-1], this.user_login)
+      this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length-1])
+
+      this.gente.splice(this.gente.length -1, 1)
+      console.log("LA GENTE AHORA", this.gente)
+
+    // loading.dismiss()
   }
 }
 
