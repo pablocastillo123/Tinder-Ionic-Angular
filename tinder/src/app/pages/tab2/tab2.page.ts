@@ -47,8 +47,8 @@ export class Tab2Page implements OnInit {
     name : '',
     age : 0,
     image : '',
-    visible : true
-  }
+    visible: true
+    }
 
   array_final = []
 
@@ -126,8 +126,8 @@ export class Tab2Page implements OnInit {
               name : this.people[i].name,
               age : this.people[i].age,
               image : image_firebase[j].url,
-              visible : true,
-            }
+              visible: true
+             }
 
             this.gente.push(this.objecto)
 
@@ -161,7 +161,7 @@ export class Tab2Page implements OnInit {
 
                   console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
                   console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
- 
+                  
                 }
 
               }  
@@ -169,40 +169,37 @@ export class Tab2Page implements OnInit {
 
     })
 
-   
-
     // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
     //   console.log("Esta es la respuesta", res)
     // })
 
     // loading.dismiss()
 
-
-
   }
+
 
 
   async swiped (event , index) {
 
     if(event) {
 
-      this.gente[index].visible = false
-      console.log(this.people[index].name + ' people visible is ' + this.people[index].visible)
-      this.userfirebase.updateSwipeUser(this.people[index])
-      this.LikeService.setLikeUser(this.people[index], this.user_login)
+      this.gente.splice(index, 1)
+      console.log("LA GENTE AHORA", this.gente)
+      console.log(this.gente[index].name + ' people visible is ' + this.gente[index].visible)
+      // this.userfirebase.updateSwipeUser(this.people[index])
+      this.LikeService.setLikeUser(this.gente[index], this.user_login)
       this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
-
-
 
     } else {
 
-      this.gente[index].visible = false
-
+     
       this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
+      this.gente.splice(index, 1)
+      console.log("LA GENTE AHORA", this.gente)
 
     }
 
-    this.currentIndex --
+    // this.currentIndex --
 
    
     // const loading = await this.loadingController.create({
@@ -217,9 +214,7 @@ export class Tab2Page implements OnInit {
     // loading.dismiss()
   }
 
-  goToPics () {
-    
-  }
+  
 
   async goLeft () {
     // const loading = await this.loadingController.create({
@@ -227,16 +222,13 @@ export class Tab2Page implements OnInit {
     // })
     // await loading.present()
 
-    this.gente[this.currentIndex].visible = false
+    console.log('goLeft '+this.gente[this.gente.length -1].name + ' people visible is ' + this.gente[this.gente.length -1].visible)
 
+    // this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
+    this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length -1])
 
-    console.log('goLeft '+this.people[this.currentIndex].name + ' people visible is ' + this.people[this.currentIndex].visible)
-
-    this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
-    this.SwipeService.setSwipeUser(this.user_login, this.gente[this.currentIndex])
-
-    this.currentIndex --
-
+    this.gente.splice(this.gente.length -1, 1)
+    console.log("LA GENTE AHORA", this.gente)
     // loading.dismiss()
   }
 
@@ -246,15 +238,14 @@ export class Tab2Page implements OnInit {
     // })
     // await loading.present()
 
-    this.gente[this.currentIndex].visible = false
 
-      console.log(this.people[this.currentIndex].name + ' people visible is ' + this.people[this.currentIndex].visible)
-      this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
-      this.LikeService.setLikeUser(this.people[this.currentIndex], this.user_login)
-      this.SwipeService.setSwipeUser(this.user_login, this.gente[this.currentIndex])
+      console.log(this.people[this.gente.length -1].name + ' people visible is ' + this.people[this.gente.length].visible)
+      this.userfirebase.updateSwipeUser(this.people[this.gente.length-1])
+      this.LikeService.setLikeUser(this.people[this.gente.length-1], this.user_login)
+      this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length-1])
 
-      this.currentIndex --
-
+      this.gente.splice(this.gente.length -1, 1)
+      console.log("LA GENTE AHORA", this.gente)
 
     // loading.dismiss()
   }

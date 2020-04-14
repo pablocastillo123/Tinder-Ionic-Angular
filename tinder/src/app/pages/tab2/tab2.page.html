@@ -1,5 +1,7 @@
 <ion-content [fullscreen]="true">
 
+  <ng-container *ngIf = "gente.length; else nothing">
+
 <div class="content">
   <sw-card-wrapper #cardWrapper>
     <div  class="card" *ngFor="let gen of gente, let index = index"
@@ -24,5 +26,13 @@
     </ion-button>
   </div>
 </div>
+
+</ng-container>
+
+
+<ng-template #nothing >
+  <h1>No hay mas usuarios que mostrar</h1>
+</ng-template>
+
 
 </ion-content>
