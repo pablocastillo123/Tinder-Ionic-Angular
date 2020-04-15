@@ -183,12 +183,6 @@ export class Tab2Page implements OnInit {
 
   async swiped (event , index) {
 
-    
-    this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', this.user_login.id)
-
-
- 
-
     console.log("LIKES ANTES", this.likes)
 
     console.log('LA IMAGEN DEL USUARIO', this.user_pic)
@@ -209,6 +203,8 @@ export class Tab2Page implements OnInit {
     
               console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
               console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
+
+              this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', this.user_login.id)
 
               this.MatchService.setMatch(this.likes[i].id_from_user,this.likes[i].id_to_user)
               

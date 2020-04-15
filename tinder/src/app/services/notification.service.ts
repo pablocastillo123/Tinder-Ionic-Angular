@@ -54,6 +54,13 @@ export class NotificationService implements OnInit  {
     } else {
       //Aqui ira localnotification
       console.log("Estas en la app")
+      
+      this.localNotifications.schedule({
+        title: 'tinder',
+        text: 'notificacion local tinder',
+        sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
+
+      });
     }
 
   }
@@ -61,6 +68,7 @@ export class NotificationService implements OnInit  {
   notifiAngularPablo(){
     this.sendNotification('tinder','angular-http-post y fcm XD',this.pablo)
     console.log('angular pablo http post')
+
     this.fcm.onNotification().subscribe(data => {
       this.data = data
       if(data.wasTapped){
