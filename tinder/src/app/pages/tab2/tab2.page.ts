@@ -52,6 +52,12 @@ export class Tab2Page implements OnInit {
   
   ngOnInit () {
 
+    this.LikeService.getLikeCollection().subscribe(res => {
+
+      this.likes = res
+     
+    })
+
     this.user_login = JSON.parse(window.localStorage.getItem('user'))
     console.log(this.user_login)
 
@@ -158,20 +164,20 @@ export class Tab2Page implements OnInit {
 
             console.log("LOS LIKES", this.likes)
 
-            for (let i = 0; i < this.likes.length; i ++ ) {
+        //     for (let i = 0; i < this.likes.length; i ++ ) {
 
-              for (let j = 0; j < this.likes.length; j++) {
+        //       for (let j = 0; j < this.likes.length; j++) {
 
-                if(this.likes[i].id_from_user === this.likes[j].id_to_user && this.likes[j].id_from_user === this.likes[i].id_to_user && this.user_login.id === this.likes[j].id_to_user ) {
+        //         if(this.likes[i].id_from_user === this.likes[j].id_to_user && this.likes[j].id_from_user === this.likes[i].id_to_user && this.user_login.id === this.likes[j].id_to_user ) {
 
-                  console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
-                  console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
+        //           console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
+        //           console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
 
-                  this.MatchService.setMatch(this.likes[i].id_from_user,this.likes[i].id_to_user)
+        //           this.MatchService.setMatch(this.likes[i].id_from_user,this.likes[i].id_to_user)
 
-                }
-              }  
-        }
+        //         }
+        //       }  
+        // }
 
     })
 
@@ -183,9 +189,18 @@ export class Tab2Page implements OnInit {
 
   async swiped (event , index) {
 
+    let isTrue = false
+
+    let user_id = this.gente[index]
+   
     console.log("LIKES ANTES", this.likes)
 
     console.log('LA IMAGEN DEL USUARIO', this.user_pic)
+
+    console.log("CREO YO", this.gente)
+    console.log("ARRELGO ACTUAL", this.gente[this.gente.length-1])
+
+    console.log("ARREGLO ACTUAL", this.gente[index])
 
     if(event) {
 
@@ -193,44 +208,58 @@ export class Tab2Page implements OnInit {
       // this.userfirebase.updateSwipeUser(this.people[index])
       this.LikeService.setLikeUser(this.gente[index], this.user_login)
 
-      this.LikeService.getLikeCollection().subscribe(res => {
-        this.likes = res
-        for (let i = 0; i < this.likes.length; i ++ ) {
+      this.likes.map(likes => {
+        this.likes.map(elemento => {
+          if(likes.id_from_user === elemento.id_to_user && elemento.id_from_user === likes.id_to_user && this.user_login.id === elemento.id_to_user) {
+            console.log("ESTOS SON LOS USER", likes.id_from_user)
+            console.log("ESTOS SON LOS USER", elemento.id_to_user)
 
-          for (let j = 0; j < this.likes.length; j++) {
-    
-            if(this.likes[i].id_from_user === this.likes[j].id_to_user && this.likes[j].id_from_user === this.likes[i].id_to_user && this.user_login.id === this.likes[j].id_to_user ) {
-    
-              console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
-              console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
+            console.log("ESTOS SON LOS USER",  elemento.id_from_user)
+            console.log("ESTOS SON LOS USER", likes.id_to_user)
 
-              this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', this.likes[i].id_from_user, this.likes[i].id_to_user)
-
-              this.MatchService.setMatch(this.likes[i].id_from_user,this.likes[i].id_to_user)
-              
-              // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
-              //   console.log("Esta es la respuesta", res)
-              // })
-              
-            }
-    
-          }  
-    }
-    
-        console.log("LIKES AHORA", this.likes)
+            isTrue = true
+          }
       })
+    })
 
-      this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
-      this.gente.splice(index, 1)
+    if ( isTrue  ) {
+
+      console.log("Es verdaderoo")
+      
+          this.MatchService.setMatch(this.user_login.id , user_id)
+
+
+          // this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', this.likes[i].id_from_user, this.likes[i].id_to_user)
+
+    }
+
+      console.log("ES TRUE", isTrue)
+      
+     
+  
+
+ 
+
+
+            
+            // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
+            //   console.log("Esta es la respuesta", res)
+            // })
+      console.log("LIKES AHORA", this.likes)
 
       
-    } else {
+
+               
+    
+
+      
+    }
 
       this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
       this.gente.splice(index, 1)
       console.log("LA GENTE AHORA", this.gente)
 
-    }
+    
 
     
 
@@ -249,6 +278,7 @@ export class Tab2Page implements OnInit {
     // this.people[index].visible = false
 
     // loading.dismiss()
+
   }
 
   
