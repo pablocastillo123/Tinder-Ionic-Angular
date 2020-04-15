@@ -5,6 +5,5 @@ export interface userInterface{
     email:string,
     age:number,
     sexo:string,
-    notification_token: string
 }
 
