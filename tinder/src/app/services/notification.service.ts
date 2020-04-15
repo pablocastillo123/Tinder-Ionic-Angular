@@ -37,8 +37,9 @@ export class NotificationService implements OnInit  {
 
   }
 
-  sendNotification(title, text, to_user){
-    let body = {
+  sendNotification(title, text, to_user, from_user){
+    
+    let body_to_user = {
       "notification":{
         "title":title,
         "body":text,
@@ -47,8 +48,20 @@ export class NotificationService implements OnInit  {
       "to": "/topics/" + to_user
     }
 
+    let body_from_user = {
+      "notification":{
+        "title":title,
+        "body":text,
+        "sound":"default"
+      },
+      "to": "/topics/" + from_user
+    }
+
     if(this.data) {
-      this.http.post(this.url,body,{headers: this.headers}).subscribe(res =>{
+      this.http.post(this.url, body_to_user, {headers: this.headers}).subscribe(res =>{
+        console.log( "Estas afuera",  res)
+      })
+      this.http.post(this.url, body_from_user,  {headers: this.headers}).subscribe(res =>{    
         console.log( "Estas afuera",  res)
       })
     } else {
@@ -65,46 +78,46 @@ export class NotificationService implements OnInit  {
 
   }
 
-  notifiAngularPablo(){
-    this.sendNotification('tinder','angular-http-post y fcm XD',this.pablo)
-    console.log('angular pablo http post')
+  // notifiAngularPablo(){
+  //   this.sendNotification('tinder','angular-http-post y fcm XD',this.pablo)
+  //   console.log('angular pablo http post')
 
-    this.fcm.onNotification().subscribe(data => {
-      this.data = data
-      if(data.wasTapped){
-        console.log("Received in background");
-      } else {
-        console.log("Received in foreground pablo");
+  //   this.fcm.onNotification().subscribe(data => {
+  //     this.data = data
+  //     if(data.wasTapped){
+  //       console.log("Received in background");
+  //     } else {
+  //       console.log("Received in foreground pablo");
 
-        this.localNotifications.schedule({
-          title: 'tinder',
-          text: 'notificacion local tinder a pablo con angular',
-          sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
+  //       this.localNotifications.schedule({
+  //         title: 'tinder',
+  //         text: 'notificacion local tinder a pablo con angular',
+  //         sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
 
-        });
-      };
-    });
-  }
+  //       });
+  //     };
+  //   });
+  // }
 
-  notifiAngularLuis(){
-    this.sendNotification('tinder','angular-http-post y fcm XD',this.luis)
-    console.log('angular luis http post')
+  // notifiAngularLuis(){
+  //   this.sendNotification('tinder','angular-http-post y fcm XD',this.luis)
+  //   console.log('angular luis http post')
 
-    this.fcm.onNotification().subscribe(data => {
-      if(data.wasTapped){
-        console.log("Received in background");
-      } else {
-        console.log("Received in foreground luis");
+  //   this.fcm.onNotification().subscribe(data => {
+  //     if(data.wasTapped){
+  //       console.log("Received in background");
+  //     } else {
+  //       console.log("Received in foreground luis");
 
-        this.localNotifications.schedule({
-          title: 'tinder',
-          text: 'notificacion local tinder a luis con angular',
-          sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
+  //       this.localNotifications.schedule({
+  //         title: 'tinder',
+  //         text: 'notificacion local tinder a luis con angular',
+  //         sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
 
-        });
-      };
-    });
+  //       });
+  //     };
+  //   });
 
-  }
+  // }
 
 }

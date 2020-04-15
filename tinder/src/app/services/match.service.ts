@@ -27,7 +27,7 @@ export class MatchService {
 
   }
 
-  setMatch(from_user,to_user){
+  setMatch(from_user , to_user){
     let id_match = this.UtilToolService.generateId()
 
     this.db.collection('match').doc(id_match).set({
