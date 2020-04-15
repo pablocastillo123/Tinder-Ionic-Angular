@@ -32,8 +32,8 @@ export class MatchService {
 
     this.db.collection('match').doc(id_match).set({
       id_match: id_match,
-      id_from_user: from_user.id,
-      id_to_user: to_user.id,
+      id_from_user: from_user,
+      id_to_user: to_user,
     })
   }
 
