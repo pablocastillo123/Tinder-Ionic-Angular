@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  firebaseConfig = {
+  firebaseConfig : {
     apiKey: "AIzaSyCv6L6Bt1R42wSoPTNmyt0mPCYBCA9F8hc",
     authDomain: "tinder-c4c36.firebaseapp.com",
     databaseURL: "https://tinder-c4c36.firebaseio.com",
