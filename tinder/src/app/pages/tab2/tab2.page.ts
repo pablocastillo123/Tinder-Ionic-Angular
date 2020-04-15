@@ -7,6 +7,8 @@ import { UserfirebseService } from '../../services/userfirebse.service'
 import { ImageFirebaseService } from '../../services/image-firebase.service'
 import { userInterface } from '../../interface/user'
 
+import { NotificationService } from '../../services/notification.service'
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -14,33 +16,16 @@ import { userInterface } from '../../interface/user'
 })
 export class Tab2Page implements OnInit {
 
-  url = 'https://fcm.googleapis.com/fcm/send';
-
-  body = {
-    "notification": {
-      "title" : "Pablo es marico",
-      "body": "Este mensaje lo envie desde el metodo post"
-    }, 
-    "to" : "f-R48AU5QjA:APA91bG-kS4q6h-LjycIhGMgcNUr0GjQjk5oxKWE3lSDB3lAhbW0itlPphitWTwQDjJGLvx-DL7jIdYTbRgC6jcg1XEnRwBvqEJ6S2arbuofy79Op6NbkWCsODvDJ_PJxh8hCN5uyWA2"
-  }
-
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type' : 'application/json',
-      'Authorization' : 'key=AAAAbX3ephE:APA91bEXNAd8DjERzfrEYzOZQdd9Op8Sscu4x-7zxwClBobgTlDZpeD-FlzCzSEz5ctf_g8jeEb3uEvRAv1nIhLofDL0BpPJXBMnmoTtUJn-9o-Rxcl4_A4fc7XVu8_2v4Y2_FxcdeEU'
-    })
-  }
+  private user_login:userInterface;
 
   currentIndex : number
 
-  private user_login:userInterface;
   private swipe_user = []
   private people : userInterface[] = []
   private gente = [] 
 
   user_pic = []
 
-  gente = [] 
 
   objecto = {
     id: '',
@@ -55,32 +40,23 @@ export class Tab2Page implements OnInit {
 
   likes = []
 
+  token
+
   
-  constructor(private userfirebase : UserfirebseService, private SwipeService:SwipeService,
-    private LikeService:LikeService, private imagefirebase : ImageFirebaseService) {
+  constructor(private fcm : FCM, private userfirebase : UserfirebseService, private SwipeService:SwipeService,
+    private LikeService:LikeService, private imagefirebase : ImageFirebaseService, private http : HttpClient,
+    private notification : NotificationService) {
   }
 
   
   ngOnInit () {
 
-    
+    this.user_login = JSON.parse(window.localStorage.getItem('user'))
+    console.log(this.user_login)
 
 
-    // this.fcm.getToken().then(token => {
-    //   console.log("Token: ", token)
-    // });
+    this.fcm.subscribeToTopic(this.user_login.id)
 
-    
-    // this.fcm.onTokenRefresh().subscribe(newtoken => {
-    //   console.log('NEW TOKEN', newtoken)
-    // })
-
-    // this.fcm.getToken().then(token => {
-    //   console.log('NUEVO TOKEN', token)
-    // })
-
-
-    
     this.LikeService.getLikeCollection().subscribe(res => {
       this.likes = res
     })
@@ -90,8 +66,7 @@ export class Tab2Page implements OnInit {
     // })
     // await loading.present()
 
-    this.user_login = JSON.parse(window.localStorage.getItem('user'))
-    console.log(this.user_login)
+    
 
     this.SwipeService.getSwipeUser(this.user_login).subscribe(res =>{
       res.forEach(element =>{
@@ -204,6 +179,12 @@ export class Tab2Page implements OnInit {
 
   async swiped (event , index) {
 
+    
+    this.notification.sendNotification('Pablo es marico', 'Este mensaje lo envie desde el metodo post', this.user_login.id)
+
+
+ 
+
     console.log("LIKES ANTES", this.likes)
 
     console.log('LA IMAGEN DEL USUARIO', this.user_pic)
@@ -277,7 +258,7 @@ export class Tab2Page implements OnInit {
     // })
     // await loading.present()
 
-    console.log('goLeft '+this.gente[this.gente.length -1].name + ' people visible is ' + this.gente[this.gente.length -1].visible)
+    // console.log('goLeft '+this.gente[this.gente.length -1].name + ' people visible is ' + this.gente[this.gente.length -1].visible)
 
     // this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
     this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length -1])
@@ -294,7 +275,7 @@ export class Tab2Page implements OnInit {
     // await loading.present()
 
 
-      console.log(this.people[this.gente.length -1].name + ' people visible is ' + this.people[this.gente.length -1 ].visible)
+      // console.log(this.people[this.gente.length -1].name + ' people visible is ' + this.people[this.gente.length -1 ].visible)
       this.userfirebase.updateSwipeUser(this.people[this.gente.length-1])
       this.LikeService.setLikeUser(this.people[this.gente.length-1], this.user_login)
       this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length-1])
@@ -303,6 +284,13 @@ export class Tab2Page implements OnInit {
       console.log("LA GENTE AHORA", this.gente)
 
     // loading.dismiss()
+  }
+
+  ionViewDidLeave () {
+
+    this.fcm.unsubscribeFromTopic(this.user_login.id)
+    console.log('SALIO')
+
   }
 }
 
