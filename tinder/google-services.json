@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "470263178769",
-    "firebase_url": "https://tinder-dc4fa.firebaseio.com",
-    "project_id": "tinder-dc4fa",
-    "storage_bucket": "tinder-dc4fa.appspot.com"
+    "project_number": "1221126749",
+    "firebase_url": "https://tinder-c4c36.firebaseio.com",
+    "project_id": "tinder-c4c36",
+    "storage_bucket": "tinder-c4c36.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:470263178769:android:db59b7dbc0f6787c0ff3b0",
+        "mobilesdk_app_id": "1:1221126749:android:e67aab8fdadaa1ffa2bbb4",
         "android_client_info": {
           "package_name": "tinder.luis.pablo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "470263178769-d97qtam3kptskcsnu0mtcn2ga1shab7f.apps.googleusercontent.com",
+          "client_id": "1221126749-gkgstnithcdgq881jvamml7q5a7h1jk7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBf83xa8nMkihomPusKXUp2Wg7AdzHVH_c"
+          "current_key": "AIzaSyA5BynKzg7IQqNBlKUUgxxf0m0JSXSkgDY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "470263178769-d97qtam3kptskcsnu0mtcn2ga1shab7f.apps.googleusercontent.com",
+              "client_id": "1221126749-gkgstnithcdgq881jvamml7q5a7h1jk7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
