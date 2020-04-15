@@ -1,3 +1,4 @@
+import { MatchService } from './../../services/match.service';
 import { SwipeService } from './../../services/swipe.service';
 import { LikeService } from './../../services/like.service';
 import { Component, OnInit, SimpleChange } from '@angular/core';
@@ -45,7 +46,7 @@ export class Tab2Page implements OnInit {
   
   constructor(private fcm : FCM, private userfirebase : UserfirebseService, private SwipeService:SwipeService,
     private LikeService:LikeService, private imagefirebase : ImageFirebaseService, private http : HttpClient,
-    private notification : NotificationService) {
+    private notification : NotificationService, private MatchService:MatchService) {
   }
 
   
@@ -56,6 +57,7 @@ export class Tab2Page implements OnInit {
 
 
     this.fcm.subscribeToTopic(this.user_login.id)
+
 
     this.LikeService.getLikeCollection().subscribe(res => {
       this.likes = res
@@ -165,6 +167,8 @@ export class Tab2Page implements OnInit {
                   console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
                   console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
 
+                  this.MatchService.setMatch(this.likes[i].id_from_user,this.likes[i].id_to_user)
+
                 }
               }  
         }
@@ -180,7 +184,7 @@ export class Tab2Page implements OnInit {
   async swiped (event , index) {
 
     
-    this.notification.sendNotification('Pablo es marico', 'Este mensaje lo envie desde el metodo post', this.user_login.id)
+    this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', this.user_login.id)
 
 
  
@@ -206,6 +210,7 @@ export class Tab2Page implements OnInit {
               console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
               console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
 
+              this.MatchService.setMatch(this.likes[i].id_from_user,this.likes[i].id_to_user)
               
               // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
               //   console.log("Esta es la respuesta", res)
@@ -275,7 +280,7 @@ export class Tab2Page implements OnInit {
     // await loading.present()
 
 
-      // console.log(this.people[this.gente.length -1].name + ' people visible is ' + this.people[this.gente.length -1 ].visible)
+      console.log(this.people[this.gente.length -1].name + ' people visible is ' + this.people[this.gente.length -1 ])
       this.userfirebase.updateSwipeUser(this.people[this.gente.length-1])
       this.LikeService.setLikeUser(this.people[this.gente.length-1], this.user_login)
       this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length-1])
