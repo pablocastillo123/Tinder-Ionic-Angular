@@ -52,29 +52,34 @@ export class Tab2Page implements OnInit {
   
   ngOnInit () {
 
+    this.user_login = JSON.parse(window.localStorage.getItem('user'))
+    console.log(this.user_login)
+
+    this.fcm.subscribeToTopic(this.user_login.id)
+
+    const result = this.fcm.subscribeToTopic(this.user_login.id)
+
+    console.log( "resultado", result)
+
     this.LikeService.getLikeCollection().subscribe(res => {
 
       this.likes = res
      
     })
 
-    this.user_login = JSON.parse(window.localStorage.getItem('user'))
-    console.log(this.user_login)
-
-
-    this.fcm.subscribeToTopic(this.user_login.id)
-
-
+    
     this.LikeService.getLikeCollection().subscribe(res => {
       this.likes = res
     })
+
+     this.fcm.getToken().then(token => {
+      console.log("Token: ", token)
+    });
     
     // const loading = await this.loadingController.create({
     //   message : 'Loading.....',
     // })
     // await loading.present()
-
-    
 
     this.SwipeService.getSwipeUser(this.user_login).subscribe(res =>{
       res.forEach(element =>{
@@ -182,9 +187,14 @@ export class Tab2Page implements OnInit {
     })
 
     
+   
 
     // loading.dismiss()
 
+  }
+
+  onMatch () {
+    
   }
 
   async swiped (event , index) {
@@ -192,7 +202,9 @@ export class Tab2Page implements OnInit {
     let isTrue = false
 
     let user_id = this.gente[index]
-   
+
+    var that = this   
+
     console.log("LIKES ANTES", this.likes)
 
     console.log('LA IMAGEN DEL USUARIO', this.user_pic)
@@ -204,12 +216,19 @@ export class Tab2Page implements OnInit {
 
     if(event) {
 
-      console.log(this.gente[index].name + ' people visible is ' + this.gente[index].visible)
-      // this.userfirebase.updateSwipeUser(this.people[index])
       this.LikeService.setLikeUser(this.gente[index], this.user_login)
 
-      this.likes.map(likes => {
-        this.likes.map(elemento => {
+      this.LikeService.getLikeCollection().subscribe(res => {
+             
+
+      console.log("LIKES AHORA", res)
+
+
+      console.log(user_id.name + ' people visible is ' + user_id.visible)
+      // this.userfirebase.updateSwipeUser(this.people[index])
+
+      res.map(likes => {
+        res.map(elemento => {
           if(likes.id_from_user === elemento.id_to_user && elemento.id_from_user === likes.id_to_user && this.user_login.id === elemento.id_to_user) {
             console.log("ESTOS SON LOS USER", likes.id_from_user)
             console.log("ESTOS SON LOS USER", elemento.id_to_user)
@@ -226,12 +245,13 @@ export class Tab2Page implements OnInit {
 
       console.log("Es verdaderoo")
       
-          this.MatchService.setMatch(this.user_login.id , user_id)
-
+          this.MatchService.setMatch(this.user_login.id , user_id.id)
 
           // this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', this.likes[i].id_from_user, this.likes[i].id_to_user)
 
     }
+
+  })
 
       console.log("ES TRUE", isTrue)
       
@@ -245,7 +265,6 @@ export class Tab2Page implements OnInit {
             // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
             //   console.log("Esta es la respuesta", res)
             // })
-      console.log("LIKES AHORA", this.likes)
 
       
 
