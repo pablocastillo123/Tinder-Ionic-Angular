@@ -247,7 +247,9 @@ export class Tab2Page implements OnInit {
       
           this.MatchService.setMatch(this.user_login.id , user_id.id)
 
-          // this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', this.likes[i].id_from_user, this.likes[i].id_to_user)
+          // this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', this.user_login.id ,  user_id.id)
+
+          isTrue = true
 
     }
 
