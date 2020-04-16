@@ -201,10 +201,6 @@ export class Tab2Page implements OnInit {
 
     let isTrue = false
 
-    let user_id = this.gente[index]
-
-    var that = this   
-
     console.log("LIKES ANTES", this.likes)
 
     console.log('LA IMAGEN DEL USUARIO', this.user_pic)
@@ -215,6 +211,9 @@ export class Tab2Page implements OnInit {
     console.log("ARREGLO ACTUAL", this.gente[index])
 
     if(event) {
+
+      let user_id = this.gente[index]
+
 
       this.LikeService.setLikeUser(this.gente[index], this.user_login)
 
@@ -229,10 +228,13 @@ export class Tab2Page implements OnInit {
 
       res.map(likes => {
         res.map(elemento => {
-          if(likes.id_from_user === elemento.id_to_user && elemento.id_from_user === likes.id_to_user && this.user_login.id === elemento.id_to_user) {
+          if(likes.id_from_user === elemento.id_to_user && elemento.id_from_user === likes.id_to_user &&  elemento.id_from_user === user_id.id && this.user_login.id === elemento.id_to_user) {
+            
+            console.log("ENTRO")
+            //Basicamente el que esta logeado
             console.log("ESTOS SON LOS USER", likes.id_from_user)
             console.log("ESTOS SON LOS USER", elemento.id_to_user)
-
+            //La otra contraparte
             console.log("ESTOS SON LOS USER",  elemento.id_from_user)
             console.log("ESTOS SON LOS USER", likes.id_to_user)
 
@@ -249,7 +251,7 @@ export class Tab2Page implements OnInit {
 
           // this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', this.user_login.id ,  user_id.id)
 
-          isTrue = true
+          isTrue = false
 
     }
 
