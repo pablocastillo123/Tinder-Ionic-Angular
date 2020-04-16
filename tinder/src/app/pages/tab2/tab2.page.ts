@@ -228,15 +228,15 @@ export class Tab2Page implements OnInit {
 
       res.map(likes => {
         res.map(elemento => {
-          if(likes.id_from_user === elemento.id_to_user && elemento.id_from_user === likes.id_to_user &&  elemento.id_from_user === user_id.id && this.user_login.id === elemento.id_to_user) {
+          if(likes.id_from_user === this.user_login.id && likes.id_to_user === user_id.id &&  elemento.id_from_user === user_id.id && elemento.id_to_user ===this.user_login.id) {
             
-            console.log("ENTRO")
-            //Basicamente el que esta logeado
-            console.log("ESTOS SON LOS USER", likes.id_from_user)
-            console.log("ESTOS SON LOS USER", elemento.id_to_user)
-            //La otra contraparte
-            console.log("ESTOS SON LOS USER",  elemento.id_from_user)
-            console.log("ESTOS SON LOS USER", likes.id_to_user)
+            // console.log("ENTRO")
+            // //Basicamente el que esta logeado
+            // console.log("ESTOS SON LOS USER", likes.id_from_user)
+            // console.log("ESTOS SON LOS USER", elemento.id_to_user)
+            // //La otra contraparte
+            // console.log("ESTOS SON LOS USER",  elemento.id_from_user)
+            // console.log("ESTOS SON LOS USER", likes.id_to_user)
 
             isTrue = true
           }
@@ -245,9 +245,9 @@ export class Tab2Page implements OnInit {
 
     if ( isTrue  ) {
 
-      console.log("Es verdaderoo")
       
           this.MatchService.setMatch(this.user_login.id , user_id.id)
+
 
           // this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', this.user_login.id ,  user_id.id)
 

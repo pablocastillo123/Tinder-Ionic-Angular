@@ -21,21 +21,26 @@ export class MatchService {
         return actions.map(a => {
           const data = a.payload.doc.data()
           return {...data}
+          
         })
+        
       }
+      
     ))
 
   }
 
-  setMatch(from_user , to_user){
-    let id_match = this.UtilToolService.generateId()
+  async setMatch(from_user , to_user){
+
+    let id_match = from_user + to_user
+    
 
     this.db.collection('match').doc(id_match).set({
       id_match: id_match,
       id_from_user: from_user,
       id_to_user: to_user,
     })
-  }
+}
 
   getMatchCollection(){
     return this.match
