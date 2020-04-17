@@ -4,15 +4,15 @@
 
 export const environment = {
   production: false,
-  firebaseConfig: {
-    apiKey: "AIzaSyDqaH_XWfUZiAtZtQfRbXl-UQvegNIAHko",
-    authDomain: "tinder-dc4fa.firebaseapp.com",
-    databaseURL: "https://tinder-dc4fa.firebaseio.com",
-    projectId: "tinder-dc4fa",
-    storageBucket: "tinder-dc4fa.appspot.com",
-    messagingSenderId: "470263178769",
-    appId: "1:470263178769:web:d477d41f92015b3f0ff3b0",
-    measurementId: "G-QSWRPYSNFN"
+  firebaseConfig : {
+    apiKey: "AIzaSyCv6L6Bt1R42wSoPTNmyt0mPCYBCA9F8hc",
+    authDomain: "tinder-c4c36.firebaseapp.com",
+    databaseURL: "https://tinder-c4c36.firebaseio.com",
+    projectId: "tinder-c4c36",
+    storageBucket: "tinder-c4c36.appspot.com",
+    messagingSenderId: "1221126749",
+    appId: "1:1221126749:web:3ee514cf44375b62a2bbb4",
+    measurementId: "G-H1YPPZ6S4L"
   }
 };
 

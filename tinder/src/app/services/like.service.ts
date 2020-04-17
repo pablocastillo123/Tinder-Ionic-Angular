@@ -31,10 +31,10 @@ export class LikeService {
     return this.like
   }
 
-  setLikeUser(to_user,from_user){
+   setLikeUser(to_user,from_user){
     let id = this.UtilToolService.generateId()
 
-    this.db.collection('like').doc(id).set({
+     this.db.collection('like').doc(id).set({
       id_like: id,
       id_to_user: to_user.id,
       id_from_user: from_user.id

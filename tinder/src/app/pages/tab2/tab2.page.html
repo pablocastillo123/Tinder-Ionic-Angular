@@ -1,20 +1,21 @@
 <ion-content [fullscreen]="true">
 
+  <ng-container *ngIf = "gente.length; else nothing">
+
 <div class="content">
   <sw-card-wrapper #cardWrapper>
-    <div class="card" *ngFor="let gen of gente, let index = index"
-         [class.visible]="gen.visible" [class.hidden]="!gen.visible"
+    <div  class="card" *ngFor="let gen of gente, let index = index"
+         [class.visible]="gen.visible" [class.hidden]="!gen.visible" button [routerLink] = "['/viewpics', gen.email]"
          swSwipeable
-         [width]="350"
-         [height]="500"
+         [width]="300"
+         [height]="400"
          [orientation]="'x'"
          (swiped)="swiped($event, index)">
-      <img [src]="gen.image" [alt]="gen.name">
+      <img class="card_img" [src]="gen.image" [alt]="gen.name">
       <h2>{{gen.name}}, {{gen.age}}</h2>
     </div>
   </sw-card-wrapper>
 
- 
   <div class = "button_box">
     <ion-button class = "boton" shape = "round" fill = "outline" (click) = "goLeft()" >
       <ion-icon color = "danger" name = "close"></ion-icon>
@@ -25,5 +26,18 @@
     </ion-button>
   </div>
 </div>
+
+</ng-container>
+
+
+<ng-template #nothing >
+  <div class="aviso_content">
+    <ion-avatar *ngFor = "let profile of user_pic" class="imagen" > 
+      <img class="aviso_img" [src]= "profile.url">
+    </ion-avatar>
+    <h1 class="aviso">No hay mas usuarios que mostrar</h1>
+  </div>
+</ng-template>
+
 
 </ion-content>
