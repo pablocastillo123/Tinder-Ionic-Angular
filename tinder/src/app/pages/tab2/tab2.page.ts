@@ -46,15 +46,13 @@ export class Tab2Page implements OnInit {
 
     this.user_login = JSON.parse(window.localStorage.getItem('user'))
 
-    const result = this.fcm.subscribeToTopic(this.user_login.id)
+    this.fcm.subscribeToTopic(this.user_login.id)
 
     this.LikeService.getLikeCollection().subscribe(res => {
       this.likes = res
     })
   
-    // this.fcm.getToken().then(token => {
-    //   console.log("Token: ", token)
-    // });
+ 
 
     this.SwipeService.getSwipeUser(this.user_login).subscribe(res =>{
       res.forEach(element =>{
@@ -217,4 +215,10 @@ export class Tab2Page implements OnInit {
     this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length-1])
     this.gente.splice(this.gente.length -1, 1)
   }
+
+
+  ionViewDidLeave () {
+    this.fcm.unsubscribeFromTopic(this.user_login.id)
+  }
+
 }
