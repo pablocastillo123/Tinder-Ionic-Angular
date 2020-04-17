@@ -57,7 +57,7 @@ export class NotificationService implements OnInit  {
       "to": "/topics/" + from_user
     }
 
-   
+    
       this.http.post(this.url, body_to_user, {headers: this.headers}).subscribe(res =>{
         console.log( "Estas afuera",  res)
       })
@@ -68,56 +68,15 @@ export class NotificationService implements OnInit  {
       //Aqui ira localnotification
       console.log("Estas en la app")
       
-    //   this.localNotifications.schedule({
-    //     title: 'tinder',
-    //     text: 'notificacion local tinder',
-    //     sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
+      this.localNotifications.schedule({
+        title: 'tinder',
+        text: 'notificacion local tinder',
+        sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
 
-    //   });
-    // }
+      });
+    }
 
   }
 
-  // notifiAngularPablo(){
-  //   this.sendNotification('tinder','angular-http-post y fcm XD',this.pablo)
-  //   console.log('angular pablo http post')
+  
 
-  //   this.fcm.onNotification().subscribe(data => {
-  //     this.data = data
-  //     if(data.wasTapped){
-  //       console.log("Received in background");
-  //     } else {
-  //       console.log("Received in foreground pablo");
-
-  //       this.localNotifications.schedule({
-  //         title: 'tinder',
-  //         text: 'notificacion local tinder a pablo con angular',
-  //         sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
-
-  //       });
-  //     };
-  //   });
-  // }
-
-  // notifiAngularLuis(){
-  //   this.sendNotification('tinder','angular-http-post y fcm XD',this.luis)
-  //   console.log('angular luis http post')
-
-  //   this.fcm.onNotification().subscribe(data => {
-  //     if(data.wasTapped){
-  //       console.log("Received in background");
-  //     } else {
-  //       console.log("Received in foreground luis");
-
-  //       this.localNotifications.schedule({
-  //         title: 'tinder',
-  //         text: 'notificacion local tinder a luis con angular',
-  //         sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
-
-  //       });
-  //     };
-  //   });
-
-  // }
-
-}

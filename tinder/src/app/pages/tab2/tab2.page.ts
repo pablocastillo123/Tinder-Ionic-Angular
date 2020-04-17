@@ -72,11 +72,6 @@ export class Tab2Page implements OnInit {
     });
 
     
-    
-    // const loading = await this.loadingController.create({
-    //   message : 'Loading.....',
-    // })
-    // await loading.present()
 
     this.SwipeService.getSwipeUser(this.user_login).subscribe(res =>{
       res.forEach(element =>{
@@ -157,24 +152,10 @@ export class Tab2Page implements OnInit {
       console.log("ESTO ES SIN LOS QUE TINENE SWIPE", this.gente)
       console.log("LOS LIKES", this.likes)
 
-        //     for (let i = 0; i < this.likes.length; i ++ ) {
-
-        //       for (let j = 0; j < this.likes.length; j++) {
-
-        //         if(this.likes[i].id_from_user === this.likes[j].id_to_user && this.likes[j].id_from_user === this.likes[i].id_to_user && this.user_login.id === this.likes[j].id_to_user ) {
-
-        //           console.log("ESTOS SON LOS ID", this.likes[i].id_from_user)
-        //           console.log("ESTOS SON LOS ID", this.likes[i].id_to_user)
-
-        //           this.MatchService.setMatch(this.likes[i].id_from_user,this.likes[i].id_to_user)
-
-        //         }
-        //       }  
-        // }
+      
 
     })
 
-    // loading.dismiss()
 
   }
 
@@ -183,14 +164,6 @@ export class Tab2Page implements OnInit {
 
   async swiped (event , index) {
 
-    console.log("LIKES ANTES", this.likes)
-
-    console.log('LA IMAGEN DEL USUARIO', this.user_pic)
-
-    console.log("CREO YO", this.gente)
-    console.log("ARRELGO ACTUAL", this.gente[this.gente.length-1])
-
-    console.log("ARREGLO ACTUAL", this.gente[index])
 
     if(event) {
 
@@ -206,11 +179,8 @@ export class Tab2Page implements OnInit {
 
       })
 
-      console.log("LOS NUEVOS LIKES", likes)
    
       setTimeout(() => {
-        console.log(user_id.id + ' people visible is ' + user_id.visible)
-        // this.userfirebase.updateSwipeUser(this.people[index])
   
         const likesuser = this.likes.filter(elemento => {
           return elemento.id_from_user === this.user_login.id
@@ -228,7 +198,7 @@ export class Tab2Page implements OnInit {
   
               console.log("ITS A MATCH")
               this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
-              this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
+              this.notification.sendNotification('tinder', 'Tienes un nuevo Match', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
   
   
           }
@@ -255,63 +225,74 @@ export class Tab2Page implements OnInit {
 
 
 
-    // this.currentIndex --
-
-   
-    // const loading = await this.loadingController.create({
-    //   message : 'Loading.....',
-    // })
-    // await loading.present()
-
-    //visible false en el front
-    //visible en la data del user se le pasa el event que contiene si es true o false
-    // this.people[index].visible = false
-
-    // loading.dismiss()
+    
 
   }
 
   
 
   async goLeft () {
-    // const loading = await this.loadingController.create({
-    //   message : 'Loading.....',
-    // })
-    // await loading.present()
 
-    // console.log('goLeft '+this.gente[this.gente.length -1].name + ' people visible is ' + this.gente[this.gente.length -1].visible)
-
-    // this.userfirebase.updateSwipeUser(this.people[this.currentIndex])
     this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length -1])
 
     this.gente.splice(this.gente.length -1, 1)
-    console.log("LA GENTE AHORA", this.gente)
     // loading.dismiss()
   }
 
   async goRight () {
-    // const loading = await this.loadingController.create({
-    //   message : 'Loading.....',
-    // })
-    // await loading.present()
+    
+    let user_id = this.gente[this.gente.length - 1]
+
+    let likes = []
+
+     this.LikeService.setLikeUser(this.gente[this.gente.length-1], this.user_login)
+
+    this.LikeService.getLikeCollection().subscribe( res => {
+
+      likes = res
+
+    })
+
+ 
+    setTimeout(() => {
+
+      const likesuser = this.likes.filter(elemento => {
+        return elemento.id_from_user === this.user_login.id
+      })
+
+      const likeotheruser = this.likes.filter(elemento => {
+        return elemento.id_to_user === user_id.id
+      })
+
+      for(let i = 0; i < this.likes.length; i++ ) {
+
+        if(likeotheruser[0].id_from_user === this.likes[i].id_to_user 
+          &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user    ) {
 
 
-      console.log(this.people[this.gente.length -1].name + ' people visible is ' + this.people[this.gente.length -1 ])
-      this.userfirebase.updateSwipeUser(this.people[this.gente.length-1])
-      this.LikeService.setLikeUser(this.people[this.gente.length-1], this.user_login)
+            console.log("ITS A MATCH")
+            this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
+            this.notification.sendNotification('tinder', 'Tienes un nuevo Match', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
+
+
+        }
+
+
+      }
+      console.log("LIKES AHORA", this.likes)
+      console.log("LIKES DEL USER", likesuser)
+
+    console.log("LIKES DEL USER AL USUARIO ACTUAL", likeotheruser)
+  }, 2000);
+
+
       this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length-1])
 
       this.gente.splice(this.gente.length -1, 1)
       console.log("LA GENTE AHORA", this.gente)
 
-    // loading.dismiss()
   }
 
-  ionViewDidLeave () {
-
-    this.fcm.unsubscribeFromTopic(this.user_login.id)
-    console.log('SALIO')
-
-  }
+  
 }
 
