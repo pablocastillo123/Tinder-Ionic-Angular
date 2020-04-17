@@ -19,11 +19,12 @@ export class ImageFirebaseService {
   constructor(private UtilToolService:UtilToolService,private db: AngularFirestore,
     private FireStorage:AngularFireStorage) {
 
-      this.image_collection = this.db.collection<imageInterface>('image')
-
+      this.image_collection =  this.db.collection<imageInterface>('image')
+      
       this.image = this.image_collection.snapshotChanges().pipe(map(
-      actions => {
-        return actions.map(a => {
+        
+      actions =>  {
+        return  actions.map(a => {
           const data = a.payload.doc.data()
           return {...data}
         })
@@ -41,7 +42,6 @@ export class ImageFirebaseService {
     const id_img_storage = this.UtilToolService.generateId()
     const path_img = `${id_user}/${path}/${id_img_storage}`;
     const ref = this.FireStorage.ref(path_img);
-
 
     ref.putString(base64, 'base64', {contentType:'image/jpg'}).then(snapshot => {
       snapshot.ref.getDownloadURL().then(downloadURL =>{
@@ -72,7 +72,7 @@ export class ImageFirebaseService {
     })
   }
 
-  public getImageCollection(){
+  public  getImageCollection(){
     return this.image
   }
 

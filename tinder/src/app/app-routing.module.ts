@@ -14,7 +14,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
 
   {
@@ -34,7 +34,12 @@ const routes: Routes = [
     path: 'perfil',
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'viewpics/:id',
+    loadChildren: () => import('./pages/viewpics/viewpics.module').then( m => m.ViewpicsPageModule)
   }
+
 
 ];
 @NgModule({

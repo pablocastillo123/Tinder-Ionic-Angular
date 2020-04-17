@@ -6,11 +6,15 @@ import { FormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 import { ExploreContainerComponentModule } from '../../explore-container/explore-container.module';
 
+import { SwipeCardLibModule } from 'ng-swipe-card';
+
+
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
+    SwipeCardLibModule,
     ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: Tab2Page }])
   ],

@@ -6,3 +6,4 @@ export interface userInterface{
     age:number,
     sexo:string,
 }
+

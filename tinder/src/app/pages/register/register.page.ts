@@ -53,27 +53,27 @@ export class RegisterPage {
 
       this.utilTool.presentAlert('Error','Campos vacios','ok');
     
-      }else{
-        if(Validators.email(reg.get('email'))){
-        this.utilTool.presentAlert('Error','Direccion de email invalida','ok');
-        }
-
-        if(reg.get('age').value > 120 || reg.get('age').value === 0){
-          this.utilTool.presentAlert('Error','La edad debe ser menor de 120','ok');
-        }
-        
-        if(reg.get('password').value.length < 6){
-          console.log(reg.get('password').value.length)
-          this.utilTool.presentAlert('Error','El password debe tener al menos 6 caracteres','ok');
-        
-        }if(this.email_user == reg.get('email').value){
-          this.utilTool.presentAlert('Error','El email esta en uso','ok');
-        }
-
-        else{
-          this.register();
-        }
+    }else{
+      if(Validators.email(reg.get('email'))){
+      this.utilTool.presentAlert('Error','Direccion de email invalida','ok');
       }
+
+      if(reg.get('age').value > 120 || reg.get('age').value === 0){
+        this.utilTool.presentAlert('Error','La edad debe ser menor de 120','ok');
+      }
+      
+      if(reg.get('password').value.length < 6){
+        console.log(reg.get('password').value.length)
+        this.utilTool.presentAlert('Error','El password debe tener al menos 6 caracteres','ok');
+      
+      }if(this.email_user == reg.get('email').value){
+        this.utilTool.presentAlert('Error','El email esta en uso','ok');
+      }
+
+      else{
+        this.register();
+      }
+    }
   }
 
   ionViewDidLeave	 () {
@@ -88,6 +88,7 @@ export class RegisterPage {
 
   async register(){
 
+
     const loading = await this.loadingController.create({
       message : 'Loading.....'
     })
@@ -95,32 +96,37 @@ export class RegisterPage {
 
       try{
 
-        const user = await this.authSvc.onRegister(this.user)
+        if(this.img_base64){
+          const user = await this.authSvc.onRegister(this.user)
 
-        if(user){
-          this.db.collection("usuario").doc(this.id_user).set({
-            id: this.id_user,
-            name: this.user.name,
-            last_name: this.user.last_name,
-            email: this.user.email,
-            age: this.user.age,
-            sexo: this.user_sexo
-          })
-
-          if(this.img_base64){
+          if(user){
+            this.db.collection("usuario").doc(this.id_user).set({
+              id: this.id_user,
+              name: this.user.name,
+              last_name: this.user.last_name,
+              email: this.user.email,
+              age: this.user.age,
+              sexo: this.user_sexo,
+            })
+  
             this.ImageFirebaseService.saveImg(this.user.email,this.img_base64,'perfil')
+  
+            this.utilTool.presentAlert('Exitoso', 'Registro Exitoso', 'ok')
+            
+            this.router.navigateByUrl('/login');
+  
           }
-
-          this.utilTool.presentAlert('Exitoso', 'Registro Exitoso', 'ok')
-          
-          this.router.navigateByUrl('/login');
-
+        }else{
+        this.utilTool.presentAlert('Error', 'Debe colocar una imagen de perfil', 'ok')
         }
+        
         
       }catch(error){
         if(error.code === 'invalid-argument'){
           this.utilTool.presentAlert('Error','Campos vacios','ok');
         }
+       
+        console.log(error)
         loading.dismiss();
 
       }finally{
