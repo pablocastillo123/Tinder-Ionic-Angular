@@ -24,31 +24,25 @@ export class Tab2Page implements OnInit {
   private swipe_user = []
   private people : userInterface[] = []
   private gente = [] 
+  private user_pic = []
 
-  user_pic = []
-
-
-  objecto = {
+  private objecto = {
     id: '',
     email: '',
     name : '',
     age : 0,
     image : '',
     visible: true
-    }
+  }
 
-  array_final = []
+  private array_final = []
+  private likes = []
+  private token
 
-  likes = []
-
-  token
-
-  
   constructor(private fcm : FCM, private userfirebase : UserfirebseService, private SwipeService:SwipeService,
     private LikeService:LikeService, private imagefirebase : ImageFirebaseService, private http : HttpClient,
     private notification : NotificationService, private MatchService:MatchService) {
   }
-
   
   ngOnInit () {
 
@@ -56,21 +50,14 @@ export class Tab2Page implements OnInit {
     console.log(this.user_login)
 
     this.fcm.subscribeToTopic(this.user_login.id)
-
     const result = this.fcm.subscribeToTopic(this.user_login.id)
-
     console.log( "resultado", result)
 
     this.LikeService.getLikeCollection().subscribe(res => {
-
-      this.likes = res
-    })
-    
-    this.LikeService.getLikeCollection().subscribe(res => {
       this.likes = res
     })
 
-     this.fcm.getToken().then(token => {
+    this.fcm.getToken().then(token => {
       console.log("Token: ", token)
     });
     
@@ -93,30 +80,26 @@ export class Tab2Page implements OnInit {
       this.gente = []
       this.currentIndex = 0
       
-      //Codigo para que el usario que esta logeado no salga en los cards
-            let filter = this.people.filter(person =>{
-              return person.name != this.user_login.name
-            })
+      //filtrando la consulta de firebase para que el usario que esta logeado no salga
+      let filter = this.people.filter(person =>{
+        return person.name != this.user_login.name
+      })
 
-            console.log("ESTE ES EL FILTER ", this.user_login)
-
-            let array_sexo = filter.filter(sexo => {
-              return sexo.sexo != this.user_login.sexo
-            })
-
-            console.log("RESULT FINAL", array_sexo)
-
-            this.people = []
-            
-            this.people.push(...array_sexo)
-        
-            console.log('filetr',this.people)
-          
-        console.log("usuarios con el campo visible true" , this.people)
+      console.log("ESTE ES EL FILTER ", this.user_login)
       
-        console.log('currentIndex',this.currentIndex)
-      
+      //filtrando la consulta de firebase para que no salga el sexo del usuario logeado
+      let array_sexo = filter.filter(sexo => {
+        return sexo.sexo != this.user_login.sexo
+      })
 
+      console.log("RESULT FINAL", array_sexo)
+
+      this.people = []
+      this.people.push(...array_sexo)
+
+      console.log('filetr',this.people)
+      console.log("usuarios con el campo visible true" , this.people)
+      console.log('currentIndex',this.currentIndex)
     })
 
     this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
@@ -124,12 +107,10 @@ export class Tab2Page implements OnInit {
       console.log("LA RESPUESTA ", image_firebase)
 
       this.user_pic = image_firebase.filter(elemento => {
-          if(elemento.file_path === 'perfil' ) {
-
-        return elemento.id_usuario === this.user_login.email
-          }
+        if(elemento.file_path === 'perfil' ) {
+          return elemento.id_usuario === this.user_login.email
+        }
       })
-
 
       for(var i=0; i<this.people.length; i++){
         for (var j =0; j < image_firebase.length; j++) {
@@ -142,7 +123,7 @@ export class Tab2Page implements OnInit {
               age : this.people[i].age,
               image : image_firebase[j].url,
               visible: true
-             }
+            }
 
             this.gente.push(this.objecto)
 
@@ -155,17 +136,14 @@ export class Tab2Page implements OnInit {
 
       const results = this.gente.filter(({ id: id1 }) => 
             
-            !this.swipe_user.some(({ id_to_user : id2 }) => id2 === id1));
+      !this.swipe_user.some(({ id_to_user : id2 }) => id2 === id1));
 
-            this.gente = []
+      this.gente = []
+      this.gente.push(...results)
+      this.currentIndex = this.people.length - 1;
 
-            this.gente.push(...results)
-
-            this.currentIndex = this.people.length - 1;
-
-            console.log("ESTO ES SIN LOS QUE TINENE SWIPE", this.gente)
-
-            console.log("LOS LIKES", this.likes)
+      console.log("ESTO ES SIN LOS QUE TINENE SWIPE", this.gente)
+      console.log("LOS LIKES", this.likes)
 
         //     for (let i = 0; i < this.likes.length; i ++ ) {
 
@@ -184,11 +162,6 @@ export class Tab2Page implements OnInit {
 
     })
 
-   
-
-    
-   
-
     // loading.dismiss()
 
   }
@@ -197,78 +170,58 @@ export class Tab2Page implements OnInit {
 
   async swiped (event , index) {
 
-
-
     let isTrue = false
 
     console.log("LIKES ANTES", this.likes)
-
     console.log('LA IMAGEN DEL USUARIO', this.user_pic)
-
     console.log("CREO YO", this.gente)
     console.log("ARRELGO ACTUAL", this.gente[this.gente.length-1])
-
     console.log("ARREGLO ACTUAL", this.gente[index])
 
     if(event) {
 
       let user_id = this.gente[index]
 
-
       this.LikeService.setLikeUser(this.gente[index], this.user_login)
-
       this.LikeService.getLikeCollection().subscribe( res => {
              
+        console.log("LIKES AHORA", res)
+        console.log(user_id.id + ' people visible is ' + user_id.visible)
+        // this.userfirebase.updateSwipeUser(this.people[index])
 
-      console.log("LIKES AHORA", res)
+        //filtrando la consulta de firebase sobre los likes 
+        const likesuser = this.likes.filter(elemento => {
+          return elemento.id_from_user === this.user_login.id
+        })
 
-      console.log(user_id.id + ' people visible is ' + user_id.visible)
-      // this.userfirebase.updateSwipeUser(this.people[index])
+        const likeotheruser = this.likes.filter(elemento => {
+          return elemento.id_to_user === user_id.id
+        })
 
-      const likesuser = this.likes.filter(elemento => {
-        return elemento.id_from_user === this.user_login.id
-      })
+        //En busca de compatibilidad en los likes de ambos usuarios 
+        for(let i = 0; i < this.likes.length; i++ ) {
 
-      const likeotheruser = this.likes.filter(elemento => {
-        return elemento.id_to_user === user_id.id
-      })
-
-      for(let i = 0; i < this.likes.length; i++ ) {
-
-        if(likeotheruser[0].id_from_user === this.likes[i].id_to_user 
-          &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user    ) {
-
+          if(likeotheruser[0].id_from_user === this.likes[i].id_to_user 
+            &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user) {
 
             console.log("ITS A MATCH")
             this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
             this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
-
-
+          }
         }
 
+        console.log("LIKES DEL USER", likesuser)
+        console.log("LIKES DEL USER AL USUARIO ACTUAL", likeotheruser)
 
-      }
-
-      
-      console.log("LIKES DEL USER", likesuser)
-
-      console.log("LIKES DEL USER AL USUARIO ACTUAL", likeotheruser)
-
-
-  })
+      })
 
       console.log("ES TRUE", isTrue)
             
     }
 
-      this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
-      this.gente.splice(index, 1)
-      console.log("LA GENTE AHORA", this.gente)
-
-    
-
-    
-
+    this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
+    this.gente.splice(index, 1)
+    console.log("LA GENTE AHORA", this.gente)
 
 
     // this.currentIndex --
