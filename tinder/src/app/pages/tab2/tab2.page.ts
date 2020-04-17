@@ -64,9 +64,7 @@ export class Tab2Page implements OnInit {
     this.LikeService.getLikeCollection().subscribe(res => {
 
       this.likes = res
-     
     })
-
     
     this.LikeService.getLikeCollection().subscribe(res => {
       this.likes = res
@@ -186,6 +184,8 @@ export class Tab2Page implements OnInit {
 
     })
 
+   
+
     
    
 
@@ -193,11 +193,11 @@ export class Tab2Page implements OnInit {
 
   }
 
-  onMatch () {
-    
-  }
+  
 
   async swiped (event , index) {
+
+
 
     let isTrue = false
 
@@ -217,65 +217,48 @@ export class Tab2Page implements OnInit {
 
       this.LikeService.setLikeUser(this.gente[index], this.user_login)
 
-      this.LikeService.getLikeCollection().subscribe(res => {
+      this.LikeService.getLikeCollection().subscribe( res => {
              
 
       console.log("LIKES AHORA", res)
 
-
-      console.log(user_id.name + ' people visible is ' + user_id.visible)
+      console.log(user_id.id + ' people visible is ' + user_id.visible)
       // this.userfirebase.updateSwipeUser(this.people[index])
 
-      res.map(likes => {
-        res.map(elemento => {
-          if(likes.id_from_user === this.user_login.id && likes.id_to_user === user_id.id &&  elemento.id_from_user === user_id.id && elemento.id_to_user ===this.user_login.id) {
-            
-            // console.log("ENTRO")
-            // //Basicamente el que esta logeado
-            // console.log("ESTOS SON LOS USER", likes.id_from_user)
-            // console.log("ESTOS SON LOS USER", elemento.id_to_user)
-            // //La otra contraparte
-            // console.log("ESTOS SON LOS USER",  elemento.id_from_user)
-            // console.log("ESTOS SON LOS USER", likes.id_to_user)
-
-            isTrue = true
-          }
+      const likesuser = this.likes.filter(elemento => {
+        return elemento.id_from_user === this.user_login.id
       })
-    })
 
-    if ( isTrue  ) {
+      const likeotheruser = this.likes.filter(elemento => {
+        return elemento.id_to_user === user_id.id
+      })
+
+      for(let i = 0; i < this.likes.length; i++ ) {
+
+        if(likeotheruser[0].id_from_user === this.likes[i].id_to_user 
+          &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user    ) {
+
+
+            console.log("ITS A MATCH")
+            this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
+            this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
+
+
+        }
+
+
+      }
 
       
-          this.MatchService.setMatch(this.user_login.id , user_id.id)
+      console.log("LIKES DEL USER", likesuser)
 
+      console.log("LIKES DEL USER AL USUARIO ACTUAL", likeotheruser)
 
-          // this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', this.user_login.id ,  user_id.id)
-
-          isTrue = false
-
-    }
 
   })
 
       console.log("ES TRUE", isTrue)
-      
-     
-  
-
- 
-
-
             
-            // this.http.post(this.url, this.body , this.httpOptions).subscribe(res => {
-            //   console.log("Esta es la respuesta", res)
-            // })
-
-      
-
-               
-    
-
-      
     }
 
       this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
