@@ -7,13 +7,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserfirebseService } from '../../services/userfirebse.service'
 import { ImageFirebaseService } from '../../services/image-firebase.service'
 import { userInterface } from '../../interface/user'
-
 import { NotificationService } from '../../services/notification.service'
-
 import { map } from 'rxjs/operators';
-
-
-
 
 @Component({
   selector: 'app-tab2',
@@ -23,9 +18,7 @@ import { map } from 'rxjs/operators';
 export class Tab2Page implements OnInit {
 
   private user_login:userInterface;
-
-  currentIndex : number
-
+  private currentIndex : number
   private swipe_user = []
   private people : userInterface[] = []
   private gente = [] 
@@ -49,29 +42,19 @@ export class Tab2Page implements OnInit {
     private notification : NotificationService, private MatchService:MatchService) {
   }
 
-
- 
-
-  
   ngOnInit () {
 
     this.user_login = JSON.parse(window.localStorage.getItem('user'))
-    console.log(this.user_login)
 
-    this.fcm.subscribeToTopic(this.user_login.id)
     const result = this.fcm.subscribeToTopic(this.user_login.id)
-    console.log( "resultado", result)
 
     this.LikeService.getLikeCollection().subscribe(res => {
       this.likes = res
     })
-
   
-     this.fcm.getToken().then(token => {
-      console.log("Token: ", token)
-    });
-
-    
+    // this.fcm.getToken().then(token => {
+    //   console.log("Token: ", token)
+    // });
 
     this.SwipeService.getSwipeUser(this.user_login).subscribe(res =>{
       res.forEach(element =>{
@@ -80,8 +63,6 @@ export class Tab2Page implements OnInit {
     })
 
     this.userfirebase.getUserCollection().subscribe(res => {
-      console.log("usuarios" , res)
-      console.log('swipe user', this.swipe_user)
 
       this.people = res
       this.gente = []
@@ -92,26 +73,17 @@ export class Tab2Page implements OnInit {
         return person.name != this.user_login.name
       })
 
-      console.log("ESTE ES EL FILTER ", this.user_login)
-      
       //filtrando la consulta de firebase para que no salga el sexo del usuario logeado
       let array_sexo = filter.filter(sexo => {
         return sexo.sexo != this.user_login.sexo
       })
 
-      console.log("RESULT FINAL", array_sexo)
-
       this.people = []
       this.people.push(...array_sexo)
 
-      console.log('filetr',this.people)
-      console.log("usuarios con el campo visible true" , this.people)
-      console.log('currentIndex',this.currentIndex)
     })
 
     this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
-
-      console.log("LA RESPUESTA ", image_firebase)
 
       this.user_pic = image_firebase.filter(elemento => {
         if(elemento.file_path === 'perfil' ) {
@@ -131,7 +103,8 @@ export class Tab2Page implements OnInit {
               image : image_firebase[j].url,
               visible: true
             }
-
+            
+            //asignacion de los datos que se mostraran en el card
             this.gente.push(this.objecto)
 
             break;
@@ -139,8 +112,7 @@ export class Tab2Page implements OnInit {
         }
       }
 
-      console.log("ESTA ES LA GENTE", this.gente)
-
+      
       const results = this.gente.filter(({ id: id1 }) => 
             
       !this.swipe_user.some(({ id_to_user : id2 }) => id2 === id1));
@@ -149,150 +121,100 @@ export class Tab2Page implements OnInit {
       this.gente.push(...results)
       this.currentIndex = this.people.length - 1;
 
-      console.log("ESTO ES SIN LOS QUE TINENE SWIPE", this.gente)
-      console.log("LOS LIKES", this.likes)
-
-      
-
     })
-
-
   }
 
-  
-  
-
   async swiped (event , index) {
-
 
     if(event) {
 
       let user_id = this.gente[index]
-
       let likes = []
 
-       this.LikeService.setLikeUser(this.gente[index], this.user_login)
-
+      //se guarda el like y se hace una consulta a firebase
+      this.LikeService.setLikeUser(this.gente[index], this.user_login)
       this.LikeService.getLikeCollection().subscribe( res => {
-
         likes = res
-
       })
-
    
       setTimeout(() => {
   
+        //filtrando la consulta de firebase de los likes que son del usuario
+        //que esta logeado
         const likesuser = this.likes.filter(elemento => {
           return elemento.id_from_user === this.user_login.id
         })
-  
+
+        //filtrando la consulta de firebase de los likes que son del usuario
+        //al que se esta haciendo swipe
         const likeotheruser = this.likes.filter(elemento => {
           return elemento.id_to_user === user_id.id
         })
   
         for(let i = 0; i < this.likes.length; i++ ) {
   
+          //verificacion de like si hay una coincidencia hay match
           if(likeotheruser[0].id_from_user === this.likes[i].id_to_user 
-            &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user    ) {
+            &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user) {
   
-  
-              console.log("ITS A MATCH")
-              this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
-              this.notification.sendNotification('tinder', 'Tienes un nuevo Match', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
-  
-  
+            //se guarda el match y se envia una notifiacion a los usuarios
+            this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
+            this.notification.sendNotification('Tinder', 'Tienes un nuevo Match', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
           }
-  
-  
         }
-        console.log("LIKES AHORA", this.likes)
-        console.log("LIKES DEL USER", likesuser)
-
-      console.log("LIKES DEL USER AL USUARIO ACTUAL", likeotheruser)
-    }, 2000);
-
-  
-            
+      }, 2000);
     }
 
-      this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
-      this.gente.splice(index, 1)
-      console.log("LA GENTE AHORA", this.gente)
-
-    
-
-    
-
-
-
-    
-
+    //se guarda el swipe en firebase 
+    this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
+    this.gente.splice(index, 1)
   }
 
-  
-
   async goLeft () {
-
     this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length -1])
-
     this.gente.splice(this.gente.length -1, 1)
-    // loading.dismiss()
   }
 
   async goRight () {
     
     let user_id = this.gente[this.gente.length - 1]
-
     let likes = []
 
-     this.LikeService.setLikeUser(this.gente[this.gente.length-1], this.user_login)
-
+    //se guarda el like y se hace una consulta a firebase
+    this.LikeService.setLikeUser(this.gente[this.gente.length-1], this.user_login)
     this.LikeService.getLikeCollection().subscribe( res => {
-
       likes = res
-
     })
-
  
     setTimeout(() => {
 
+      //filtrando la consulta de firebase de los likes que son del usuario
+      //que esta logeado
       const likesuser = this.likes.filter(elemento => {
         return elemento.id_from_user === this.user_login.id
       })
 
+      //filtrando la consulta de firebase de los likes que son del usuario
+      //al que se esta haciendo swipe
       const likeotheruser = this.likes.filter(elemento => {
         return elemento.id_to_user === user_id.id
       })
 
       for(let i = 0; i < this.likes.length; i++ ) {
 
+        //verificacion de like si hay una coincidencia hay match
         if(likeotheruser[0].id_from_user === this.likes[i].id_to_user 
-          &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user    ) {
+          &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user) {
 
-
-            console.log("ITS A MATCH")
-            this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
-            this.notification.sendNotification('tinder', 'Tienes un nuevo Match', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
-
-
+          //se guarda el match y se envia una notifiacion a los usuarios
+          this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
+          this.notification.sendNotification('tinder', 'Tienes un nuevo Match', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
         }
-
-
       }
-      console.log("LIKES AHORA", this.likes)
-      console.log("LIKES DEL USER", likesuser)
+    }, 2000);
 
-    console.log("LIKES DEL USER AL USUARIO ACTUAL", likeotheruser)
-  }, 2000);
-
-
-      this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length-1])
-
-      this.gente.splice(this.gente.length -1, 1)
-      console.log("LA GENTE AHORA", this.gente)
-
+    //se guarda el swipe en firebase 
+    this.SwipeService.setSwipeUser(this.user_login, this.gente[this.gente.length-1])
+    this.gente.splice(this.gente.length -1, 1)
   }
-
-  
 }
-

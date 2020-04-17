@@ -31,8 +31,6 @@ export class NotificationService implements OnInit  {
 
     this.fcm.onNotification().subscribe(data => {
       this.data = data.wasTapped
-      console.log("LA DATA", data)
-      console.log( "ESta es la data",  this.data)
     })
 
   }
@@ -59,18 +57,13 @@ export class NotificationService implements OnInit  {
 
     
       this.http.post(this.url, body_to_user, {headers: this.headers}).subscribe(res =>{
-        console.log( "Estas afuera",  res)
       })
       this.http.post(this.url, body_from_user,  {headers: this.headers}).subscribe(res =>{    
-        console.log( "Estas afuera",  res)
       })
     
-      //Aqui ira localnotification
-      console.log("Estas en la app")
-      
       this.localNotifications.schedule({
-        title: 'tinder',
-        text: 'notificacion local tinder',
+        title: 'Tinder',
+        text: 'Tienes un nuevo Match',
         sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
 
       });
