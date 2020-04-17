@@ -10,6 +10,11 @@ import { userInterface } from '../../interface/user'
 
 import { NotificationService } from '../../services/notification.service'
 
+import { map } from 'rxjs/operators';
+
+
+
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -43,6 +48,10 @@ export class Tab2Page implements OnInit {
     private LikeService:LikeService, private imagefirebase : ImageFirebaseService, private http : HttpClient,
     private notification : NotificationService, private MatchService:MatchService) {
   }
+
+
+ 
+
   
   ngOnInit () {
 
@@ -57,9 +66,12 @@ export class Tab2Page implements OnInit {
       this.likes = res
     })
 
-    this.fcm.getToken().then(token => {
+  
+     this.fcm.getToken().then(token => {
       console.log("Token: ", token)
     });
+
+    
     
     // const loading = await this.loadingController.create({
     //   message : 'Loading.....',
@@ -167,10 +179,9 @@ export class Tab2Page implements OnInit {
   }
 
   
+  
 
   async swiped (event , index) {
-
-    let isTrue = false
 
     console.log("LIKES ANTES", this.likes)
     console.log('LA IMAGEN DEL USUARIO', this.user_pic)
@@ -182,40 +193,39 @@ export class Tab2Page implements OnInit {
 
       let user_id = this.gente[index]
 
-      this.LikeService.setLikeUser(this.gente[index], this.user_login)
+      let likes = []
+
+       this.LikeService.setLikeUser(this.gente[index], this.user_login)
+
       this.LikeService.getLikeCollection().subscribe( res => {
-             
-        console.log("LIKES AHORA", res)
-        console.log(user_id.id + ' people visible is ' + user_id.visible)
-        // this.userfirebase.updateSwipeUser(this.people[index])
 
-        //filtrando la consulta de firebase sobre los likes 
-        const likesuser = this.likes.filter(elemento => {
-          return elemento.id_from_user === this.user_login.id
-        })
+        likes = res
 
-        const likeotheruser = this.likes.filter(elemento => {
-          return elemento.id_to_user === user_id.id
-        })
+      })
 
-        //En busca de compatibilidad en los likes de ambos usuarios 
-        for(let i = 0; i < this.likes.length; i++ ) {
+      const likeotheruser = this.likes.filter(elemento => {
+        return elemento.id_to_user === user_id.id
+      })
 
-          if(likeotheruser[0].id_from_user === this.likes[i].id_to_user 
-            &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user) {
+      for(let i = 0; i < this.likes.length; i++ ) {
+
+        if(likeotheruser[0].id_from_user === this.likes[i].id_to_user 
+          &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user    ) {
+
 
             console.log("ITS A MATCH")
             this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
             this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
-          }
+
+
         }
-
+        console.log("LIKES AHORA", this.likes)
         console.log("LIKES DEL USER", likesuser)
-        console.log("LIKES DEL USER AL USUARIO ACTUAL", likeotheruser)
 
-      })
+      console.log("LIKES DEL USER AL USUARIO ACTUAL", likeotheruser)
+    }, 2000);
 
-      console.log("ES TRUE", isTrue)
+  
             
     }
 
