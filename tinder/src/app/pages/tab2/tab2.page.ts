@@ -184,9 +184,12 @@ export class Tab2Page implements OnInit {
   async swiped (event , index) {
 
     console.log("LIKES ANTES", this.likes)
+
     console.log('LA IMAGEN DEL USUARIO', this.user_pic)
+
     console.log("CREO YO", this.gente)
     console.log("ARRELGO ACTUAL", this.gente[this.gente.length-1])
+
     console.log("ARREGLO ACTUAL", this.gente[index])
 
     if(event) {
@@ -203,21 +206,34 @@ export class Tab2Page implements OnInit {
 
       })
 
-      const likeotheruser = this.likes.filter(elemento => {
-        return elemento.id_to_user === user_id.id
-      })
-
-      for(let i = 0; i < this.likes.length; i++ ) {
-
-        if(likeotheruser[0].id_from_user === this.likes[i].id_to_user 
-          &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user    ) {
-
-
-            console.log("ITS A MATCH")
-            this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
-            this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
-
-
+      console.log("LOS NUEVOS LIKES", likes)
+   
+      setTimeout(() => {
+        console.log(user_id.id + ' people visible is ' + user_id.visible)
+        // this.userfirebase.updateSwipeUser(this.people[index])
+  
+        const likesuser = this.likes.filter(elemento => {
+          return elemento.id_from_user === this.user_login.id
+        })
+  
+        const likeotheruser = this.likes.filter(elemento => {
+          return elemento.id_to_user === user_id.id
+        })
+  
+        for(let i = 0; i < this.likes.length; i++ ) {
+  
+          if(likeotheruser[0].id_from_user === this.likes[i].id_to_user 
+            &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user    ) {
+  
+  
+              console.log("ITS A MATCH")
+              this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
+              this.notification.sendNotification('tinder', 'Este mensaje lo envie desde el metodo post', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
+  
+  
+          }
+  
+  
         }
         console.log("LIKES AHORA", this.likes)
         console.log("LIKES DEL USER", likesuser)
@@ -229,9 +245,14 @@ export class Tab2Page implements OnInit {
             
     }
 
-    this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
-    this.gente.splice(index, 1)
-    console.log("LA GENTE AHORA", this.gente)
+      this.SwipeService.setSwipeUser(this.user_login, this.gente[index])
+      this.gente.splice(index, 1)
+      console.log("LA GENTE AHORA", this.gente)
+
+    
+
+    
+
 
 
     // this.currentIndex --
