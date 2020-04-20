@@ -1,3 +1,91 @@
 ion-content ion-toolbar {
   --background: translucent;
 }
+
+::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.verticalLine {
+  width:1%;
+  height:50px;
+  background:green;
+  margin: auto;
+}
+
+.mensajes {
+  padding-left: 10%;
+}
+
+.historias {
+  margin-right: 12%;
+}
+
+.bottom-border{
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.label {
+  position:absolute;
+
+  padding-left: 5%;
+  padding-top: 10%;
+}
+
+.mensajelabel {
+  position: absolute;
+
+  padding-left: 5%;
+
+  padding-top: 10%;
+
+}
+
+.stories {
+  display: flex;
+  overflow: scroll;
+}
+
+// .stories div[scrollx=true] {
+//   overflow-x: auto;
+// }
+
+.stories {
+  padding-top: 20%;
+}
+
+.avatar {
+  width: 75px;
+  height: 75px;
+  border-radius: 100%;
+  margin: 0 auto;
+  margin-block-start: 20px;
+  margin-block-end: 10px;
+  display: block;
+  margin: 2%;
+}
+
+.texto {
+  position: absolute;
+  margin-top: 25%;
+  left: 3%;
+}
+
+.itemlines{
+  border-bottom: 1px solid black;
+  top: 15%;
+}
+
+.image-item {
+  width: 75px;
+  height: 75px;
+  border-radius: 100%;
+  margin: 0 auto;
+  margin-block-start: 20px;
+  margin-block-end: 10px;
+  display: block;
+  margin: 3%;
+  position: relative;
+}
+

@@ -2,6 +2,9 @@ import { LikeService } from './../../services/like.service';
 import { Component } from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore'
 
+import { MatchService } from '../../services/match.service'
+
+
 
 @Component({
   selector: 'app-tab3',
@@ -10,22 +13,23 @@ import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firest
 })
 export class Tab3Page {
 
-  constructor(private db:AngularFirestore, private LikeService:LikeService) {}
+  matches
+
+  constructor(private db: AngularFirestore, private matchService :MatchService ) {}
 
   ngOnInit() {
 
-    this.db.collection('like').doc().set({
-      
+    this.matchService.getMatchCollection().subscribe(res => {
+      this.matches = res
+      this.getData()
     })
 
 
-    this.LikeService.getLikeCollection().subscribe(like_coll =>{
-      like_coll.forEach(like => {
-        if(like.id_from_user){
+  }
 
-        }
-      })
-    })
+  getData () {
+    console.log("LOS MATCH ", this.matches)
+
   }
 
 }
