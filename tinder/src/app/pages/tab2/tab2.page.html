@@ -5,14 +5,15 @@
 <div class="content">
   <sw-card-wrapper #cardWrapper>
     <div  class="card" *ngFor="let gen of gente, let index = index"
-         [class.visible]="gen.visible" [class.hidden]="!gen.visible" button [routerLink] = "['/viewpics', gen.email]"
-         swSwipeable
-         [width]="300"
-         [height]="400"
-         [orientation]="'x'"
-         (swiped)="swiped($event, index)">
+      [class.visible]="gen.visible" [class.hidden]="!gen.visible" button [routerLink] = "['/viewpics', gen.email]"
+      swSwipeable
+      [width]="350"
+      [height]="430"
+      [orientation]="'x'"
+      (swiped)="swiped($event, index)">
+
       <img class="card_img" [src]="gen.image" [alt]="gen.name">
-      <h2>{{gen.name}}, {{gen.age}}</h2>
+      <h2>{{gen.name}} {{gen.age}}</h2>
     </div>
   </sw-card-wrapper>
 
