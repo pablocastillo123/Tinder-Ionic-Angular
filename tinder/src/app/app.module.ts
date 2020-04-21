@@ -34,7 +34,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
-    // AngularFireDatabaseModule,
+    AngularFireDatabaseModule,
     HttpClientModule
   ],
   providers: [
