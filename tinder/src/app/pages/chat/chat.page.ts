@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { } from '../../services/match.service'
+
+// import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+
 
 @Component({
   selector: 'app-chat',
@@ -16,10 +19,15 @@ export class ChatPage implements OnInit {
 
   userMatch = []
 
-  constructor(private route : ActivatedRoute) { }
+  result
+
+  mensaje;
+
+  constructor(private route : ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
 
+    
     this.userMatch = JSON.parse(window.localStorage.getItem('matches'))
 
     this.chat_id = this.route.snapshot.params['id']
@@ -28,14 +36,26 @@ export class ChatPage implements OnInit {
 
     console.log("USER MATCH", this.userMatch)
 
-    const result = this.userMatch.filter(element => {
+    this.result = this.userMatch.find(element => {
       return element.id_Match == this.chat_id
     })
 
-    console.log("RESULTADO", result)
+    console.log("RESULTADO", this.result)
 
 
   }
+
+  goBack () {
+    this.router.navigateByUrl('tabs/tab3')
+  }
+
+  sendMessage () {
+    console.log("TEXTO", this.mensaje)
+    this.mensaje = ""
+
+  }
+
+  
 
 
 }

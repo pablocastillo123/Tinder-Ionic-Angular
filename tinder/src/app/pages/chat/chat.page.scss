@@ -1,0 +1,19 @@
+.image-item {
+    width: 75px;
+    height: 75px;
+    border-radius: 100%;
+    margin: 0 auto;
+    margin-block-start: 20px;
+    margin-block-end: 10px;
+    display: block;
+    margin: 3%;
+    position: relative;
+  }
+
+.nombre {
+    padding-left: 5%;
+  }
+
+.itemlines{
+    border-bottom: 2px solid black;
+  }

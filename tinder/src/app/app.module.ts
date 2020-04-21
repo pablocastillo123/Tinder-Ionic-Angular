@@ -17,6 +17,9 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {environment} from './../environments/environment';
 
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+
+
 import { Camera } from '@ionic-native/camera/ngx';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
@@ -31,6 +34,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
+    // AngularFireDatabaseModule,
     HttpClientModule
   ],
   providers: [
