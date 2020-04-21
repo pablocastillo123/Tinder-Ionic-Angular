@@ -14,24 +14,20 @@
     <div>
       <ion-label color = "danger" class="label">Chats Sin Abrir</ion-label>
       <div class="stories">
-        <img class="avatar" src = "../../../assets/image/user-default.png"  />
-        <img class="avatar" src = "../../../assets/image/user-default.png"  />
-        <img class="avatar" src = "../../../assets/image/user-default.png"  />
-        <img class="avatar" src = "../../../assets/image/user-default.png"  />
-        <img class="avatar" src = "../../../assets/image/user-default.png"  />
-        <img class="avatar" src = "../../../assets/image/user-default.png"  />
-        <img class="avatar" src = "../../../assets/image/user-default.png"  />
-        <img class="avatar" src = "../../../assets/image/user-default.png"  />
-        <img class="avatar" src = "../../../assets/image/user-default.png"  />
-        <img class="avatar" src = "../../../assets/image/user-default.png"  />
-        <img class="avatar" src = "../../../assets/image/user-default.png"  />
+        <div *ngFor = "let gen of gente" class="space" >
+          <img class="avatar" [src] = "gen.imagen"  />
+          <ion-label class="name">{{gen.name}}</ion-label>
+        </div>    
       </div> 
     </div>
 
     <ion-label color = "danger" class="mensajelabel">Mensajes</ion-label>
 
-    <ion-item lines = "none" class="itemlines" routerLink = "/chat">
-      <img class="image-item" src = "../../../assets/image/user-default.png"  />
-      <h1>LUIS</h1>
+    <ion-item lines = "none" class="itemlines" *ngFor = "let gen of gente" [routerLink] = "['/chat', gen.id_Match]">
+      <img class="image-item" [src] = "gen.imagen"  />
+      <h1 class="nombre">{{gen.name}}</h1>
+
     </ion-item>
+
+
 </ion-content>

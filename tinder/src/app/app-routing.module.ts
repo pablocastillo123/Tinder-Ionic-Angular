@@ -38,6 +38,10 @@ const routes: Routes = [
   {
     path: 'viewpics/:id',
     loadChildren: () => import('./pages/viewpics/viewpics.module').then( m => m.ViewpicsPageModule)
+  },
+  {
+    path: 'chat/:id',
+    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
   }
 
 
