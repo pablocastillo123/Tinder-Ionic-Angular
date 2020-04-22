@@ -14,20 +14,29 @@
     <div>
       <ion-label color = "danger" class="label" >Chats Sin Abrir</ion-label>
       <div class="stories">
-        <div *ngFor = "let gen of gente" class="space" >
-          <img class="avatar" [src] = "gen.imagen" [routerLink] = "['/chat', gen.id_Match]" />
-          <ion-label class="name">{{gen.name}}</ion-label>
+        <div *ngFor = "let gen of gente, let index = index" class="space">
+          <div *ngIf = "gen.view == false" >
+            <img class="avatar" [src] = "gen.imagen" (click) = "goToAnother(gen.id_Match, index)"/>
+            <ion-label class="name">{{gen.name}}</ion-label>
+          </div>
         </div>    
       </div> 
     </div>
 
     <ion-label color = "danger" class="mensajelabel">Mensajes</ion-label>
+    
+    <div *ngFor = "let gen of gente">
+      <div *ngIf = "gen.view" class="position">
+        <ion-item lines = "none" class="itemlines"  [routerLink] = "['/chat', gen.id_Match]">
+          <img class="image-item" [src] = "gen.imagen"  />
+          <h1 class="nombre">{{gen.name}}</h1>
+        </ion-item>
+      </div>
+  </div>
+    
 
-    <ion-item lines = "none" class="itemlines" *ngFor = "let gen of gente" [routerLink] = "['/chat', gen.id_Match]">
-      <img class="image-item" [src] = "gen.imagen"  />
-      <h1 class="nombre">{{gen.name}}</h1>
 
-    </ion-item>
+
 
 
 </ion-content>

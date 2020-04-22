@@ -41,6 +41,10 @@ export class MatchService {
     })
 }
 
+async updateMatch (  match , id    ) {
+  return this.db.collection('match').doc(id).update(match)
+}
+
   getMatchCollection(){
     return this.match
   }

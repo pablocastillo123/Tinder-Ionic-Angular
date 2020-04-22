@@ -7,6 +7,8 @@ import { MatchService } from '../../services/match.service'
 import { UserfirebseService } from '../../services/userfirebse.service'
 
 import { ImageFirebaseService } from '../../services/image-firebase.service'
+import { Router } from '@angular/router';
+import { ThrowStmt } from '@angular/compiler';
 
 
 
@@ -32,6 +34,7 @@ export class Tab3Page {
   objeto = {
     id_Match: '',
     id : '',
+    view : true,
     email : '',
     name: '',
     imagen : ''
@@ -39,8 +42,9 @@ export class Tab3Page {
 
   gente = []
 
+
   constructor(private db: AngularFirestore, private matchService :MatchService, private userfirebase : UserfirebseService,
-    private imagefirebase: ImageFirebaseService  ) {}
+    private imagefirebase: ImageFirebaseService, private router: Router  ) {}
 
   ngOnInit() {
 
@@ -51,9 +55,12 @@ export class Tab3Page {
       this.final = this.matches.filter(elemento => {
         return elemento.id_from_user == this.user_login.id || elemento.id_to_user == this.user_login.id
       })
-      this.pushPeople();
-      this.pushGente()
     })
+    setTimeout(() => {
+    this.pushPeople();
+    this.pushGente()
+  }, 3000);
+
 
   }
 
@@ -70,6 +77,7 @@ export class Tab3Page {
             this.objeto = {
               id_Match : this.final[j].id_match,
               id : res[i].id,
+              view : this.final[j].view,
               email : res[i].email,
               name : res[i].name,
               imagen : ''
@@ -84,6 +92,27 @@ export class Tab3Page {
     })
   }
 
+  goToAnother (genId, index) {
+
+    const match = this.matches.find(element => {
+      return element.id_match == genId
+    })
+
+    console.log("Este es el match", match)
+
+    if(match.view === false ) {
+      match.view = true
+      console.log("MATCH AHORA", match)
+      this.matchService.updateMatch( match , match.id_match )
+    }
+
+
+    this.gente[index].view = true
+
+    console.log("Esta es la Nueva gente", this.gente)
+
+    this.router.navigateByUrl('/chat/' + genId)
+  }
 
   pushGente () {
     this.imagefirebase.getImageCollection().subscribe(res => {
@@ -106,6 +135,7 @@ export class Tab3Page {
             this.objeto = {
               id_Match : this.people[i].id_Match,
               id: this.people[i].id,
+              view : this.people[i].view,
               email: this.people[i].email,
               name: this.people[i].name,
               imagen : this.user_profile[j].url
