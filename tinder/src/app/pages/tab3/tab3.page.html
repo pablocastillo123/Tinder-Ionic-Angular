@@ -6,9 +6,9 @@
   </ion-header>
 
     <ion-item lines = "none" class="bottom-border">
-      <h4 class="mensajes">Mensajes</h4>
+      <h4 (click) = "goToMessagues()" class="mensajes">Mensajes</h4>
       <div class="verticalLine"></div>
-      <h4 class="historias">Historias</h4>
+      <h4 (click) = "goToStories()" class="historias">Historias</h4>
   </ion-item>
 
     <div>
@@ -23,7 +23,8 @@
       </div> 
     </div>
 
-    <ion-label color = "danger" class="mensajelabel">Mensajes</ion-label>
+    <div *ngIf = "anyone != null else nopeople" >
+      <ion-label color = "danger" class="mensajelabel">Mensajes</ion-label>
     
     <div *ngFor = "let gen of gente">
       <div *ngIf = "gen.view" class="position">
@@ -33,6 +34,13 @@
         </ion-item>
       </div>
   </div>
+    </div>
+
+    <ng-template #nopeople>
+      <ion-label color = "danger" class="mensajelabel">Mensajes</ion-label>
+      <h1 class="not-init">No has iniciado ninguna conversacion</h1>
+    </ng-template>
+    
     
 
 

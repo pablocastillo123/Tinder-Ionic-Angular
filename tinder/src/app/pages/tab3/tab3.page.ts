@@ -8,7 +8,6 @@ import { UserfirebseService } from '../../services/userfirebse.service'
 
 import { ImageFirebaseService } from '../../services/image-firebase.service'
 import { Router } from '@angular/router';
-import { ThrowStmt } from '@angular/compiler';
 
 
 
@@ -41,6 +40,8 @@ export class Tab3Page {
   }
 
   gente = []
+
+  anyone;
 
 
   constructor(private db: AngularFirestore, private matchService :MatchService, private userfirebase : UserfirebseService,
@@ -111,6 +112,10 @@ export class Tab3Page {
 
     console.log("Esta es la Nueva gente", this.gente)
 
+    this.anyone = this.gente[index]
+
+    console.log("Anyone", this.anyone)
+
     this.router.navigateByUrl('/chat/' + genId)
   }
 
@@ -149,10 +154,23 @@ export class Tab3Page {
         }
       }
       console.log(this.gente ,"GENTE")
+
+      this.anyone = this.gente.find(elemento => {
+        return elemento.view == true
+      })
+      console.log("SON ESTOS", this.anyone)
       window.localStorage.setItem('matches',JSON.stringify(this.gente))
 
 
     })
+  }
+
+  goToMessagues () {
+    console.log("MENSAJEs")
+  }
+
+  goToStories () {
+    console.log("HISTORIAS")
   }
 
 
