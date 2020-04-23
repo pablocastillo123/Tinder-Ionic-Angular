@@ -15,21 +15,48 @@
 
   </ion-item>
 
-
 </ion-content>
 
+<h1>{{mensaje}}</h1>
 
-<ion-footer>
+
+
+
+  <ion-footer>
     <ion-grid>
       <ion-row>
         <ion-col size = "10">
-          <ion-input [(ngModel)] = "mensaje" placeholder = "Escribe un mensaje" type = "text"></ion-input>
+          <ion-input autofocus="autofocus" [(ngModel)] = "mensaje" placeholder = "Escribe un mensaje" type = "text"></ion-input>
         </ion-col>
-        <ion-col size = "2">
-          <ion-button color = "secondary" (click) = "sendMessage()" >
-            <ion-icon color = "danger" name="send-outline"></ion-icon>          
-          </ion-button>
-        </ion-col>
+       
+        <ng-container *ngIf = "mensaje == ''; else img_default" >
+
+          <ion-col size = "2">
+            <ion-button color = "secondary" (click) = "sendPhoto()" >
+              <ion-icon name="camera-outline"></ion-icon>          
+            </ion-button>        
+          </ion-col>
+          
+        </ng-container>
+
+
+        <ng-template #img_default>
+
+          <ion-col size = "2">
+            <ion-button color = "secondary" (click) = "sendMessage()" >
+              <ion-icon color = "danger" name="send-outline"></ion-icon>          
+            </ion-button>
+          </ion-col>
+
+         
+        </ng-template>
+
+       
       </ion-row>
     </ion-grid>
 </ion-footer>
+
+
+
+
+

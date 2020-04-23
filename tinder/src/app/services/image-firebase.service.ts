@@ -86,6 +86,10 @@ export class ImageFirebaseService {
     this.db.collection('image').doc(id_img).delete().catch(err=>{console.log(err)})
   }
 
+  saveImageInChat () {
+    
+  }
+
   
 
 }

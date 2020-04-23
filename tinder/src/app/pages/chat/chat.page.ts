@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { } from '../../services/match.service'
+import { AngularFireDatabase } from '@angular/fire/database';
 
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { ImageFirebaseService  } from '../../services/image-firebase.service'
+
+import { Camera } from '@ionic-native/camera/ngx';
+
 
 
 @Component({
@@ -21,14 +24,19 @@ export class ChatPage implements OnInit {
 
   result
 
-  mensaje;
+  mensaje = ''
 
   user_login
 
   mensajes_todos = []
 
+  size = 10
+  img_base64: any;
+  image: string;
 
-  constructor(private route : ActivatedRoute, private router: Router, private afDB : AngularFireDatabase) { }
+
+  constructor(private route : ActivatedRoute, private router: Router, private afDB : AngularFireDatabase, 
+    private imageService : ImageFirebaseService, private camera:Camera) { }
 
   ngOnInit() {
     
@@ -59,6 +67,8 @@ export class ChatPage implements OnInit {
     this.router.navigateByUrl('tabs/tab3')
   }
 
+
+
   sendMessage () {
     console.log("TEXTO", this.mensaje)
     this.afDB.list('Mensajes/' + this.chat_id + '/' ).push({
@@ -88,7 +98,39 @@ export class ChatPage implements OnInit {
 
   }
 
+  sendPhoto () {
+
+    this.camera.getPicture({
+
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      mediaType: this.camera.MediaType.PICTURE,
+      allowEdit: true,
+      encodingType: this.camera.EncodingType.JPEG,
+      targetHeight: 1024,
+      targetWidth: 1024,
+      correctOrientation: true,
+      saveToPhotoAlbum: true
+        
+    }).then(res =>{
+      let base64 = 'data:image/jpeg;base64,' + res
+      this.img_base64 = res
+      this.image = base64
+      
+      //Agregar en el servicio
+      this.imageService.saveImg(this.user_login.email, this.img_base64, 'conversaciones')
+
+      
+    }).catch(err =>{
+      console.log(err)
+    })
+
+    console.log("Se ha enviado la foto")
+
+  }
+
   
 
 
 }
+
