@@ -8,6 +8,8 @@ import { ChatPageRoutingModule } from './chat-routing.module';
 
 import { ChatPage } from './chat.page';
 
+import { PopoverComponent } from  '../../components/popover/popover.component'
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +17,8 @@ import { ChatPage } from './chat.page';
     IonicModule,
     ChatPageRoutingModule
   ],
-  declarations: [ChatPage]
+  declarations: [ChatPage, PopoverComponent],
+  entryComponents: [PopoverComponent]
+
 })
 export class ChatPageModule {}

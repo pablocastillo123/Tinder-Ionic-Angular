@@ -2,24 +2,48 @@
   <ion-icon name="arrow-back" (click) = "goBack()"></ion-icon>
   <img class="image-item" [src] = "result.imagen"  />
   <h1 class="nombre">{{result.name}}</h1>
+  <ion-icon (click) = "presentPopover($event)" color = "danger" slot = "end" class="pop-over" name="ellipsis-vertical-outline"></ion-icon>
 </ion-item>
 
-<ion-content>
+<ion-content #content>
 
 
-  <ion-item lines = "none" *ngFor = "let mensaje of mensajes_todos">
+  <ion-item class="item-chat" lines = "none" *ngFor = "let mensaje of mensajes_todos; index as i">
 
-    <ion-badge *ngIf = "mensaje.idUser === user_login.id " slot = "end" color = "dark">{{ mensaje.text }}</ion-badge>
+    <ion-badge class="badge-user" *ngIf = "mensaje.idUser === user_login.id " slot = "end" color = "dark">
+      
+      <ng-container *ngIf = "mensaje.text.includes('https://firebasestorage.googleapis.com'); else texto">
 
-    <ion-badge *ngIf = "mensaje.idUser != user_login.id " slot = "start" color = "primary">{{ mensaje.text }}</ion-badge>
+        <img [src] = "mensaje.text">
+
+
+      </ng-container>
+
+      <ng-template #texto>
+
+        <ion-label>{{mensaje.text}}</ion-label>
+        
+        <ion-label class="label-time">{{ mensaje.date.hora }}</ion-label>
+
+      </ng-template>
+      
+
+
+    </ion-badge>
+
+
+    <ion-badge class="badge-other" *ngIf = "mensaje.idUser != user_login.id " slot = "start" color = "primary">
+      
+      {{ mensaje.text }}
+
+      <ion-label class="label-time">{{ mensaje.date.hora }}</ion-label>
+
+    
+    </ion-badge>
 
   </ion-item>
 
 </ion-content>
-
-<h1>{{mensaje}}</h1>
-
-
 
 
   <ion-footer>

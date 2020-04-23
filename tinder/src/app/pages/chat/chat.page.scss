@@ -17,3 +17,25 @@
 .itemlines{
     border-bottom: 2px solid black;
   }
+
+
+ion-item {
+  --min-height: 55px;
+}
+
+.badge-user {
+  border-radius: 6px 0 6px 6px;
+  padding: 15px;
+}
+
+.badge-other {
+  border-radius: 0 6px 6px 6px;
+  padding: 15px;
+
+}
+
+.label-time {
+  position: fixed;
+  width: 30px;
+  height: 12px;
+}
