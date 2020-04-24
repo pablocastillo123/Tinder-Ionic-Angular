@@ -76,9 +76,16 @@ export class Tab2Page implements OnInit {
         return sexo.sexo != this.user_login.sexo
       })
 
-      this.people = []
-      this.people.push(...array_sexo)
+      //filtrando la consulta de firebase para que salgan los usuarios con el match por localizacion
+      let user_coord = array_sexo.filter(user =>{
+        let km = this.getDistanceFromLatLonInKm(this.user_login.latitud,this.user_login.longitud,user.latitud,user.longitud)
+        console.log(`km:${km}----${user.email} lat:${user.latitud}--long:${user.longitud}`)
+        return km <= this.user_login.rango || (user.latitud == 0 && user.longitud == 0);
+      })
 
+      this.people = []
+      this.people.push(...user_coord)
+      console.log(this.people)
     })
 
     this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
@@ -219,6 +226,24 @@ export class Tab2Page implements OnInit {
 
   ionViewDidLeave () {
     this.fcm.unsubscribeFromTopic(this.user_login.id)
+  }
+
+  getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = this.deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = this.deg2rad(lon2-lon1); 
+    var a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+       
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; // Distance in km
+    return d;
+  }
+
+  deg2rad(deg) {
+    return deg * (Math.PI/180)
   }
 
 }

@@ -29,6 +29,9 @@ export class PicPage implements OnInit {
     sexo: '',
     id:'',
     email:'',
+    latitud: 0,
+    longitud: 0,
+    rango: 0
   }
 
   constructor(private camera : Camera,private ImageFirebaseService:ImageFirebaseService,

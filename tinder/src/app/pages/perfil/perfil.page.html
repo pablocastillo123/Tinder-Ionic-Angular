@@ -30,6 +30,15 @@
         </div>
       </ion-select>
     </div>
+
+    <div class="content_range">
+      <div class="text_range">
+        <h6 class="distancia" >Distancia de Busqueda:</h6>
+        <h6 class="coord" >{{rango_coord}}km.</h6>
+      </div>
+      <ion-range  color="light" [(ngModel)]="rango_coord" max="200" pin="true"></ion-range>
+    </div>
+    
    
 
   <ion-button (click)="update_user()">ACTUALIZAR</ion-button>
