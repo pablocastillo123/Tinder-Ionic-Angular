@@ -10,7 +10,7 @@ ion-content ion-toolbar {
 .verticalLine {
   width:1%;
   height:50px;
-  background:green;
+  background:black;
   margin: auto;
 }
 
@@ -108,3 +108,8 @@ ion-content ion-toolbar {
   padding-top: 10%;
   text-align: center;
 }
+
+.color-toolbar {
+	background-color: pink;
+}
+

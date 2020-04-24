@@ -5,41 +5,67 @@
     </ion-toolbar>
   </ion-header>
 
-    <ion-item lines = "none" class="bottom-border">
-      <h4 (click) = "goToMessagues()" class="mensajes">Mensajes</h4>
-      <div class="verticalLine"></div>
-      <h4 (click) = "goToStories()" class="historias">Historias</h4>
-  </ion-item>
+  <super-tabs>
 
-    <div>
-      <ion-label color = "danger" class="label" >Chats Sin Abrir</ion-label>
-      <div class="stories">
-        <div *ngFor = "let gen of gente, let index = index" class="space">
-          <div *ngIf = "gen.view == false" >
-            <img class="avatar" [src] = "gen.imagen" (click) = "goToAnother(gen.id_Match, index)"/>
-            <ion-label class="name">{{gen.name}}</ion-label>
-          </div>
-        </div>    
-      </div> 
-    </div>
+  <super-tabs-toolbar slot="top" class="color-toolbar">
+    <super-tab-button>
+      <ion-label>Mensajes</ion-label>
 
-    <div *ngIf = "anyone != null else nopeople" >
-      <ion-label color = "danger" class="mensajelabel">Mensajes</ion-label>
+    </super-tab-button>
+    <div class="verticalLine"></div>
+
+    <super-tab-button>
+      <ion-label>Historias</ion-label>
+
+    </super-tab-button>  
+  </super-tabs-toolbar>
+
+  <super-tabs-container>
+    <super-tab>
+      <ion-content>
+        <div>
+          <ion-label color = "danger" class="label" >Chats Sin Abrir</ion-label>
+          <div class="stories">
+            <div *ngFor = "let gen of gente, let index = index" class="space">
+              <div *ngIf = "gen.view == false" >
+                <img class="avatar" [src] = "gen.imagen" (click) = "goToAnother(gen.id_Match, index)"/>
+                <ion-label class="name">{{gen.name}}</ion-label>
+              </div>
+            </div>    
+          </div> 
+        </div>
     
-    <div *ngFor = "let gen of gente">
-      <div *ngIf = "gen.view" class="position">
-        <ion-item lines = "none" class="itemlines"  [routerLink] = "['/chat', gen.id_Match]">
-          <img class="image-item" [src] = "gen.imagen"  />
-          <h1 class="nombre">{{gen.name}}</h1>
-        </ion-item>
+        <div *ngIf = "anyone != null else nopeople" >
+          <ion-label color = "danger" class="mensajelabel">Mensajes</ion-label>
+        
+        <div *ngFor = "let gen of gente">
+          <div *ngIf = "gen.view" class="position">
+            <ion-item lines = "none" class="itemlines"  [routerLink] = "['/chat', gen.id_Match]">
+              <img class="image-item" [src] = "gen.imagen"  />
+              <h1 class="nombre">{{gen.name}}</h1>
+            </ion-item>
+          </div>
       </div>
-  </div>
-    </div>
+        </div>
+    
+        <ng-template #nopeople>
+          <ion-label color = "danger" class="mensajelabel">Mensajes</ion-label>
+          <h1 class="not-init">No has iniciado ninguna conversacion</h1>
+        </ng-template>      
+      </ion-content>
+    </super-tab>
+    <super-tab>
+      
+      <ion-content>
+        <h1>Aqui iran las historias</h1>
+      </ion-content>
+    </super-tab>
+  </super-tabs-container>
 
-    <ng-template #nopeople>
-      <ion-label color = "danger" class="mensajelabel">Mensajes</ion-label>
-      <h1 class="not-init">No has iniciado ninguna conversacion</h1>
-    </ng-template>
+
+  </super-tabs>
+
+    
     
     
 

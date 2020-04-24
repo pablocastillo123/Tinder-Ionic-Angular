@@ -24,6 +24,8 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
+import { SuperTabsModule } from '@ionic-super-tabs/angular'
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,7 +37,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
-    HttpClientModule
+    HttpClientModule,
+    SuperTabsModule.forRoot()
   ],
   providers: [
     StatusBar,Camera,
