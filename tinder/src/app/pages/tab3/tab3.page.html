@@ -43,9 +43,9 @@
             <ion-item lines = "none" class="itemlines"  [routerLink] = "['/chat', gen.id_Match]">
               <img class="image-item" [src] = "gen.imagen"  />
               <div>
-                <h1 class="nombre">{{gen.name}}</h1>
-                <ion-label>{{ lastMessague[index].text }}</ion-label>
-              </div>
+                <span class="nombre">{{gen.name}}</span>
+                <ion-label class="labellast">{{ lastMessague[index].text }}</ion-label>
+              </div> 
              
             </ion-item>
           </div>

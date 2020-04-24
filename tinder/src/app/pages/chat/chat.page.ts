@@ -110,7 +110,7 @@ export class ChatPage implements OnInit {
     this.scrollToBottomOnInit(500)
 
 
-    this.realTime.updateMessagues(this.chat_id)
+    // this.realTime.updateMessagues(this.chat_id)
   }
 
   getMessages (){
