@@ -9,6 +9,9 @@ import { UserfirebseService } from '../../services/userfirebse.service'
 import { ImageFirebaseService } from '../../services/image-firebase.service'
 import { Router } from '@angular/router';
 
+import { AngularFireDatabase } from '@angular/fire/database';
+
+
 
 
 @Component({
@@ -43,9 +46,13 @@ export class Tab3Page {
 
   anyone;
 
+  mensajes_todos
+
+  lastMessague = []
+
 
   constructor(private db: AngularFirestore, private matchService :MatchService, private userfirebase : UserfirebseService,
-    private imagefirebase: ImageFirebaseService, private router: Router  ) {}
+    private imagefirebase: ImageFirebaseService, private router: Router , private afDB : AngularFireDatabase ) {}
 
   ngOnInit() {
 
@@ -159,6 +166,7 @@ export class Tab3Page {
         return elemento.view == true
       })
       console.log("SON ESTOS", this.anyone)
+      this.getLastMessague()
       window.localStorage.setItem('matches',JSON.stringify(this.gente))
 
 
@@ -171,6 +179,33 @@ export class Tab3Page {
 
   goToStories () {
     console.log("HISTORIAS")
+  }
+
+  getLastMessague () {
+
+
+    for(let i =0; i < this.gente.length; i++) {
+
+      this.afDB.list('Mensajes/' + this.gente[i].id_Match + '/' ).snapshotChanges(['child_added']).subscribe(res => {
+        this.mensajes_todos = []
+        res.forEach(action => {
+          console.log("TEXTO", action.payload.exportVal().text)
+          this.mensajes_todos.push({
+            text: action.payload.exportVal().text,
+            idUser : action.payload.exportVal().idUser,
+            date : action.payload.exportVal().date
+          })
+        })
+
+        console.log("MENSAJES ", this.mensajes_todos)
+        this.lastMessague[i] = this.mensajes_todos[this.mensajes_todos.length - 1]
+        console.log("LAST MESSAGUE", this.lastMessague)
+      }
+    )
+    } 
+
+      
+
   }
 
 

@@ -38,11 +38,15 @@
         <div *ngIf = "anyone != null else nopeople" >
           <ion-label color = "danger" class="mensajelabel">Mensajes</ion-label>
         
-        <div *ngFor = "let gen of gente">
+        <div *ngFor = "let gen of gente, let index = index">
           <div *ngIf = "gen.view" class="position">
             <ion-item lines = "none" class="itemlines"  [routerLink] = "['/chat', gen.id_Match]">
               <img class="image-item" [src] = "gen.imagen"  />
-              <h1 class="nombre">{{gen.name}}</h1>
+              <div>
+                <h1 class="nombre">{{gen.name}}</h1>
+                <ion-label>{{ lastMessague[index].text }}</ion-label>
+              </div>
+             
             </ion-item>
           </div>
       </div>
