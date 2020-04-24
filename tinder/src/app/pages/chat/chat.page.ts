@@ -11,6 +11,8 @@ import { PopoverController, IonContent } from '@ionic/angular';
 
 import { PopoverComponent } from '../../components/popover/popover.component'
 
+import { RealtimeService } from '../../services/realtime.service'
+
 
 
 @Component({
@@ -44,7 +46,7 @@ export class ChatPage implements OnInit {
 
   constructor(private route : ActivatedRoute, private router: Router, private afDB : AngularFireDatabase, 
     private imageService : ImageFirebaseService, private camera:Camera,
-    public popoverController: PopoverController) { }
+    public popoverController: PopoverController, private realTime : RealtimeService) { }
 
     
 
@@ -100,24 +102,21 @@ export class ChatPage implements OnInit {
     var time = today.getHours() + ":" + today.getMinutes()
 
     console.log("TEXTO", this.mensaje)
-    this.afDB.list('Mensajes/' + this.chat_id + '/' ).push({
-      idUser : this.user_login.id,
-      text: this.mensaje,
-      date : {
-        dia : date,
-        hora : time
-      } 
-    });
+
+    this.realTime.sendMessague(this.chat_id, this.user_login.id, this.mensaje, date, time);
+
+    
     this.mensaje = ""
     this.scrollToBottomOnInit(500)
 
+
+    this.realTime.updateMessagues(this.chat_id)
   }
 
   getMessages (){
 
-
-    this.afDB.list('Mensajes/' + this.chat_id + '/' ).snapshotChanges(['child_added']).subscribe(res => {
-        this.mensajes_todos = []
+    this.realTime.getMessages(this.chat_id).subscribe(res => {
+      this.mensajes_todos = []
         res.forEach(action => {
           console.log("TEXTO", action.payload.exportVal().text)
           this.mensajes_todos.push({
@@ -129,10 +128,7 @@ export class ChatPage implements OnInit {
 
         console.log("MENSAJES ", this.mensajes_todos)
         this.scrollToBottomOnInit(1500)
-
-      }
-    )
-
+    })
 
   }
 
