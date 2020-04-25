@@ -72,6 +72,10 @@ export class Tab3Page {
 
   }
 
+  // ionViewWillEnter () {
+    
+  // }
+
   pushPeople() {
     this.userfirebase.getUserCollection().subscribe (res => {
 

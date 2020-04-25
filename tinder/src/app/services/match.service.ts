@@ -38,6 +38,7 @@ export class MatchService {
       id_match: id_match,
       id_from_user: from_user,
       id_to_user: to_user,
+      view: false
     })
 }
 

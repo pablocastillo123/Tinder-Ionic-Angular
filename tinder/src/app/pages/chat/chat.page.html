@@ -10,7 +10,29 @@
 
   <ion-item class="item-chat" lines = "none" *ngFor = "let mensaje of mensajes_todos; index as i">
 
-    <ion-badge class="badge-user" *ngIf = "mensaje.idUser === user_login.id " slot = "end" color = "dark">
+    <ion-badge  class="badge-user" *ngIf = "mensaje.idUser === user_login.id " slot = "end" color = "dark">
+      
+      <ng-container *ngIf = "mensaje.text.includes('https://firebasestorage.googleapis.com'); else texto">
+
+        <img [src] = "mensaje.text">
+
+
+      </ng-container>
+
+      <ng-template #texto>
+
+        <ion-label text-wrap>{{mensaje.text}}</ion-label>
+        
+        <ion-label text-wrap class="label-time">{{ mensaje.date.hora }}</ion-label>
+
+      </ng-template>
+      
+
+
+    </ion-badge>
+
+
+    <ion-badge class="badge-other" *ngIf = "mensaje.idUser != user_login.id " slot = "start" color = "primary">
       
       <ng-container *ngIf = "mensaje.text.includes('https://firebasestorage.googleapis.com'); else texto">
 
@@ -26,17 +48,6 @@
         <ion-label class="label-time">{{ mensaje.date.hora }}</ion-label>
 
       </ng-template>
-      
-
-
-    </ion-badge>
-
-
-    <ion-badge class="badge-other" *ngIf = "mensaje.idUser != user_login.id " slot = "start" color = "primary">
-      
-      {{ mensaje.text }}
-
-      <ion-label class="label-time">{{ mensaje.date.hora }}</ion-label>
 
     
     </ion-badge>

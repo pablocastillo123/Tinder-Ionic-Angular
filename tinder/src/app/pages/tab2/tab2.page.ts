@@ -195,7 +195,7 @@ export class Tab2Page implements OnInit {
 
       //filtrando la consulta de firebase de los likes que son del usuario
       //al que se esta haciendo swipe
-      const likeotheruser = this.likes.filter(elemento => {
+      const likeotheruser = likesuser.filter(elemento => {
         return elemento.id_to_user === user_id.id
       })
 

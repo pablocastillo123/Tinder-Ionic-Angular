@@ -19,8 +19,12 @@
   }
 
 
-ion-item {
-  --min-height: 55px;
+// ion-item {
+//   --min-height: 55px;
+// }
+
+.item-chat {
+  min-height: 12%;
 }
 
 .badge-user {
