@@ -24,23 +24,24 @@
 // }
 
 .item-chat {
-  min-height: 12%;
+  min-height: 14%;
 }
 
 .badge-user {
   border-radius: 6px 0 6px 6px;
-  padding: 15px;
+  padding: 14px;
+  margin: 1%;
 }
 
 .badge-other {
   border-radius: 0 6px 6px 6px;
   padding: 15px;
-
+  margin: 1%;
 }
 
 .label-time {
-  position: fixed;
-  padding-left: 40px;
+  position: relative;
   font-size: 10px;
-  padding-top: 3px;
+  left: 50%;
+  margin-top: 1%
 }
