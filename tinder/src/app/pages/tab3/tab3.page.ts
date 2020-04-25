@@ -64,17 +64,18 @@ export class Tab3Page {
         return elemento.id_from_user == this.user_login.id || elemento.id_to_user == this.user_login.id
       })
     })
-    setTimeout(() => {
-    this.pushPeople();
-    this.pushGente()
-  }, 3000);
+   
 
 
   }
 
-  // ionViewWillEnter () {
-    
-  // }
+  ionViewWillEnter () {
+    console.log("Entraste")
+    this.people = []
+    this.gente = []
+    this.pushPeople();
+    this.pushGente()
+  }
 
   pushPeople() {
     this.userfirebase.getUserCollection().subscribe (res => {
@@ -131,6 +132,7 @@ export class Tab3Page {
   }
 
   pushGente () {
+    console.log("LA gente antes de entrar", this.gente)
     this.imagefirebase.getImageCollection().subscribe(res => {
       this.imagen = res
 
