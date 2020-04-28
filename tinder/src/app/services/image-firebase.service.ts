@@ -7,6 +7,9 @@ import { LoadingController } from '@ionic/angular';
 import { AngularFirestore,AngularFirestoreCollection } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators'
 
+import { AngularFireDatabase } from '@angular/fire/database';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +20,7 @@ export class ImageFirebaseService {
   private image :Observable<imageInterface[]>
 
   constructor(private UtilToolService:UtilToolService,private db: AngularFirestore,
-    private FireStorage:AngularFireStorage) {
+    private FireStorage:AngularFireStorage, private afDB : AngularFireDatabase) {
 
       this.image_collection =  this.db.collection<imageInterface>('image')
       
@@ -84,6 +87,30 @@ export class ImageFirebaseService {
   public deleteImageData(id_img){
     console.log(id_img)
     this.db.collection('image').doc(id_img).delete().catch(err=>{console.log(err)})
+  }
+
+  saveImageInChat (id_user,base64,path, chat_id, user_login) {
+
+    const id_img_storage = this.UtilToolService.generateId()
+    const path_img = `${id_user}/${path}/${id_img_storage}`;
+    const ref = this.FireStorage.ref(path_img);
+
+    ref.putString(base64, 'base64', {contentType:'image/jpg'}).then(snapshot => {
+      snapshot.ref.getDownloadURL().then(downloadURL =>{
+        console.log( "LA URL", downloadURL)
+        this.afDB.list('Mensajes/' + chat_id + '/' ).push({
+          idUser : user_login,
+          text: downloadURL,
+          date : new Date().toISOString()
+        });
+        
+      })
+
+    }).catch(err =>{
+      this.UtilToolService.presentAlert('error',err,'ok')
+    })
+
+
   }
 
   

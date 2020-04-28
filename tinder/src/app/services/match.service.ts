@@ -34,12 +34,16 @@ export class MatchService {
 
     let id_match = from_user + to_user
     
-
     this.db.collection('match').doc(id_match).set({
       id_match: id_match,
       id_from_user: from_user,
       id_to_user: to_user,
+      view: false
     })
+}
+
+async updateMatch (  match , id    ) {
+  return this.db.collection('match').doc(id).update(match)
 }
 
   getMatchCollection(){

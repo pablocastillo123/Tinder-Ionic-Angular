@@ -1,0 +1,98 @@
+<ion-item lines = "none" class="itemlines" >
+  <ion-icon name="arrow-back" (click) = "goBack()"></ion-icon>
+  <img class="image-item" [src] = "result.imagen"  />
+  <h1 class="nombre">{{result.name}}</h1>
+  <ion-icon (click) = "presentPopover($event)" color = "danger" slot = "end" class="pop-over" name="ellipsis-vertical-outline"></ion-icon>
+</ion-item>
+
+<ion-content #content>
+
+
+  <ion-item class="item-chat" lines = "none" *ngFor = "let mensaje of mensajes_todos; index as i">
+
+    <ion-badge  class="badge-user" *ngIf = "mensaje.idUser === user_login.id " slot = "end" color = "dark">
+      
+      <ng-container *ngIf = "mensaje.text.includes('https://firebasestorage.googleapis.com'); else texto">
+
+        <img [src] = "mensaje.text">
+
+
+      </ng-container>
+
+      <ng-template #texto>
+        
+
+        <ion-label text-wrap>{{mensaje.text}}</ion-label>
+        
+        <ion-label text-wrap class="label-time">{{ mensaje.date.hora }}</ion-label>
+
+      </ng-template>
+      
+
+
+    </ion-badge>
+
+
+    <ion-badge class="badge-other" *ngIf = "mensaje.idUser != user_login.id " slot = "start" color = "primary">
+      
+      <ng-container *ngIf = "mensaje.text.includes('https://firebasestorage.googleapis.com'); else texto">
+
+        <img [src] = "mensaje.text">
+
+
+      </ng-container>
+
+      <ng-template #texto>
+
+        <ion-label  text-wrap>{{mensaje.text}}</ion-label>
+        
+        <ion-label class="label-time">{{ mensaje.date.hora }}</ion-label>
+
+      </ng-template>
+
+    
+    </ion-badge>
+
+  </ion-item>
+
+</ion-content>
+
+
+  <ion-footer>
+    <ion-grid>
+      <ion-row>
+        <ion-col size = "10">
+          <ion-input autofocus="autofocus" [(ngModel)] = "mensaje" placeholder = "Escribe un mensaje" type = "text"></ion-input>
+        </ion-col>
+       
+        <ng-container *ngIf = "mensaje == ''; else img_default" >
+
+          <ion-col size = "2">
+            <ion-button color = "secondary" (click) = "sendPhoto()" >
+              <ion-icon name="camera-outline"></ion-icon>          
+            </ion-button>        
+          </ion-col>
+          
+        </ng-container>
+
+
+        <ng-template #img_default>
+
+          <ion-col size = "2">
+            <ion-button color = "secondary" (click) = "sendMessage()" >
+              <ion-icon color = "danger" name="send-outline"></ion-icon>          
+            </ion-button>
+          </ion-col>
+
+         
+        </ng-template>
+
+       
+      </ion-row>
+    </ion-grid>
+</ion-footer>
+
+
+
+
+

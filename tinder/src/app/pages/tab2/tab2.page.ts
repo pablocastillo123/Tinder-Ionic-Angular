@@ -127,12 +127,11 @@ export class Tab2Page implements OnInit {
     if(event) {
 
       let user_id = this.gente[index]
-      let likes = []
 
       //se guarda el like y se hace una consulta a firebase
       this.LikeService.setLikeUser(this.gente[index], this.user_login)
       this.LikeService.getLikeCollection().subscribe( res => {
-        likes = res
+        this.likes = res
       })
    
       setTimeout(() => {
@@ -154,10 +153,12 @@ export class Tab2Page implements OnInit {
           //verificacion de like si hay una coincidencia hay match
           if(likeotheruser[0].id_from_user === this.likes[i].id_to_user 
             &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user) {
+
+            console.log("MATCH")
   
             //se guarda el match y se envia una notifiacion a los usuarios
             this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
-            this.notification.sendNotification('Tinder', 'Tienes un nuevo Match', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
+            // this.notification.sendNotification('Tinder', 'Tienes un nuevo Match', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
           }
         }
       }, 2000);
@@ -194,7 +195,7 @@ export class Tab2Page implements OnInit {
 
       //filtrando la consulta de firebase de los likes que son del usuario
       //al que se esta haciendo swipe
-      const likeotheruser = this.likes.filter(elemento => {
+      const likeotheruser = likesuser.filter(elemento => {
         return elemento.id_to_user === user_id.id
       })
 
