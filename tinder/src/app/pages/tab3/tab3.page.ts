@@ -70,11 +70,14 @@ export class Tab3Page {
   }
 
   ionViewWillEnter () {
-    console.log("Entraste")
-    this.pushPeople();
-    this.pushGente()
-    this.people = []
-    this.gente = []
+    setTimeout( ( )=> {
+      console.log("Entraste")
+      this.pushPeople();
+      this.pushGente()
+      this.people = []
+      this.gente = []
+    }, 500  )
+   
   }
 
   pushPeople() {

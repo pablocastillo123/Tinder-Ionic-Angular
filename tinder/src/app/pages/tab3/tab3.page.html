@@ -44,7 +44,19 @@
               <img class="image-item" [src] = "gen.imagen"  />
               <div>
                 <span class="nombre">{{gen.name}}</span>
-                <ion-label class="labellast">{{ lastMessague[index].text }}</ion-label>
+
+                <ng-container *ngIf = "lastMessague[index]?.text.includes('https://firebasestorage.googleapis.com'); else texto">
+
+                  <ion-label class="labellast">imagen</ion-label>
+          
+                </ng-container>
+          
+                <ng-template #texto>
+          
+                  <ion-label class="labellast">{{ lastMessague[index]?.text }}</ion-label>
+          
+                </ng-template>
+
               </div> 
              
             </ion-item>
