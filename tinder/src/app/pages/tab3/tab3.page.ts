@@ -71,14 +71,16 @@ export class Tab3Page {
 
   ionViewWillEnter () {
     setTimeout( ( )=> {
+      this.people = []
+      this.gente = []
       console.log("Entraste")
       this.pushPeople();
       this.pushGente()
-      this.people = []
-      this.gente = []
+     
     }, 500  )
    
   }
+  
 
   pushPeople() {
     this.userfirebase.getUserCollection().subscribe (res => {
@@ -106,6 +108,11 @@ export class Tab3Page {
       }
       console.log("LA PEOPLE ", this.people)
     })
+  }
+
+  ionViewDidLeave	() {
+    this.people = []
+    this.gente = []
   }
 
   goToAnother (genId, index) {

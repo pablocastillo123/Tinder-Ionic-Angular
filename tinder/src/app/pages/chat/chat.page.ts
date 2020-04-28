@@ -168,9 +168,13 @@ export class ChatPage implements OnInit {
       component: PopoverComponent,
       event: ev,
       translucent: true,
-      
+      componentProps: {id: this.chat_id}
     });
     return await popover.present();
+  }
+
+  ngOnDestroy () {
+    console.log("TE SALISTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
   }
 
   

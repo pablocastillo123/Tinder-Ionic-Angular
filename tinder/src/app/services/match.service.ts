@@ -49,4 +49,9 @@ async updateMatch (  match , id    ) {
   getMatchCollection(){
     return this.match
   }
+
+  public deleteMatch(id_Match){
+    console.log(id_Match)
+    this.db.collection('match').doc(id_Match).delete().catch(err=>{console.log(err)})
+  }
 }
