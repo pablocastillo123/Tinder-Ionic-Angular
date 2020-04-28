@@ -49,4 +49,9 @@ export class RealtimeService {
 
 
 }
+
+  deleteMessagues (id) {
+    this.afDB.list('Mensajes/' + id).remove()
+  }
+
 }

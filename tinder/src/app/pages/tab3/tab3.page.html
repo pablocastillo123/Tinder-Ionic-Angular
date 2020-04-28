@@ -47,14 +47,62 @@
 
                 <ng-container *ngIf = "lastMessague[index]?.text.includes('https://firebasestorage.googleapis.com'); else texto">
 
+                  <ng-container *ngIf = "lastMessague[index]?.idUser === user_login.id; else other">
+
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col>
+                          <ion-icon class="iconosend" name="arrow-redo-outline"></ion-icon>
+                        </ion-col>
+                        <ion-col>
                   <ion-label class="labellast">imagen</ion-label>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </ng-container>
+                  <ng-template #other>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col>
+                          <ion-icon name="arrow-undo-outline"></ion-icon>                        
+                        </ion-col>
+                        <ion-col>
+                          <ion-label class="labellast">imagen</ion-label>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </ng-template>
+
           
                 </ng-container>
           
                 <ng-template #texto>
-          
-                  <ion-label class="labellast">{{ lastMessague[index]?.text }}</ion-label>
-          
+
+                  <ng-container *ngIf = "lastMessague[index]?.idUser === user_login.id; else other">
+
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col>
+                          <ion-icon class="iconosend" name="arrow-redo-outline"></ion-icon>
+                        </ion-col>
+                        <ion-col>
+                          <ion-label class="labellast">{{ lastMessague[index]?.text }}</ion-label>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </ng-container>
+                  <ng-template #other>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col>
+                          <ion-icon name="arrow-undo-outline"></ion-icon>                        
+                        </ion-col>
+                        <ion-col>
+                          <ion-label class="labellast">{{ lastMessague[index]?.text }}</ion-label>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </ng-template>
                 </ng-template>
 
               </div> 

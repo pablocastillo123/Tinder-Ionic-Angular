@@ -26,6 +26,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 import { SuperTabsModule } from '@ionic-super-tabs/angular'
 
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -47,6 +50,7 @@ import { SuperTabsModule } from '@ionic-super-tabs/angular'
     FCM,
     LocalNotifications,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    PhotoViewer
   ],
   bootstrap: [AppComponent]
 })

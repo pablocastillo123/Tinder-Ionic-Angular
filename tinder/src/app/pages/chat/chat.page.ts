@@ -13,6 +13,11 @@ import { PopoverComponent } from '../../components/popover/popover.component'
 
 import { RealtimeService } from '../../services/realtime.service'
 
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+
+import { Platform } from '@ionic/angular'
+
+
 
 
 @Component({
@@ -46,7 +51,10 @@ export class ChatPage implements OnInit {
 
   constructor(private route : ActivatedRoute, private router: Router, private afDB : AngularFireDatabase, 
     private imageService : ImageFirebaseService, private camera:Camera,
-    public popoverController: PopoverController, private realTime : RealtimeService) { }
+    public popoverController: PopoverController, private realTime : RealtimeService,
+    public viewer : PhotoViewer, public platform : Platform) {
+      
+     }
 
     
 
@@ -132,6 +140,11 @@ export class ChatPage implements OnInit {
 
   }
 
+  viewpic (foto_url) { 
+    console.log("URL de la foto", foto_url)
+    this.viewer.show(foto_url) 
+  }
+
   sendPhoto () {
 
     this.camera.getPicture({
@@ -163,6 +176,10 @@ export class ChatPage implements OnInit {
 
   }
 
+  deleteone () {
+    console.log("Hola")
+  }
+
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
@@ -173,8 +190,9 @@ export class ChatPage implements OnInit {
     return await popover.present();
   }
 
-  ngOnDestroy () {
+  ionViewDidLeave () {
     console.log("TE SALISTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+    this.mensaje = ""
   }
 
   
