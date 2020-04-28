@@ -7,7 +7,7 @@ const routes: Routes = [
 
   {
     path: '',
-    redirectTo: '/tabs/tab3',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
 

@@ -109,7 +109,7 @@ export class RegisterPage {
               sexo: this.user_sexo,
               latitud: 0,
               longitud: 0,
-              rango: 0
+              rango: 200
             })
   
             this.ImageFirebaseService.saveImg(this.user.email,this.img_base64,'perfil')

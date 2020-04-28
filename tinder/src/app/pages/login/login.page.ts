@@ -1,3 +1,4 @@
+import { LocationService } from './../../services/location.service';
 import { UserfirebseService } from './../../services/userfirebse.service';
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router'
@@ -6,6 +7,8 @@ import { User } from '../../shared/user.class'
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { UtilToolService  } from '../../services/utiltool.service'
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+LocationService
 
 @Component({
   selector: 'app-login',
@@ -15,10 +18,9 @@ import { UtilToolService  } from '../../services/utiltool.service'
 export class LoginPage implements OnInit {
 
   user: User = new User()
-  private watch_long ;
-  private watch_lat ;
+  private coord_user
 
-  constructor(private router: Router, private authSvc: AuthService, private UserfirebseService:UserfirebseService,
+  constructor(private LocationService:LocationService,private androidPermissions:AndroidPermissions,private router: Router, private authSvc: AuthService, private UserfirebseService:UserfirebseService,
     public alertController: AlertController,private loadingController: LoadingController,
     private utiltool : UtilToolService,private geolocation:Geolocation) { 
   }
@@ -27,23 +29,17 @@ export class LoginPage implements OnInit {
     window.localStorage.clear()
   }
 
+  ionViewDidEnter(){
+    this.LocationService.checkGPSPermission()
+    this.coord_user = this.LocationService.getCoord()
+  }
+
   async onLogin (event: any) {
     const loading = await this.loadingController.create({
       message: 'Cargando....'
     });
     await loading.present()
     window.localStorage.clear()
-
-    this.geolocation.watchPosition().subscribe((data) => {
-      try{
-        this.watch_long = data.coords.longitude
-        this.watch_lat = data.coords.latitude
-        console.log('watch_long:'+this.watch_long+"\nwatch_lat:"+this.watch_lat)
-      }catch(error){
-        this.utiltool.presentAlert('error',error.message,'ok') 
-        console.log('Error watch getting location', error);
-      }
-    });
 
     const user = await this.authSvc.onLogin(this.user)
 
@@ -69,8 +65,8 @@ export class LoginPage implements OnInit {
           
             let obj_user = {...res_user[i]}
 
-            obj_user.latitud = this.watch_lat
-            obj_user.longitud = this.watch_long
+            obj_user.latitud = this.coord_user.latitude
+            obj_user.longitud = this.coord_user.longitude
 
             this.UserfirebseService.updateDataUser(obj_user)
             window.localStorage.setItem('user',JSON.stringify(obj_user))
@@ -89,7 +85,6 @@ export class LoginPage implements OnInit {
     }
   }
 
-  
 
   ionViewDidLeave	 () {
     this.user.email = ""
