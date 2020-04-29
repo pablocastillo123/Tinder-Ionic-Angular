@@ -28,7 +28,7 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
-    BrowserModule, IonicModule.forRoot(), AppRoutingModule,
+    BrowserModule, IonicModule.forRoot({_forceStatusbarPadding:true}), AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,

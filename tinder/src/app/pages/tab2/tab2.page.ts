@@ -103,7 +103,7 @@ export class Tab2Page implements OnInit {
           email: this.array_sexo[index].email,
           km:  Math.round(this.km)
         })
-        return this.km <= this.user_login.rango || (user.latitud == 0 && user.longitud == 0);
+        return this.km <= this.user_login.rango
       })
 
       console.log("ESTO ES CON KM", this.kilometros)
@@ -218,7 +218,7 @@ export class Tab2Page implements OnInit {
             km: this.km
           })
 
-          return this.km <= this.user_login.rango || (user.latitud == 0 && user.longitud == 0);
+          return this.km <= this.user_login.rango
         })
 
         console.log("ESTO ES CON KM DE ION", this.kilometros)
@@ -404,6 +404,7 @@ export class Tab2Page implements OnInit {
 
     this.people = []
     this.gente = []
+    this.kilometros = []
     // this.km = 0
     // this.user_pic = []
     // this.user_coord = []
