@@ -10,6 +10,9 @@ import { userInterface } from '../../interface/user'
 import { NotificationService } from '../../services/notification.service'
 import { map } from 'rxjs/operators';
 
+import { NavController } from '@ionic/angular';
+
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -36,15 +39,27 @@ export class Tab2Page implements OnInit {
   private array_final = []
   private likes = []
   private token
+  private results =[]
+  private user_coord = []
+
+  private array_sexo = []
+
+  private filter = []
+
+  private km = 0
+
+  private kilometros = []
 
   constructor(private fcm : FCM, private userfirebase : UserfirebseService, private SwipeService:SwipeService,
     private LikeService:LikeService, private imagefirebase : ImageFirebaseService, private http : HttpClient,
-    private notification : NotificationService, private MatchService:MatchService) {
+    private notification : NotificationService, private MatchService:MatchService, private navCtrl : NavController) {
   }
 
   ngOnInit () {
 
     this.user_login = JSON.parse(window.localStorage.getItem('user'))
+
+    console.log("PRIMERA VEZ", this.user_login)
 
     this.fcm.subscribeToTopic(this.user_login.id)
 
@@ -67,24 +82,26 @@ export class Tab2Page implements OnInit {
       this.currentIndex = 0
       
       //filtrando la consulta de firebase para que el usario que esta logeado no salga
-      let filter = this.people.filter(person =>{
+      this.filter = this.people.filter(person =>{
         return person.name != this.user_login.name
       })
 
       //filtrando la consulta de firebase para que no salga el sexo del usuario logeado
-      let array_sexo = filter.filter(sexo => {
+      this.array_sexo = this.filter.filter(sexo => {
         return sexo.sexo != this.user_login.sexo
       })
 
       //filtrando la consulta de firebase para que salgan los usuarios con el match por localizacion
-      let user_coord = array_sexo.filter(user =>{
-        let km = this.getDistanceFromLatLonInKm(this.user_login.latitud,this.user_login.longitud,user.latitud,user.longitud)
-        console.log(`km:${km}----${user.email} lat:${user.latitud}--long:${user.longitud}`)
-        return km <= this.user_login.rango || (user.latitud == 0 && user.longitud == 0);
+      this.user_coord = this.array_sexo.filter(user =>{
+        this.km = this.getDistanceFromLatLonInKm(this.user_login.latitud,this.user_login.longitud,user.latitud,user.longitud)
+        console.log(`km:${this.km}----${user.email} lat:${user.latitud}--long:${user.longitud}`)
+        this.kilometros.push(this.km)
+        return this.km <= this.user_login.rango || (user.latitud == 0 && user.longitud == 0);
       })
 
+
       this.people = []
-      this.people.push(...user_coord)
+      this.people.push(...this.user_coord)
       console.log(this.people)
     })
 
@@ -118,15 +135,114 @@ export class Tab2Page implements OnInit {
       }
 
       
-      const results = this.gente.filter(({ id: id1 }) => 
+      this.results = this.gente.filter(({ id: id1 }) => 
             
       !this.swipe_user.some(({ id_to_user : id2 }) => id2 === id1));
 
       this.gente = []
-      this.gente.push(...results)
+      this.gente.push(...this.results)
       this.currentIndex = this.people.length - 1;
 
+
     })
+
+   
+  }
+
+  ionViewWillEnter () {
+
+    this.user_login = JSON.parse(window.localStorage.getItem('user'))
+    
+    this.SwipeService.getSwipeUser(this.user_login).subscribe(res =>{
+      res.forEach(element =>{
+        this.swipe_user.push(element.data())
+      })
+      console.log("ESTOS SON LOS SWIPE", this.swipe_user)
+
+      this.LikeService.getLikeCollection().subscribe(res => {
+        this.likes = res
+      })
+    
+      this.userfirebase.getUserCollection().subscribe(res => {
+  
+        this.people = res
+        this.gente = []
+        this.currentIndex = 0
+        
+        //filtrando la consulta de firebase para que el usario que esta logeado no salga
+        this.filter = this.people.filter(person =>{
+          return person.name != this.user_login.name
+        })
+  
+        //filtrando la consulta de firebase para que no salga el sexo del usuario logeado
+        this.array_sexo = this.filter.filter(sexo => {
+          return sexo.sexo != this.user_login.sexo
+        })
+  
+        //filtrando la consulta de firebase para que salgan los usuarios con el match por localizacion
+        this.user_coord = this.array_sexo.filter(user =>{
+           this.km = this.getDistanceFromLatLonInKm(this.user_login.latitud,this.user_login.longitud,user.latitud,user.longitud)
+          console.log(`km:${this.km}----${user.email} lat:${user.latitud}--long:${user.longitud}`)
+          return this.km <= this.user_login.rango || (user.latitud == 0 && user.longitud == 0);
+        })
+  
+        this.people = []
+        this.people.push(...this.user_coord)
+        console.log(this.people, "PEOPLE")
+      })
+  
+      this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
+  
+        this.user_pic = image_firebase.filter(elemento => {
+          if(elemento.file_path === 'perfil' ) {
+            return elemento.id_usuario === this.user_login.email
+          }
+        })
+  
+        for(var i=0; i<this.people.length; i++){
+          for (var j =0; j < image_firebase.length; j++) {
+            if(image_firebase[j].id_usuario === this.people[i].email && image_firebase[j].file_path === 'perfil'){
+  
+              this.objecto = {
+                id: this.people[i].id,
+                email: this.people[i].email,
+                name : this.people[i].name,
+                age : this.people[i].age,
+                image : image_firebase[j].url,
+                visible: true
+              }
+              
+              //asignacion de los datos que se mostraran en el card
+              this.gente.push(this.objecto)
+  
+              break;
+            }
+          }
+        }
+  
+        
+        this.results = this.gente.filter(({ id: id1 }) => 
+              
+        !this.swipe_user.some(({ id_to_user : id2 }) => id2 === id1));
+  
+        this.gente = []
+        this.gente.push(...this.results)
+        this.currentIndex = this.people.length - 1;
+  
+      })
+  
+
+
+    })
+
+    console.log("SEGUNDA VEZ", this.user_login)
+  
+
+    
+
+    
+
+    
   }
 
   async swiped (event , index) {
@@ -225,6 +341,26 @@ export class Tab2Page implements OnInit {
 
 
   ionViewDidLeave () {
+
+    this.people = []
+    this.gente = []
+    // this.km = 0
+    // this.user_pic = []
+    // this.user_coord = []
+    // this.filter = []
+    // this.array_sexo = []
+    // this.results = []
+    // this.likes = []
+    // this.swipe_user = []
+    // this.objecto = {
+    //   id: '',
+    //   email: '',
+    //   name : '',
+    //   age : 0,
+    //   image : '',
+    //   visible: true
+    // }
+    
     this.fcm.unsubscribeFromTopic(this.user_login.id)
   }
 
