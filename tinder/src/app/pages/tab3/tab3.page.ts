@@ -11,6 +11,11 @@ import { Router } from '@angular/router';
 
 import { AngularFireDatabase } from '@angular/fire/database';
 
+import { Camera } from '@ionic-native/camera/ngx';
+
+import {  UtilToolService } from '../../services/utiltool.service'
+
+
 
 
 
@@ -44,19 +49,38 @@ export class Tab3Page {
 
   gente = []
 
+  user_pic;
+
   anyone;
 
   mensajes_todos
 
   lastMessague = []
 
+  img_base64;
+  image;
+
 
   constructor(private db: AngularFirestore, private matchService :MatchService, private userfirebase : UserfirebseService,
-    private imagefirebase: ImageFirebaseService, private router: Router , private afDB : AngularFireDatabase ) {}
+    private imagefirebase: ImageFirebaseService, private router: Router , 
+    private afDB : AngularFireDatabase, private camera : Camera, private utilTool : UtilToolService ) {}
 
   ngOnInit() {
 
     this.user_login = JSON.parse(window.localStorage.getItem('user'))
+
+    console.log("USER LOGEADO", this.user_login)
+
+    this.imagefirebase.getImageCollection().subscribe(res => {
+
+      this.user_pic = res.find(elemento => {
+        return elemento.id_usuario === this.user_login.email && elemento.file_path === 'perfil'
+      })
+
+      console.log("RES", this.user_pic)
+
+
+    })
 
     this.matchService.getMatchCollection().subscribe(res => {
       this.matches = res
@@ -64,9 +88,6 @@ export class Tab3Page {
         return elemento.id_from_user == this.user_login.id || elemento.id_to_user == this.user_login.id
       })
     })
-   
-
-
   }
 
   ionViewWillEnter () {
@@ -81,7 +102,6 @@ export class Tab3Page {
    
   }
   
-
   pushPeople() {
     this.userfirebase.getUserCollection().subscribe (res => {
 
@@ -222,6 +242,40 @@ export class Tab3Page {
 
       
 
+  }
+
+  subirHistoria () {
+    console.log("Historia subida")
+    this.camera.getPicture({
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      mediaType: this.camera.MediaType.PICTURE,
+      allowEdit: true,
+      encodingType: this.camera.EncodingType.JPEG,
+      targetHeight: 1024,
+      targetWidth: 1024,
+      correctOrientation: true,
+      saveToPhotoAlbum: true
+
+    }).then(resultado => {
+
+      let base64 = 'data:image/jpeg;base64,' + resultado
+      this.img_base64 = resultado
+      this.image = base64
+
+      //Guardar foto en firebase
+      console.log("Se ha enviado la foto")
+
+
+    }).catch(err =>{
+      console.log(err)
+      this.utilTool.presentAlert('error',err,'ok')
+    })
+
+  }
+
+  verHistoria () {
+    console.log("Viendo historiaa")
   }
 
 
