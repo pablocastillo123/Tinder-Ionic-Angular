@@ -7,6 +7,7 @@ export interface userInterface{
     sexo:string,
     latitud: number,
     longitud: number,
-    rango: number
+    rango: number,
+    km: number
 }
 

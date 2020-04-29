@@ -33,7 +33,8 @@ export class Tab2Page implements OnInit {
     name : '',
     age : 0,
     image : '',
-    visible: true
+    visible: true,
+    km: 0
   }
 
   private array_final = []
@@ -91,15 +92,42 @@ export class Tab2Page implements OnInit {
         return sexo.sexo != this.user_login.sexo
       })
 
+      console.log("SEXOO", this.array_sexo)
+
       //filtrando la consulta de firebase para que salgan los usuarios con el match por localizacion
-      this.user_coord = this.array_sexo.filter(user =>{
+      this.user_coord = this.array_sexo.filter( (user, index) =>{
         this.km = this.getDistanceFromLatLonInKm(this.user_login.latitud,this.user_login.longitud,user.latitud,user.longitud)
         console.log(`km:${this.km}----${user.email} lat:${user.latitud}--long:${user.longitud}`)
-        this.kilometros.push(this.km)
+
+        this.kilometros.push( {
+          email: this.array_sexo[index].email,
+          km:  Math.round(this.km)
+        })
         return this.km <= this.user_login.rango || (user.latitud == 0 && user.longitud == 0);
       })
 
+      console.log("ESTO ES CON KM", this.kilometros)
+      console.log("ESTO ES LO QUE DEVUELVE", this.user_coord)
 
+      for(let i = 0; i < this.kilometros.length; i ++) {
+        for(let j = 0; j < this.user_coord.length; j ++ ) {
+          if(this.kilometros[i].email === this.user_coord[j].email) {
+            this.user_coord[j] = {
+              age: this.user_coord[j].age,
+              email: this.user_coord[j].email,
+              id: this.user_coord[j].id,
+              last_name: this.user_coord[j].last_name,
+              latitud: this.user_coord[j].last_name,
+              longitud: this.user_coord[j].longitud,
+              name: this.user_coord[j].name,
+              rango: this.user_coord[j].rango,
+              sexo: this.user_coord[j].sexo,
+              km : this.kilometros[i].km
+            }
+          }
+        }
+      }
+      console.log("ESTO ES FINAL", this.user_coord)
       this.people = []
       this.people.push(...this.user_coord)
       console.log(this.people)
@@ -123,12 +151,13 @@ export class Tab2Page implements OnInit {
               name : this.people[i].name,
               age : this.people[i].age,
               image : image_firebase[j].url,
-              visible: true
+              visible: true,
+              km: this.people[i].km
             }
             
             //asignacion de los datos que se mostraran en el card
             this.gente.push(this.objecto)
-
+            console.log("LA GENTE", this.gente)
             break;
           }
         }
@@ -180,15 +209,44 @@ export class Tab2Page implements OnInit {
         })
   
         //filtrando la consulta de firebase para que salgan los usuarios con el match por localizacion
-        this.user_coord = this.array_sexo.filter(user =>{
+        this.user_coord = this.array_sexo.filter( (user, index) =>{
            this.km = this.getDistanceFromLatLonInKm(this.user_login.latitud,this.user_login.longitud,user.latitud,user.longitud)
           console.log(`km:${this.km}----${user.email} lat:${user.latitud}--long:${user.longitud}`)
+
+          this.kilometros.push( {
+            email: this.array_sexo[index].email,
+            km: this.km
+          })
+
           return this.km <= this.user_login.rango || (user.latitud == 0 && user.longitud == 0);
         })
+
+        console.log("ESTO ES CON KM DE ION", this.kilometros)
+        console.log("ESTO ES LO QUE DEVUELVE DE ION", this.user_coord)
   
-        this.people = []
-        this.people.push(...this.user_coord)
-        console.log(this.people, "PEOPLE")
+        for(let i = 0; i < this.kilometros.length; i ++) {
+          for(let j = 0; j < this.user_coord.length; j ++ ) {
+            if(this.kilometros[i].email === this.user_coord[j].email) {
+              this.user_coord[j] = {
+                age: this.user_coord[j].age,
+                email: this.user_coord[j].email,
+                id: this.user_coord[j].id,
+                last_name: this.user_coord[j].last_name,
+                latitud: this.user_coord[j].last_name,
+                longitud: this.user_coord[j].longitud,
+                name: this.user_coord[j].name,
+                rango: this.user_coord[j].rango,
+                sexo: this.user_coord[j].sexo,
+                km : Math.round(this.kilometros[i].km)
+              }
+            }
+          }
+        }
+  
+      console.log("ESTO ES FINAL EN ION", this.user_coord)
+      this.people = []
+      this.people.push(...this.user_coord)
+      console.log(this.people)
       })
   
       this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
@@ -209,12 +267,14 @@ export class Tab2Page implements OnInit {
                 name : this.people[i].name,
                 age : this.people[i].age,
                 image : image_firebase[j].url,
-                visible: true
+                visible: true,
+                km: this.people[i].km
+
               }
               
               //asignacion de los datos que se mostraran en el card
               this.gente.push(this.objecto)
-  
+              console.log("LA GENTE FINAL", this.gente)
               break;
             }
           }
