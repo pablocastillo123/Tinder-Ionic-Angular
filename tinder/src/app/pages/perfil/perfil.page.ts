@@ -1,7 +1,6 @@
+import { UserfirebseService } from './../../services/userfirebse.service';
 import { userInterface } from './../../interface/user';
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore'
 import { LoadingController } from '@ionic/angular';
 import { UtilToolService } from './../../services/utiltool.service';
 import { Camera } from '@ionic-native/camera/ngx';
@@ -15,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class PerfilPage implements OnInit {
 
+  private rango_coord: number
   private img_base64: string;
   private image: string;
   private data_image = {
@@ -34,12 +34,18 @@ export class PerfilPage implements OnInit {
     sexo: '',
     id:'',
     email:'',
+    latitud: 0,
+    longitud: 0,
+    rango: 0,
+    km : 0,
+    token_notification:''
   }
   
   private data_sexo = ['Hombre','Mujer'];
 
-  constructor(private db:AngularFirestore, private router : Router,
+  constructor(private router : Router,
     private ImageFirebaseService:ImageFirebaseService,private camera:Camera,
+    private UserfirebseService:UserfirebseService,
     private utilTool:UtilToolService,private loadingController:LoadingController) {
   }
 
@@ -58,6 +64,8 @@ export class PerfilPage implements OnInit {
     try {
       this.obj_user = JSON.parse(window.localStorage.getItem('user'))
       console.log(this.obj_user)
+
+      this.rango_coord = this.obj_user.rango
 
       this.ImageFirebaseService.getImageCollection().subscribe(image_firebase =>{
         for(var i=0; i<image_firebase.length; i++){
@@ -95,19 +103,24 @@ export class PerfilPage implements OnInit {
         this.utilTool.presentAlert('Error','Campos vacios','ok');
         bool = false
       }
-  
+
       if(this.obj_user.age > 120 || this.obj_user.age === 0){
         this.utilTool.presentAlert('Error','La edad debe ser menor de 120','ok');
         bool = false;
       }
   
       if(bool){
-        if(this.data_image.id_img){
+        if(this.img_base64){
           this.ImageFirebaseService.deleteImage(this.data_image.path)
           this.ImageFirebaseService.deleteImageData(this.data_image.id_img)
         }
 
-        this.db.collection('usuario').doc(this.obj_user.id).update(this.obj_user);
+        if(this.rango_coord != this.obj_user.rango){
+          this.obj_user.rango = this.rango_coord
+          console.log('rango del user: ',this.obj_user.rango)
+        }
+
+        this.UserfirebseService.updateDataUser(this.obj_user)
 
         if(this.img_base64){
           this.ImageFirebaseService.saveImg(this.obj_user.email,this.img_base64,'perfil')

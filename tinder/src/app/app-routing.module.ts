@@ -24,7 +24,7 @@ const routes: Routes = [
   {
     path: 'pic',
     loadChildren: () => import('./pages/pic/pic.module').then( m => m.PicPageModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'register',
@@ -33,7 +33,7 @@ const routes: Routes = [
   {
     path: 'perfil',
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'viewpics/:id',

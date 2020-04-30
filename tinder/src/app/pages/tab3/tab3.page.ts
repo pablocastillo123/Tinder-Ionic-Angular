@@ -1,6 +1,4 @@
-import { LikeService } from './../../services/like.service';
 import { Component } from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore'
 
 import { MatchService } from '../../services/match.service'
 
@@ -20,6 +18,8 @@ import { AngularFireDatabase } from '@angular/fire/database';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
+  
+  constructor() {}
 
   matches = []
 

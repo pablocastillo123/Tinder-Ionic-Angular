@@ -5,5 +5,10 @@ export interface userInterface{
     email:string,
     age:number,
     sexo:string,
+    latitud: number,
+    longitud: number,
+    rango: number,
+    km: number,
+    token_notification: string
 }
 

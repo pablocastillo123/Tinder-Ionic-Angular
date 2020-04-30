@@ -23,6 +23,9 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { Camera } from '@ionic-native/camera/ngx';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
 import { SuperTabsModule } from '@ionic-super-tabs/angular'
 
@@ -34,7 +37,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
-    BrowserModule, IonicModule.forRoot(), AppRoutingModule,
+    BrowserModule, IonicModule.forRoot({_forceStatusbarPadding:true}), AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
@@ -49,6 +52,9 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
     Camera,
     FCM,
     LocalNotifications,
+    Geolocation,
+    AndroidPermissions,
+    LocationAccuracy,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     PhotoViewer
   ],
