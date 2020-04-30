@@ -92,7 +92,7 @@ export class Tab2Page implements OnInit {
         return user.age >= this.user_login.config_age.lower &&  user.age <= this.user_login.config_age.upper
       })
 
-      //filtrando la consulta de firebase para que no salga el sexo del usuario logeado
+      //filtrando la consulta de firebase para que salgan los usuario dependiendo del sexo
       this.array_sexo = filter_edad.filter(sexo => {
         return (sexo.sexo == 'Mujer' && this.user_login.config_sexo.mujer) || (sexo.sexo == 'Hombre' && this.user_login.config_sexo.hombre)
       })
@@ -214,7 +214,7 @@ export class Tab2Page implements OnInit {
         return user.age >= this.user_login.config_age.lower &&  user.age <= this.user_login.config_age.upper
         })
   
-        //filtrando la consulta de firebase para que no salga el sexo del usuario logeado
+        //filtrando la consulta de firebase para que salgan los usuario dependiendo del sexo
         this.array_sexo = filter_edad.filter(sexo => {
           return (sexo.sexo == 'Mujer' && this.user_login.config_sexo.mujer) || (sexo.sexo == 'Hombre' && this.user_login.config_sexo.hombre)
         })

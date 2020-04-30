@@ -93,7 +93,8 @@ export class RegisterPage {
 
 
   async register(){
-
+    let sexo_hombre
+    let sexo_mujer
 
     const loading = await this.loadingController.create({
       message : 'Loading.....'
@@ -106,14 +107,12 @@ export class RegisterPage {
           const user = await this.authSvc.onRegister(this.user)
 
           if(user){
-            let sexo_hombre, sexo_mujer
-            
-            if(this.user_sexo == 'mujer'){
+            if(this.user_sexo == 'Mujer'){
               sexo_hombre = true
               sexo_mujer = false
             }
 
-            if(this.user_sexo == 'hombre'){
+            if(this.user_sexo == 'Hombre'){
               sexo_hombre = false
               sexo_mujer = true
             }
