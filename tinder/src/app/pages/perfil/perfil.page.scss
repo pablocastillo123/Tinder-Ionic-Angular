@@ -58,8 +58,7 @@ ion-button{
 }
 
 ion-content {
-    --background: 
-    linear-gradient(  0, #8c3754, #9e9e9e54 79% );
+    --background: linear-gradient(0,#e20c55 15%, #9e9e9e54 84% );
 }
 
 ion-input{
@@ -71,41 +70,4 @@ ion-input{
     --placeholder-color: white;
     --placeholder-opacity: 1.5;
     color: white;
-}
-  
-
-.content_range{
-    /* background: linear-gradient( 0, #ffffff66, #ffffff08 79% ); */
-    /* border-radius: 60px 60px 60px 60px; */
-    /* border: 1px solid white; */
-    display: flex;
-    flex-direction: column;
-    /* width: 80%; */
-    margin: 0 auto;
-    margin-top: 20px;
-}
-
-h6{
-    color: white;
-    font-size: 15px;
-    font-family: sans-serif;
-}
-
-.text_range{
-    display: flex;
-    flex-direction: row;
-}
-
-.distancia{
-    margin-left: 10%;
-}
-
-.coord{
-    margin-left: 22%;
-}
-
-ion-range{
-    padding: 0px;
-    width: 80%;
-    margin: 0 auto;
 }

@@ -23,8 +23,7 @@ ion-button {
 }
 
 ion-content {
-    --background: 
-    linear-gradient(  0, #8c3754, #9e9e9e54 79% ), 
+    --background: linear-gradient(0,#e20c55 , #9e9e9e54 75% ),
     url(../../../assets/image/arbol-rio.jpg);
     height: 100%;
     width: 100%;
