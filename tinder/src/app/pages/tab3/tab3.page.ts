@@ -68,6 +68,10 @@ export class Tab3Page {
 
   stories_user = []
 
+  stories_others = []
+
+  final_array = []
+
 
   constructor(private db: AngularFirestore, private matchService :MatchService, private userfirebase : UserfirebseService,
     private imagefirebase: ImageFirebaseService, private router: Router , 
@@ -97,6 +101,10 @@ export class Tab3Page {
         return elemento.id_from_user == this.user_login.id || elemento.id_to_user == this.user_login.id
       })
     })
+
+    
+
+
   }
 
   ionViewWillEnter () {
@@ -205,6 +213,35 @@ export class Tab3Page {
   
         }
       }
+
+      this.imagefirebase.getImageCollection().subscribe(res => {
+        this.stories_others = res.filter (elemento => {
+          return elemento.file_path === 'stories' && elemento.id_usuario != this.user_login.email
+        })
+        console.log("LAS HISTORIAS DE OTROS", this.stories_others)
+        // for(let i = 0; i < this.gente.length; i++) {
+        //   for(let j = 0 ; j < this.stories_others.length; j++) {
+        //       if(this.gente[i].email === this.stories_others[j].id_usuario ) {
+
+      
+
+        //         const genteObject = {
+        //           ...this.gente[i],
+        //           id_img : this.stories_others[j].id_img,
+        //           name: this.stories_others[j].name,
+        //           path: this.stories_others[j].path,
+        //           seen: [this.stories_others[j].seen],
+        //           type: this.stories_others[j].type,
+        //           url: this.stories_others[j].url
+        //         }
+        //         this.final_array.push(genteObject)
+                
+        //       }
+        //   }
+        // }
+        // console.log(this.final_array, "FINAL")
+      })
+
       console.log(this.gente ,"GENTE")
 
       this.anyone = this.gente.find(elemento => {

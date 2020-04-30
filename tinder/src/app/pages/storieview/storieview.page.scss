@@ -15,9 +15,15 @@
     padding-left: 30%;
 }
 
-.imagen_story {
-    width: 100%;
-    height: 100%;
+// .imagen_story {
+//     width: 100%;
+//     height: 100%;
+// }
+
+.imagen_story{
+    height: 90vh !important;
+    width: auto ;
+    align-items: center;
 }
 
 .progress {
@@ -42,8 +48,6 @@
     background-color: black;
 }
 
-.imagen {
-    width: 100%;
-    height: 100%;
-}
-    
+
+
+
