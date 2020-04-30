@@ -19,7 +19,6 @@ import { AngularFireDatabase } from '@angular/fire/database';
 })
 export class Tab3Page {
   
-  constructor() {}
 
   matches = []
 
@@ -51,7 +50,7 @@ export class Tab3Page {
   lastMessague = []
 
 
-  constructor(private db: AngularFirestore, private matchService :MatchService, private userfirebase : UserfirebseService,
+  constructor(private matchService :MatchService, private userfirebase : UserfirebseService,
     private imagefirebase: ImageFirebaseService, private router: Router , private afDB : AngularFireDatabase ) {}
 
   ngOnInit() {
