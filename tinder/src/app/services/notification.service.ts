@@ -28,11 +28,6 @@ export class NotificationService implements OnInit  {
   }
 
   ngOnInit () {
-
-    this.fcm.onNotification().subscribe(data => {
-      this.data = data.wasTapped
-    })
-
   }
 
   sendNotification(title, text, to_user, from_user){
@@ -41,7 +36,7 @@ export class NotificationService implements OnInit  {
       "notification":{
         "title":title,
         "body":text,
-        "sound":"default"
+        "sound":"file://assets/audio/iphone-notificacion.mp3"
       },
       "to": to_user
     }
@@ -50,7 +45,7 @@ export class NotificationService implements OnInit  {
       "notification":{
         "title":title,
         "body":text,
-        "sound":"default"
+        "sound":"file://assets/audio/iphone-notificacion.mp3"
       },
       "to": from_user
     }
@@ -59,18 +54,15 @@ export class NotificationService implements OnInit  {
       this.http.post(this.url, body_to_user, {headers: this.headers}).subscribe(res =>{
       })
       
+      this.http.post(this.url, body_from_user,  {headers: this.headers}).subscribe(res =>{    
+      })
+
+      this.localNotifications.schedule({
+        title: 'local tinder',
+        text: text,
+        sound: "file://assets/audio/iphone-notificacion.mp3"
+     });
     
-      if(this.data){
-        this.http.post(this.url, body_from_user,  {headers: this.headers}).subscribe(res =>{    
-        })
-        
-      }else{
-        this.localNotifications.schedule({
-          title: 'Tinder',
-          text: 'Tienes un nuevo Match',
-          sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
-       });
-      }
     }
 
   }
