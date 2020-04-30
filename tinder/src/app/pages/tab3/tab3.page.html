@@ -5,7 +5,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <super-tabs>
+<super-tabs>
 
   <super-tabs-toolbar slot="top" class="color-toolbar">
     <super-tab-button>
@@ -29,7 +29,7 @@
             <div *ngFor = "let gen of gente, let index = index" class="space">
               <div *ngIf = "gen.view == false" >
                 <img class="avatar" [src] = "gen.imagen" (click) = "goToAnother(gen.id_Match, index)"/>
-                <ion-label class="name">{{gen.name}}</ion-label>
+                <ion-label class="name">{{gen.name}}  {{gen.last_name}}</ion-label>
               </div>
             </div>    
           </div> 
@@ -42,29 +42,29 @@
           <div *ngIf = "gen.view" class="position">
             <ion-item lines = "none" class="itemlines"  [routerLink] = "['/chat', gen.id_Match]">
               <img class="image-item" [src] = "gen.imagen"  />
-              <div>
-                <span class="nombre">{{gen.name}}</span>
+              <div class="user">
+                <span class="nombre">{{gen.name}}  {{gen.last_name}}</span>
 
                 <ng-container *ngIf = "lastMessague[index]?.text.includes('https://firebasestorage.googleapis.com'); else texto">
 
                   <ng-container *ngIf = "lastMessague[index]?.idUser === user_login.id; else other">
-
                     <ion-grid>
                       <ion-row>
                         <ion-col>
-                          <ion-icon class="iconosend" name="arrow-redo-outline"></ion-icon>
+                          <ion-icon class="iconosend" name="arrow-redo"></ion-icon>
                         </ion-col>
                         <ion-col>
-                  <ion-label class="labellast">imagen</ion-label>
+                          <ion-label class="labellast">imagen</ion-label>
                         </ion-col>
                       </ion-row>
                     </ion-grid>
                   </ng-container>
+
                   <ng-template #other>
                     <ion-grid>
                       <ion-row>
                         <ion-col>
-                          <ion-icon name="arrow-undo-outline"></ion-icon>                        
+                          <ion-icon name="arrow-undo"></ion-icon>                        
                         </ion-col>
                         <ion-col>
                           <ion-label class="labellast">imagen</ion-label>
@@ -72,7 +72,6 @@
                       </ion-row>
                     </ion-grid>
                   </ng-template>
-
           
                 </ng-container>
           
@@ -81,11 +80,10 @@
                   <ng-container *ngIf = "lastMessague[0] != undefined; else nulo">
 
                     <ng-container *ngIf = "lastMessague[index]?.idUser === user_login.id; else other">
-
                       <ion-grid>
                         <ion-row>
                           <ion-col>
-                            <ion-icon class="iconosend" name="arrow-redo-outline"></ion-icon>
+                            <ion-icon class="iconosend" name="arrow-redo"></ion-icon>
                           </ion-col>
                           <ion-col>
                             <ion-label class="labellast">{{ lastMessague[index]?.text }}</ion-label>
@@ -93,11 +91,12 @@
                         </ion-row>
                       </ion-grid>
                     </ng-container>
+
                     <ng-template #other>
                       <ion-grid>
                         <ion-row>
                           <ion-col>
-                            <ion-icon name="arrow-undo-outline"></ion-icon>                        
+                            <ion-icon name="arrow-undo"></ion-icon>                        
                           </ion-col>
                           <ion-col>
                             <ion-label class="labellast">{{ lastMessague[index]?.text }}</ion-label>
@@ -105,50 +104,42 @@
                         </ion-row>
                       </ion-grid>
                     </ng-template>
-
-                   
-  
             
                   </ng-container>
 
                   <ng-template #nulo>
                     <ion-label class="labellast">{{ lastMessague[index]?.text }}</ion-label>
-
                   </ng-template>
 
-                  
                 </ng-template>
-
               </div> 
-             
             </ion-item>
           </div>
-      </div>
+        </div>
         </div>
     
         <ng-template #nopeople>
           <ion-label color = "danger" class="mensajelabel">Mensajes</ion-label>
-          <h1 class="not-init">No has iniciado ninguna conversacion</h1>
+          <div class="content_not_message">
+            <img class="not-img" src="../../../assets/image/card-like.png">
+            <h1 class="not-h1">Empezar a dar Likes</h1>
+            <h6 class="not-h6" >Al hacer match con otras personas, apareceran aqui para que puedas enviarles un mensaje</h6>
+          </div>
         </ng-template>      
       </ion-content>
     </super-tab>
+
     <super-tab>
-      
       <ion-content>
-        <h1>Aqui iran las historias</h1>
+        <div class="content_his_message">
+          <img class="his-img" src="../../../assets/image/historia.png">
+          <h1 class="his-h1">Regresa mas tarde</h1>
+          <h6 class="his-h6">No encontramos actividad social reciente de tus matches. Intentalo de nuevo mas tarde.</h6>
+        </div>
       </ion-content>
     </super-tab>
+
   </super-tabs-container>
 
-
   </super-tabs>
-
-    
-    
-    
-
-
-
-
-
 </ion-content>

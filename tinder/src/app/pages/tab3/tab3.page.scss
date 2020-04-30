@@ -7,12 +7,12 @@ ion-content ion-toolbar {
   display: none;
 }
 
-.verticalLine {
-  width:1%;
-  height:50px;
-  background:black;
-  margin: auto;
-}
+// .verticalLine {
+//   width:1px;
+//   height:50px;
+//   background:black;
+//   margin: auto;
+// }
 
 .mensajes {
   padding-left: 10%;
@@ -28,7 +28,6 @@ ion-content ion-toolbar {
 
 .label {
   position:absolute;
-
   padding-left: 5%;
   padding-top: 10%;
 }
@@ -72,13 +71,13 @@ ion-content ion-toolbar {
 }
 
 .itemlines{
-  border-bottom: 1px solid black;
+  // border-bottom: 1px solid black;
   top: 15%;
 }
 
 .image-item {
-  width: 75px;
-  height: 75px;
+  width: 65px;
+  height: 65px;
   border-radius: 100%;
   margin: 0 auto;
   margin-block-start: 20px;
@@ -93,7 +92,7 @@ ion-content ion-toolbar {
 }
 
 .nombre {
-  font-size: 25px;
+  font-size: 22px;
 
 }
 
@@ -105,21 +104,83 @@ ion-content ion-toolbar {
   padding-top: 5%;
 }
 
-.not-init {
-  padding-top: 10%;
+.color-toolbar {
+  // background: linear-gradient(180deg,#e20c55 , #9e9e9e54 );
+  // color: white;
+
+  background: #e20c55a8;
+  color: #ffffff;
+}
+
+.user{
+  border-bottom: 1px solid #796d6d;
+  width: 100%;
+}
+
+.content_his_message{
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.his-img{
+  width: 150px;
+  margin: 0 auto;
+}
+
+.his-h1 {
+  color: #4e4e4e;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  -webkit-text-stroke-width: medium;
+}
+
+.his-h6{
+  color: #5a5a5a;
+  width: 70%;
+  margin: 0 auto;
   text-align: center;
 }
 
-.color-toolbar {
-	background-color: pink;
+.content_not_message{
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
 }
 
-.labellast {
-  padding-top: 10px;
+.not-img{
+  width: 150px;
+  margin: 0 auto;
 }
 
-.iconosend {
-  position: absolute;
-  top: 35%;
-  right: 20%;
+.not-h1 {
+  color: #4e4e4e;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  -webkit-text-stroke-width: medium;
 }
+
+.not-h6{
+  color: #5a5a5a;
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+ion-content{
+  --background: linear-gradient(900deg,#ffffff 60%, #9e9e9e73 100% );
+}
+
+// .labellast {
+//   padding-top: 10px;
+// }
+
+// .iconosend {
+//   position: absolute;
+//   top: 35%;
+//   right: 20%;
+// }

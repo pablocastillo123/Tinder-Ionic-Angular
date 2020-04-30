@@ -1,8 +1,8 @@
 <ion-item lines = "none" class="itemlines" >
   <ion-icon name="arrow-back" (click) = "goBack()"></ion-icon>
   <img class="image-item" [src] = "result.imagen"  />
-  <h1 class="nombre">{{result.name}}</h1>
-  <ion-icon (click) = "presentPopover($event)" color = "danger" slot = "end" class="pop-over" name="ellipsis-vertical-outline"></ion-icon>
+  <h1 class="nombre">{{result.name}}  {{result.last_name}}</h1>
+  <ion-icon (click) = "presentPopover($event)" color = "danger" slot = "end" class="pop-over" name="ellipsis-vertical"></ion-icon>
 </ion-item>
 
 <ion-content #content>
@@ -11,7 +11,7 @@
 
     <ion-item class="item-chat" lines = "none" *ngFor = "let mensaje of mensajes_todos; index as i">
 
-      <ion-badge  class="badge-user" *ngIf = "mensaje.idUser === user_login.id " slot = "end" color = "dark">
+      <ion-badge  class="badge-user" *ngIf = "mensaje.idUser === user_login.id " slot = "end">
         
         <ng-container *ngIf = "mensaje.text.includes('https://firebasestorage.googleapis.com'); else texto">
   
@@ -33,7 +33,7 @@
       </ion-badge>
   
   
-      <ion-badge class="badge-other" *ngIf = "mensaje.idUser != user_login.id " slot = "start" color = "primary">
+      <ion-badge class="badge-other" *ngIf = "mensaje.idUser != user_login.id " slot = "start">
         
         <ng-container *ngIf = "mensaje.text.includes('https://firebasestorage.googleapis.com'); else texto">
   
@@ -81,9 +81,9 @@
         <ng-container *ngIf = "mensaje == ''; else img_default" >
 
           <ion-col size = "2">
-            <ion-button color = "secondary" (click) = "sendPhoto()" >
-              <ion-icon name="camera-outline"></ion-icon>          
-            </ion-button>        
+            <ion-button  class="boton" (click) = "sendPhoto()" >
+              <ion-icon name="camera"></ion-icon>          
+            </ion-button >        
           </ion-col>
           
         </ng-container>
@@ -92,8 +92,8 @@
         <ng-template #img_default>
 
           <ion-col size = "2">
-            <ion-button color = "secondary" (click) = "sendMessage()" >
-              <ion-icon color = "danger" name="send-outline"></ion-icon>          
+            <ion-button class="boton" (click) = "sendMessage()" >
+              <ion-icon name="send"></ion-icon>          
             </ion-button>
           </ion-col>
 
