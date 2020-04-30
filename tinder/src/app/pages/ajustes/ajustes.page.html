@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button icon="arrow-back"></ion-back-button>
+    </ion-buttons>
+  
+    <ion-title>Ajustes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <div class="text">
+      <h6 class="distancia" >Distancia maxima</h6>
+      <h6 class="number" >{{user_config_rango}} km.</h6>
+    </div>
+    <ion-range  color="danger" [(ngModel)]="user_config_rango"  min="2" max="200" pin="true"></ion-range>
+  </ion-card>
+
+  <ion-card>
+      <h6 class="distancia" >Muestrame</h6>
+      <div class="content_check">
+        <div class="check">
+          <ion-label>Hombre</ion-label>
+          <ion-checkbox color="danger" slot="end" (click)="getCheck(user_config_sexo)" [(ngModel)]="user_config_sexo.hombre"></ion-checkbox>
+        </div>
+        <div class="check">
+          <ion-label>Mujer</ion-label>
+          <ion-checkbox class="number" color="danger" slot="end" (click)="getCheck(user_config_sexo)" [(ngModel)]="user_config_sexo.mujer"></ion-checkbox>
+        </div>
+    </div>
+  </ion-card>
+
+  <ion-card>
+    <div class="text">
+      <h6 class="distancia">Rango de edad</h6>
+      <h6 class="number" >{{user_config_age.lower}} - {{user_config_age.upper}}</h6>
+    </div>
+    <ion-range color="danger" dualKnobs="true" [(ngModel)]="user_config_age" min="18" max="120"></ion-range>
+  </ion-card>
+
+  <ion-button (click)="updateAjustes()">ACTUALIZAR</ion-button>
+</ion-content>

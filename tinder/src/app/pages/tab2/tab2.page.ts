@@ -87,9 +87,14 @@ export class Tab2Page implements OnInit {
         return person.name != this.user_login.name
       })
 
+      //filtrando la consulta de firebase para que salgan los usuarios entre una edad
+      let filter_edad = this.filter.filter(user =>{
+        return user.age >= this.user_login.config_age.lower &&  user.age <= this.user_login.config_age.upper
+      })
+
       //filtrando la consulta de firebase para que no salga el sexo del usuario logeado
-      this.array_sexo = this.filter.filter(sexo => {
-        return sexo.sexo != this.user_login.sexo
+      this.array_sexo = filter_edad.filter(sexo => {
+        return (sexo.sexo == 'Mujer' && this.user_login.config_sexo.mujer) || (sexo.sexo == 'Hombre' && this.user_login.config_sexo.hombre)
       })
 
       console.log("SEXOO", this.array_sexo)
@@ -103,7 +108,7 @@ export class Tab2Page implements OnInit {
           email: this.array_sexo[index].email,
           km:  Math.round(this.km)
         })
-        return this.km <= this.user_login.rango
+        return this.km <= this.user_login.config_rango
       })
 
       console.log("ESTO ES CON KM", this.kilometros)
@@ -204,9 +209,14 @@ export class Tab2Page implements OnInit {
           return person.name != this.user_login.name
         })
   
+        //filtrando la consulta de firebase para que salgan los usuarios entre una edad
+        let filter_edad = this.filter.filter(user =>{
+        return user.age >= this.user_login.config_age.lower &&  user.age <= this.user_login.config_age.upper
+        })
+  
         //filtrando la consulta de firebase para que no salga el sexo del usuario logeado
-        this.array_sexo = this.filter.filter(sexo => {
-          return sexo.sexo != this.user_login.sexo
+        this.array_sexo = filter_edad.filter(sexo => {
+          return (sexo.sexo == 'Mujer' && this.user_login.config_sexo.mujer) || (sexo.sexo == 'Hombre' && this.user_login.config_sexo.hombre)
         })
   
         //filtrando la consulta de firebase para que salgan los usuarios con el match por localizacion
@@ -219,7 +229,7 @@ export class Tab2Page implements OnInit {
             km: this.km
           })
 
-          return this.km <= this.user_login.rango
+          return this.km <= this.user_login.config_rango
         })
 
         console.log("ESTO ES CON KM DE ION", this.kilometros)

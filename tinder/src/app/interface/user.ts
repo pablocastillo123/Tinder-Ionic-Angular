@@ -7,8 +7,11 @@ export interface userInterface{
     sexo:string,
     latitud: number,
     longitud: number,
-    rango: number,
     km: number,
-    token_notification: string
+    token_notification: string,
+    config_sexo: any,
+    config_age: any,
+    config_rango: number,
+
 }
 
