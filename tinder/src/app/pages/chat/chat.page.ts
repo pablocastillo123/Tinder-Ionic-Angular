@@ -1,24 +1,14 @@
+import { NotificationService } from './../../services/notification.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { AngularFireDatabase } from '@angular/fire/database';
-
 import { ImageFirebaseService  } from '../../services/image-firebase.service'
-
 import { Camera } from '@ionic-native/camera/ngx';
-
 import { PopoverController, IonContent } from '@ionic/angular';
-
 import { PopoverComponent } from '../../components/popover/popover.component'
-
 import { RealtimeService } from '../../services/realtime.service'
-
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
-
 import { Platform } from '@ionic/angular'
-
-
-
 
 @Component({
   selector: 'app-chat',
@@ -29,38 +19,25 @@ export class ChatPage implements OnInit {
 
   @ViewChild('content', {static: false}) content: IonContent;
 
-
   chat_id = null
-
   matches;
-
   userMatch = []
-
   result
-
   mensaje = ''
-
   user_login
-
   mensajes_todos = []
-
   size = 10
   img_base64: any;
   image: string;
 
-
   constructor(private route : ActivatedRoute, private router: Router, private afDB : AngularFireDatabase, 
+    private NotificationService:NotificationService,
     private imageService : ImageFirebaseService, private camera:Camera,
     public popoverController: PopoverController, private realTime : RealtimeService,
     public viewer : PhotoViewer, public platform : Platform) {
-      
-     }
-
-    
-
+    }
 
   ngOnInit() {
-    
 
     this.userMatch = JSON.parse(window.localStorage.getItem('matches'))
 
@@ -81,9 +58,6 @@ export class ChatPage implements OnInit {
     console.log("RESULTADO", this.result)
 
     this.getMessages()
-
-
-
   }
 
 
@@ -94,12 +68,10 @@ export class ChatPage implements OnInit {
   scrollToBottomOnInit(time) {
     setTimeout(() => {
       if (this.content.scrollToBottom) {
-          this.content.scrollToBottom(400);
+        this.content.scrollToBottom(400);
       }
-  }, time);
+    }, time);
   }
-
-
 
   sendMessage () {
 
@@ -116,6 +88,8 @@ export class ChatPage implements OnInit {
     
     this.mensaje = ""
     this.scrollToBottomOnInit(500)
+
+    this.NotificationService.sendNotificationChat('Tinder',`Tienes un mensaje de ${this.user_login.name}`,this.result.token_notification)
 
 
     // this.realTime.updateMessagues(this.chat_id)

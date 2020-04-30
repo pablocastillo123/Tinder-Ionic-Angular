@@ -38,7 +38,8 @@ export class Tab3Page {
     view : true,
     email : '',
     name: '',
-    imagen : ''
+    imagen : '',
+    token_notification: ''
   }
 
   gente = []
@@ -97,7 +98,8 @@ export class Tab3Page {
               view : this.final[j].view,
               email : res[i].email,
               name : res[i].name,
-              imagen : ''
+              imagen : '',
+              token_notification: res[i].token_notification
             }
 
             this.people.push(this.objeto)
@@ -165,7 +167,8 @@ export class Tab3Page {
               view : this.people[i].view,
               email: this.people[i].email,
               name: this.people[i].name,
-              imagen : this.user_profile[j].url
+              imagen : this.user_profile[j].url,
+              token_notification: this.people[i].token_notification
             }
             
   

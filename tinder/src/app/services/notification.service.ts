@@ -63,9 +63,24 @@ export class NotificationService implements OnInit  {
         sound: "file://assets/audio/iphone-notificacion.mp3"
      });
     
+  }
+
+  sendNotificationChat(title, text, to_user){
+    let body_to_user = {
+      "notification":{
+        "title":title,
+        "body":text,
+        "sound":"file://assets/audio/whatsapp-chat.mp3"
+      },
+      "to": to_user
     }
 
+    this.http.post(this.url, body_to_user, {headers: this.headers}).subscribe(res =>{
+    })
   }
+
+
+}
 
   
 
