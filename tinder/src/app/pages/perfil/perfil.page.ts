@@ -37,7 +37,8 @@ export class PerfilPage implements OnInit {
     latitud: 0,
     longitud: 0,
     rango: 0,
-    km : 0
+    km : 0,
+    token_notification:''
   }
   
   private data_sexo = ['Hombre','Mujer'];

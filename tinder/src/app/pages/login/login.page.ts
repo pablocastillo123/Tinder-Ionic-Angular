@@ -6,6 +6,8 @@ import { AuthService} from '../../services/auth.service'
 import { User } from '../../shared/user.class'
 import { AlertController, LoadingController } from '@ionic/angular';
 import { UtilToolService  } from '../../services/utiltool.service'
+import { FCM } from '@ionic-native/fcm/ngx';
+
 
 @Component({
   selector: 'app-login',
@@ -16,14 +18,18 @@ export class LoginPage implements OnInit {
 
   user: User = new User()
   private coord_user
+  private token_user
 
   constructor(private LocationService:LocationService,private router: Router, private authSvc: AuthService, private UserfirebseService:UserfirebseService,
-    public alertController: AlertController,private loadingController: LoadingController,
+    public alertController: AlertController,private loadingController: LoadingController,private fcm: FCM,
     private utiltool : UtilToolService) { 
   }
 
   ngOnInit() {
     window.localStorage.clear()
+    this.fcm.getToken().then(res =>{
+      this.token_user = res
+    })
   }
 
   ionViewDidEnter(){
@@ -64,6 +70,7 @@ export class LoginPage implements OnInit {
 
             obj_user.latitud = this.coord_user.latitude
             obj_user.longitud = this.coord_user.longitude
+            obj_user.token_notification = this.token_user
 
             this.UserfirebseService.updateDataUser(obj_user)
             window.localStorage.setItem('user',JSON.stringify(obj_user))

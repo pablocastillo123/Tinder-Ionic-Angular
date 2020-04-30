@@ -122,7 +122,8 @@ export class Tab2Page implements OnInit {
               name: this.user_coord[j].name,
               rango: this.user_coord[j].rango,
               sexo: this.user_coord[j].sexo,
-              km : this.kilometros[i].km
+              km : this.kilometros[i].km,
+              token_notification: this.user_coord[j].token_notification
             }
           }
         }
@@ -237,7 +238,8 @@ export class Tab2Page implements OnInit {
                 name: this.user_coord[j].name,
                 rango: this.user_coord[j].rango,
                 sexo: this.user_coord[j].sexo,
-                km : Math.round(this.kilometros[i].km)
+                km : Math.round(this.kilometros[i].km),
+                token_notification: this.user_coord[j].token_notification
               }
             }
           }
@@ -340,7 +342,12 @@ export class Tab2Page implements OnInit {
   
             //se guarda el match y se envia una notifiacion a los usuarios
             this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
-            this.notification.sendNotification('Tinder', 'Tienes un nuevo Match', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
+
+            let from_user = this.people.filter(token =>{
+              return token.id == this.likes[i].id_from_user
+            })
+  
+            this.notification.sendNotification('tinder', 'Tienes un nuevo Match',this.user_login.token_notification, from_user[0].token_notification)
           }
         }
       }, 2000);
@@ -389,7 +396,12 @@ export class Tab2Page implements OnInit {
 
           //se guarda el match y se envia una notifiacion a los usuarios
           this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
-          this.notification.sendNotification('tinder', 'Tienes un nuevo Match', likeotheruser[0].id_from_user , this.likes[i].id_from_user)
+          
+          let from_user = this.people.filter(token =>{
+            return token.id == this.likes[i].id_from_user
+          })
+
+          this.notification.sendNotification('tinder', 'Tienes un nuevo Match',this.user_login.token_notification, from_user[0].token_notification)
         }
       }
     }, 2000);

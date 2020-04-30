@@ -8,6 +8,7 @@ export interface userInterface{
     latitud: number,
     longitud: number,
     rango: number,
-    km: number
+    km: number,
+    token_notification: string
 }
 

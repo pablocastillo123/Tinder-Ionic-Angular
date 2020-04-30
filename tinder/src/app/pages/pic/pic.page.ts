@@ -32,7 +32,8 @@ export class PicPage implements OnInit {
     latitud: 0,
     longitud: 0,
     rango: 0,
-    km: 0
+    km: 0,
+    token_notification:''
   }
 
   constructor(private camera : Camera,private ImageFirebaseService:ImageFirebaseService,

@@ -43,7 +43,7 @@ export class NotificationService implements OnInit  {
         "body":text,
         "sound":"default"
       },
-      "to": "/topics/" + to_user
+      "to": to_user
     }
 
     let body_from_user = {
@@ -52,21 +52,25 @@ export class NotificationService implements OnInit  {
         "body":text,
         "sound":"default"
       },
-      "to": "/topics/" + from_user
+      "to": from_user
     }
 
     
       this.http.post(this.url, body_to_user, {headers: this.headers}).subscribe(res =>{
       })
-      this.http.post(this.url, body_from_user,  {headers: this.headers}).subscribe(res =>{    
-      })
+      
     
-      this.localNotifications.schedule({
-        title: 'Tinder',
-        text: 'Tienes un nuevo Match',
-        sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
-
-      });
+      if(this.data){
+        this.http.post(this.url, body_from_user,  {headers: this.headers}).subscribe(res =>{    
+        })
+        
+      }else{
+        this.localNotifications.schedule({
+          title: 'Tinder',
+          text: 'Tienes un nuevo Match',
+          sound: this.platform.is("android") ? 'file://sound.mp3': 'file://beep.caf',
+       });
+      }
     }
 
   }
