@@ -8,7 +8,7 @@ import { AngularFirestore} from '@angular/fire/firestore';
 import { LoadingController } from '@ionic/angular';
 import { Camera } from '@ionic-native/camera/ngx';
 import { ImageFirebaseService } from './../../services/image-firebase.service';
-
+import { LocationService } from './../../services/location.service';
 
 @Component({
   selector: 'app-register',
@@ -24,9 +24,10 @@ export class RegisterPage {
   private image:string;
   private id_user = this.utilTool.generateId();
   private img_base64:string
-  
+  private coord_user 
 
   constructor(
+    private LocationService:LocationService,
     private authSvc: AuthService,private router: Router,private utilTool:UtilToolService,
     private ImageFirebaseService:ImageFirebaseService,private camera:Camera,
     private formBuilder: FormBuilder,private db: AngularFirestore,private loadingController:LoadingController
@@ -76,6 +77,11 @@ export class RegisterPage {
     }
   }
 
+  ionViewDidEnter(){
+    this.LocationService.checkGPSPermission()
+    this.coord_user = this.LocationService.getCoord()
+  }
+
   ionViewDidLeave	 () {
     this.user.name = ""
     this.user.last_name = ""
@@ -107,8 +113,8 @@ export class RegisterPage {
               email: this.user.email,
               age: this.user.age,
               sexo: this.user_sexo,
-              latitud: 0,
-              longitud: 0,
+              latitud: this.coord_user.latitude,
+              longitud: this.coord_user.longitude,
               rango: 200
             })
   

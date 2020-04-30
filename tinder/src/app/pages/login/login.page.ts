@@ -5,10 +5,7 @@ import { Router} from '@angular/router'
 import { AuthService} from '../../services/auth.service'
 import { User } from '../../shared/user.class'
 import { AlertController, LoadingController } from '@ionic/angular';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { UtilToolService  } from '../../services/utiltool.service'
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-LocationService
 
 @Component({
   selector: 'app-login',
@@ -20,9 +17,9 @@ export class LoginPage implements OnInit {
   user: User = new User()
   private coord_user
 
-  constructor(private LocationService:LocationService,private androidPermissions:AndroidPermissions,private router: Router, private authSvc: AuthService, private UserfirebseService:UserfirebseService,
+  constructor(private LocationService:LocationService,private router: Router, private authSvc: AuthService, private UserfirebseService:UserfirebseService,
     public alertController: AlertController,private loadingController: LoadingController,
-    private utiltool : UtilToolService,private geolocation:Geolocation) { 
+    private utiltool : UtilToolService) { 
   }
 
   ngOnInit() {
