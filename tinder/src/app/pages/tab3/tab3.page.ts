@@ -18,6 +18,9 @@ import { ModalController } from '@ionic/angular';
 
 import { StorieviewPage } from '../storieview/storieview.page'
 
+import {  StorieotherusersPage } from '../storieotherusers/storieotherusers.page'
+
+
 
 
 
@@ -72,6 +75,8 @@ export class Tab3Page {
 
   final_array = []
 
+  user_match_stories = []
+
 
   constructor(private db: AngularFirestore, private matchService :MatchService, private userfirebase : UserfirebseService,
     private imagefirebase: ImageFirebaseService, private router: Router , 
@@ -100,23 +105,17 @@ export class Tab3Page {
       this.final = this.matches.filter(elemento => {
         return elemento.id_from_user == this.user_login.id || elemento.id_to_user == this.user_login.id
       })
-    })
-
     
-
-
+    })
+   
   }
 
   ionViewWillEnter () {
-    setTimeout( ( )=> {
-      this.people = []
-      this.gente = []
-      console.log("Entraste")
-      this.pushPeople();
-      this.pushGente()
-     
-    }, 500  )
-   
+      setTimeout( () => {
+        console.log("Entraste")
+        this.pushPeople();
+        this.pushGente()
+      }, 1000)
   }
   
   pushPeople() {
@@ -150,6 +149,8 @@ export class Tab3Page {
   ionViewDidLeave	() {
     this.people = []
     this.gente = []
+    console.log("ABANDONE")
+
   }
 
   goToAnother (genId, index) {
@@ -219,27 +220,13 @@ export class Tab3Page {
           return elemento.file_path === 'stories' && elemento.id_usuario != this.user_login.email
         })
         console.log("LAS HISTORIAS DE OTROS", this.stories_others)
-        // for(let i = 0; i < this.gente.length; i++) {
-        //   for(let j = 0 ; j < this.stories_others.length; j++) {
-        //       if(this.gente[i].email === this.stories_others[j].id_usuario ) {
 
-      
+        this.user_match_stories = this.gente.filter(({ email: id1 }) => 
+            
+        this.stories_others.some(({ id_usuario : id2 }) => id2 === id1));
 
-        //         const genteObject = {
-        //           ...this.gente[i],
-        //           id_img : this.stories_others[j].id_img,
-        //           name: this.stories_others[j].name,
-        //           path: this.stories_others[j].path,
-        //           seen: [this.stories_others[j].seen],
-        //           type: this.stories_others[j].type,
-        //           url: this.stories_others[j].url
-        //         }
-        //         this.final_array.push(genteObject)
-                
-        //       }
-        //   }
-        // }
-        // console.log(this.final_array, "FINAL")
+        console.log("RETORNA LOS QUE TIENEN HISTORIAS", this.user_match_stories)
+
       })
 
       console.log(this.gente ,"GENTE")
@@ -323,14 +310,6 @@ export class Tab3Page {
   }
 
   async obtenerMisHistorias() {
-    //  this.imagefirebase.getImageCollection().subscribe(res => {
-      
-    //    this.stories_user = res.filter(elemento => {
-    //     return elemento.file_path === 'stories' && elemento.id_usuario === this.user_login.email
-    //   })
-    //   console.log("Historias obtenidas", this.stories_user)
-    
-    // })
 
     let modal = await this.modalCtrl.create({
       component : StorieviewPage,
@@ -338,13 +317,32 @@ export class Tab3Page {
        user_login : this.user_login
       } 
     })
+    this.ionViewDidLeave()
+
     return await modal.present();
    
   }
 
-  verHistoria () {
-    console.log("Viendo historiaa")
+  async verHistoria (usuario) {
+
+    console.log(usuario , "INFO DEL USER")
+
+    let modal = await this.modalCtrl.create({
+      component : StorieotherusersPage,
+      componentProps: {
+       user : usuario
+      } 
+
+    })
+    this.ionViewDidLeave()
+
+    return await modal.present();
+
   }
+
+ 
+
+
 
 
 }

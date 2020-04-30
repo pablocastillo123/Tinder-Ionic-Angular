@@ -30,6 +30,8 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 import { StorieviewPageModule } from './pages/storieview/storieview.module'
 
+import {  StorieotherusersPageModule } from './pages/storieotherusers/storieotherusers.module'
+
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { StorieviewPageModule } from './pages/storieview/storieview.module'
     AngularFireDatabaseModule,
     HttpClientModule,
     SuperTabsModule.forRoot(),
-    StorieviewPageModule
+    StorieviewPageModule,
+    StorieotherusersPageModule
   ],
   providers: [
     StatusBar,Camera,

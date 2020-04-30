@@ -155,20 +155,26 @@
             <ion-label>Recientes</ion-label>
           </ion-item>
 
-          <ion-item (click) = "verHistoria()">
-            Aqui iran las historias recientes
+          <ion-item *ngFor = "let usuario of user_match_stories" (click) = "verHistoria(usuario)">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                 <ion-avatar>
+                   <img [src] =  "usuario.imagen" class="imagen-user">
+                 </ion-avatar>                 
+               </ion-col>
+                <ion-col class="nombre-user">
+                   <h2>{{usuario.name}}</h2>
+                </ion-col>
+               </ion-row>
+              </ion-grid>
           </ion-item>
 
           <ion-item class="recientes" color = "light">
             <ion-label>Vistos</ion-label>
           </ion-item>
 
-          <ion-item (click) = "verHistoria()">
-            Aqui iran las historias ya vistas
-          </ion-item>
-
-
-          <ion-fab vertical = "bottom" horizontal = "end" slot="fixed" (click) = "subirHistoria()" >
+          <ion-fab vertical = "bottom" horizontal = "end" slot="fixed" (click) = "verHistoria()" >
             <ion-fab-button color = "danger">
               <ion-icon name="camera-outline"></ion-icon>
             </ion-fab-button>
