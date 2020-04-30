@@ -42,7 +42,11 @@ const routes: Routes = [
   {
     path: 'chat/:id',
     loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+  },  {
+    path: 'storieview',
+    loadChildren: () => import('./pages/storieview/storieview.module').then( m => m.StorieviewPageModule)
   }
+
 
 
 ];

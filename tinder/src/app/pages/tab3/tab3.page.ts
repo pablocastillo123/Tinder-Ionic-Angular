@@ -14,6 +14,11 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { Camera } from '@ionic-native/camera/ngx';
 
 import {  UtilToolService } from '../../services/utiltool.service'
+import { ModalController } from '@ionic/angular';
+
+import { StorieviewPage } from '../storieview/storieview.page'
+
+
 
 
 
@@ -58,12 +63,16 @@ export class Tab3Page {
   lastMessague = []
 
   img_base64;
+
   image;
+
+  stories_user = []
 
 
   constructor(private db: AngularFirestore, private matchService :MatchService, private userfirebase : UserfirebseService,
     private imagefirebase: ImageFirebaseService, private router: Router , 
-    private afDB : AngularFireDatabase, private camera : Camera, private utilTool : UtilToolService ) {}
+    private afDB : AngularFireDatabase, private camera : Camera, private utilTool : UtilToolService,
+    private modalCtrl : ModalController ) {}
 
   ngOnInit() {
 
@@ -245,7 +254,6 @@ export class Tab3Page {
   }
 
   subirHistoria () {
-    console.log("Historia subida")
     this.camera.getPicture({
       destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
@@ -264,6 +272,7 @@ export class Tab3Page {
       this.image = base64
 
       //Guardar foto en firebase
+      this.imagefirebase.saveImg(this.user_login.email, this.img_base64, 'stories', [])
       console.log("Se ha enviado la foto")
 
 
@@ -272,6 +281,28 @@ export class Tab3Page {
       this.utilTool.presentAlert('error',err,'ok')
     })
 
+    console.log("Subir historia")
+
+  }
+
+  async obtenerMisHistorias() {
+    //  this.imagefirebase.getImageCollection().subscribe(res => {
+      
+    //    this.stories_user = res.filter(elemento => {
+    //     return elemento.file_path === 'stories' && elemento.id_usuario === this.user_login.email
+    //   })
+    //   console.log("Historias obtenidas", this.stories_user)
+    
+    // })
+
+    let modal = await this.modalCtrl.create({
+      component : StorieviewPage,
+      componentProps: {
+       user_login : this.user_login
+      } 
+    })
+    return await modal.present();
+   
   }
 
   verHistoria () {
