@@ -19,12 +19,6 @@ import { StorieviewPage } from '../storieview/storieview.page'
 import {  StorieotherusersPage } from '../storieotherusers/storieotherusers.page'
 
 
-
-
-
-
-
-
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
@@ -81,7 +75,7 @@ export class Tab3Page {
   currentLength = 0
 
 
-  constructor(private db: AngularFirestore, private matchService :MatchService, private userfirebase : UserfirebseService,
+  constructor(private matchService :MatchService, private userfirebase : UserfirebseService,
     private imagefirebase: ImageFirebaseService, private router: Router , 
     private afDB : AngularFireDatabase, private camera : Camera, private utilTool : UtilToolService,
     private modalCtrl : ModalController ) {}
