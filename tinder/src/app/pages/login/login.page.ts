@@ -72,7 +72,7 @@ export class LoginPage implements OnInit {
             obj_user.longitud = this.coord_user.longitude
             obj_user.token_notification = this.token_user
 
-            this.UserfirebseService.updateDataUser(obj_user)
+            // this.UserfirebseService.updateDataUser(obj_user)
             window.localStorage.setItem('user',JSON.stringify(obj_user))
             console.log(obj_user)
             break

@@ -42,7 +42,11 @@ const routes: Routes = [
   {
     path: 'chat/:id',
     loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+  },  {
+    path: 'ajustes',
+    loadChildren: () => import('./pages/ajustes/ajustes.module').then( m => m.AjustesPageModule)
   }
+
 
 
 ];

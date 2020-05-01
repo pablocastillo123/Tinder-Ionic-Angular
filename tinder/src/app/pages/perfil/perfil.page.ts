@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
 })
 export class PerfilPage implements OnInit {
 
-  private rango_coord: number
   private img_base64: string;
   private image: string;
   private data_image = {
@@ -36,7 +35,9 @@ export class PerfilPage implements OnInit {
     email:'',
     latitud: 0,
     longitud: 0,
-    rango: 0,
+    config_sexo: null,
+    config_age: null,
+    config_rango: 0,
     km : 0,
     token_notification:''
   }
@@ -64,8 +65,6 @@ export class PerfilPage implements OnInit {
     try {
       this.obj_user = JSON.parse(window.localStorage.getItem('user'))
       console.log(this.obj_user)
-
-      this.rango_coord = this.obj_user.rango
 
       this.ImageFirebaseService.getImageCollection().subscribe(image_firebase =>{
         for(var i=0; i<image_firebase.length; i++){
@@ -113,11 +112,6 @@ export class PerfilPage implements OnInit {
         if(this.img_base64){
           this.ImageFirebaseService.deleteImage(this.data_image.path)
           this.ImageFirebaseService.deleteImageData(this.data_image.id_img)
-        }
-
-        if(this.rango_coord != this.obj_user.rango){
-          this.obj_user.rango = this.rango_coord
-          console.log('rango del user: ',this.obj_user.rango)
         }
 
         this.UserfirebseService.updateDataUser(this.obj_user)

@@ -22,10 +22,10 @@
     <div class="btn_content">
 
       <div class="btn">
-        <ion-fab-button class="btn_cerrar" (click)="signOut()">
-          <ion-icon name="log-out"></ion-icon>
+        <ion-fab-button class="btn_ajuste" [routerLink]="['/ajustes']">
+          <ion-icon name="settings"></ion-icon>
         </ion-fab-button>
-        <h6>Cerrar Sesion</h6>
+        <h6>Ajustes</h6>
       </div>
       
       <div class="btn">
@@ -42,6 +42,12 @@
         <h6>Editar Perfil</h6>
       </div>
 
+      <div class="btn">
+        <ion-fab-button class="btn_cerra" (click)="signOut()">
+          <ion-icon name="log-out"></ion-icon>
+        </ion-fab-button>
+        <h6>Cerrar Sesion</h6>
+      </div>
       
     </div>
 

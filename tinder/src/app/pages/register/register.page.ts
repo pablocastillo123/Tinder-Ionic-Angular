@@ -93,7 +93,8 @@ export class RegisterPage {
 
 
   async register(){
-
+    let sexo_hombre
+    let sexo_mujer
 
     const loading = await this.loadingController.create({
       message : 'Loading.....'
@@ -106,6 +107,16 @@ export class RegisterPage {
           const user = await this.authSvc.onRegister(this.user)
 
           if(user){
+            if(this.user_sexo == 'Mujer'){
+              sexo_hombre = true
+              sexo_mujer = false
+            }
+
+            if(this.user_sexo == 'Hombre'){
+              sexo_hombre = false
+              sexo_mujer = true
+            }
+            
             this.db.collection("usuario").doc(this.id_user).set({
               id: this.id_user,
               name: this.user.name,
@@ -115,8 +126,16 @@ export class RegisterPage {
               sexo: this.user_sexo,
               latitud: this.coord_user.latitude,
               longitud: this.coord_user.longitude,
-              rango: 200,
-              token_notification:''
+              token_notification:'',
+              config_sexo: {
+                hombre:sexo_hombre,
+                mujer:sexo_mujer
+              },
+              config_age: {
+                lower:18,
+                upper:120
+              },
+              config_rango: 200,
             })
   
             this.ImageFirebaseService.saveImg(this.user.email,this.img_base64,'perfil')
