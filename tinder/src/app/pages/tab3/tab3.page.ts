@@ -153,6 +153,7 @@ export class Tab3Page {
   ionViewDidLeave	() {
     this.people = []
     this.gente = []
+    this.user_match_stories = []
     console.log("ABANDONE")
 
   }
