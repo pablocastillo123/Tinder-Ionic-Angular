@@ -221,7 +221,7 @@ export class Tab3Page {
         }
       }
 
-      this.imagefirebase.getImageCollection().subscribe(res => {
+      this.storiesService.getImageCollection().subscribe(res => {
         this.stories_others = res.filter (elemento => {
           return elemento.file_path === 'stories' && elemento.id_usuario != this.user_login.email
         })
