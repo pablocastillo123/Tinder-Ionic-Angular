@@ -146,31 +146,37 @@
                </ion-grid>
           </ion-item>
           
-          <ion-item class="recientes" color = "light"  >
+          <ion-item class="recientes" color = "light" >
             <ion-label>Historias</ion-label>
           </ion-item>
 
-          <ion-item *ngFor = "let usuario of user_match_stories" (click) = "verHistoria(usuario)">
-            <ion-grid>
-              <ion-row>
-                <ion-col>
-                 <ion-avatar>
-                   <img [src] =  "usuario.imagen" class="imagen-user">
-                 </ion-avatar>                 
-               </ion-col>
-                <ion-col class="nombre-user">
-                   <h2>{{usuario.name}}</h2>
-                </ion-col>
-               </ion-row>
-              </ion-grid>
-          </ion-item>
+          <ng-container *ngIf="user_match_stories.length > 0; else nulo_store">
 
-          <div class="content_his_message">
-            <img class="his-img" src="../../../assets/image/historia.png">
-            <h1 class="his-h1">Regresa mas tarde</h1>
-            <h6 class="his-h6">No encontramos actividad social reciente de tus matches. Intentalo de nuevo mas tarde.</h6>
-          </div>
+            <ion-item *ngFor = "let usuario of user_match_stories" (click) = "verHistoria(usuario)">
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                   <ion-avatar>
+                     <img [src] =  "usuario.imagen" class="imagen-user">
+                   </ion-avatar>                 
+                 </ion-col>
+                  <ion-col class="nombre-user">
+                     <h2>{{usuario.name}}</h2>
+                  </ion-col>
+                 </ion-row>
+                </ion-grid>
+            </ion-item>
 
+          </ng-container>
+
+          <ng-template #nulo_store>
+            <div class="content_his_message">
+              <img class="his-img" src="../../../assets/image/historia.png">
+              <h1 class="his-h1">Regresa mas tarde</h1>
+              <h6 class="his-h6">No encontramos actividad social reciente de tus matches. Intentalo de nuevo mas tarde.</h6>
+            </div>
+          </ng-template>
+          
           <ion-fab vertical = "bottom" horizontal = "end" slot="fixed" (click) = "subirHistoria()" >
             <ion-fab-button color = "danger">
               <ion-icon name="camera-outline"></ion-icon>
