@@ -19,16 +19,25 @@ export class ChatPage implements OnInit {
 
   @ViewChild('content', {static: false}) content: IonContent;
 
-  chat_id = null
-  matches;
-  userMatch = []
-  result
-  mensaje = ''
-  user_login
-  mensajes_todos = []
-  size = 10
-  img_base64: any;
-  image: string;
+  public chat_id = null
+
+  public matches;
+
+  public userMatch = []
+
+  public result
+
+  public mensaje = ''
+
+  public user_login
+
+  public mensajes_todos = []
+
+  public size : number = 10
+
+  public img_base64: any;
+
+  public image: string;
 
   constructor(private route : ActivatedRoute, private router: Router, private afDB : AngularFireDatabase, 
     private NotificationService:NotificationService,
@@ -43,19 +52,12 @@ export class ChatPage implements OnInit {
 
     this.user_login = JSON.parse(window.localStorage.getItem('user'))
 
-    console.log("LOGEADO", this.user_login)
-
     this.chat_id = this.route.snapshot.params['id']
-
-    console.log("ESTE ES EL CHAT", this.chat_id)
-
-    console.log("USER MATCH", this.userMatch)
 
     this.result = this.userMatch.find(element => {
       return element.id_Match == this.chat_id
     })
 
-    console.log("RESULTADO", this.result)
 
     this.getMessages()
   }
@@ -65,6 +67,7 @@ export class ChatPage implements OnInit {
     this.router.navigateByUrl('tabs/tab3')
   }
 
+  //Metodo creado para que cuando el usuario envie un mensaje, el scroll baje, y para el inicio del chat
   scrollToBottomOnInit(time) {
     setTimeout(() => {
       if (this.content.scrollToBottom) {
@@ -75,13 +78,13 @@ export class ChatPage implements OnInit {
 
   sendMessage () {
 
-    var today = new Date();
+    //Se obtiene para saber la fecha actual y asi enviarlo en la base de datoss
+    let today = new Date();
 
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 
-    var time = today.getHours() + ":" + today.getMinutes()
+    let time = today.getHours() + ":" + today.getMinutes()
 
-    console.log("TEXTO", this.mensaje)
 
     this.realTime.sendMessague(this.chat_id, this.user_login.id, this.mensaje, date, time);
 
@@ -92,7 +95,6 @@ export class ChatPage implements OnInit {
     this.NotificationService.sendNotificationChat('Tinder',`Tienes un mensaje de ${this.user_login.name}`,this.result.token_notification)
 
 
-    // this.realTime.updateMessagues(this.chat_id)
   }
 
   getMessages (){
@@ -100,7 +102,6 @@ export class ChatPage implements OnInit {
     this.realTime.getMessages(this.chat_id).subscribe(res => {
       this.mensajes_todos = []
         res.forEach(action => {
-          console.log("TEXTO", action.payload.exportVal().text)
           this.mensajes_todos.push({
             text: action.payload.exportVal().text,
             idUser : action.payload.exportVal().idUser,
@@ -108,14 +109,13 @@ export class ChatPage implements OnInit {
           })
         })
 
-        console.log("MENSAJES ", this.mensajes_todos)
         this.scrollToBottomOnInit(1500)
     })
 
   }
 
+  //Ver la foto dentro del chat
   viewpic (foto_url) { 
-    console.log("URL de la foto", foto_url)
     this.viewer.show(foto_url) 
   }
 
@@ -140,7 +140,6 @@ export class ChatPage implements OnInit {
 
       //Agregar en el servicio
       this.imageService.saveImageInChat(this.user_login.email, this.img_base64, 'conversaciones', this.chat_id, this.user_login.id)
-      console.log("Se ha enviado la foto")
 
     }).catch(err =>{
       console.log(err)
@@ -150,9 +149,6 @@ export class ChatPage implements OnInit {
 
   }
 
-  deleteone () {
-    console.log("Hola")
-  }
 
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
@@ -165,7 +161,6 @@ export class ChatPage implements OnInit {
   }
 
   ionViewDidLeave () {
-    console.log("TE SALISTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
     this.mensaje = ""
   }
 

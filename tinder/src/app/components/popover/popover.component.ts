@@ -27,9 +27,7 @@ export class PopoverComponent implements OnInit {
     private realTime : RealtimeService, private utilTool:UtilToolService ) { }
 
   ngOnInit() {
-    console.log(this.navParams.data, "La dataa");
     this.id_Match = this.navParams.get('id');
-    console.log("Variable del id", this.id_Match)
   }
 
   deleteMatch () {
@@ -38,7 +36,6 @@ export class PopoverComponent implements OnInit {
     this.router.navigate(['/tabs/tab2'])
     this.utilTool.presentAlert('Mensaje','Match Eliminado','ok');
 
-    console.log("Eliminado")
   }
 
   vaciarChat() {

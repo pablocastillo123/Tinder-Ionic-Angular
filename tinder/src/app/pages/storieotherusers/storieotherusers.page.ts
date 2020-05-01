@@ -1,90 +1,79 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NavParams, ModalController, IonSlides } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { NavParams, ModalController, IonSlides } from "@ionic/angular";
 
-import { ImageFirebaseService } from '../../services/image-firebase.service'
+import { ImageFirebaseService } from "../../services/image-firebase.service";
 
-import { StoriesService } from '../../services/stories.service'
+import { StoriesService } from "../../services/stories.service";
 
 @Component({
-  selector: 'app-storieotherusers',
-  templateUrl: './storieotherusers.page.html',
-  styleUrls: ['./storieotherusers.page.scss'],
+  selector: "app-storieotherusers",
+  templateUrl: "./storieotherusers.page.html",
+  styleUrls: ["./storieotherusers.page.scss"],
 })
 export class StorieotherusersPage implements OnInit {
+  @ViewChild(IonSlides, { static: false }) slides: IonSlides;
 
-  @ViewChild(IonSlides,  {static: false}) slides : IonSlides
-
-  @ViewChild("divv", {static: false}) set progressElement(divv: any) {
-
-    if(divv) {
-
-
+  //Logica que se usa cuando el progress pertenciente al css llega al 100%
+  @ViewChild("divv", { static: false }) set progressElement(divv: any) {
+    if (divv) {
       divv = divv.nativeElement;
 
       divv.addEventListener("animationend", () => {
-        this.nextStoryItem()
-      })
+        this.nextStoryItem();
+      });
 
       divv.addEventListener("webkitAnimationWend", () => {
-        this.nextStoryItem()
-      })
-
+        this.nextStoryItem();
+      });
     }
-
   }
 
-  private user
+  private user;
 
-  private stories_user = []
+  private stories_user = [];
 
-  currentIndex = 0
+  public currentIndex : number = 0;
 
-
-  constructor(private navParams: NavParams,  
-    private imagefirebase : ImageFirebaseService,  private modalCtrl : ModalController,
-    private storieService : StoriesService  ) { }
+  constructor(
+    private navParams: NavParams,
+    private imagefirebase: ImageFirebaseService,
+    private modalCtrl: ModalController,
+    private storieService: StoriesService
+  ) {}
 
   ngOnInit() {
+    //Se obtiene la informacion del usuario que se pasa mediante parametros
+    this.user = this.navParams.get("user");
 
-    this.user = this.navParams.get('user')
-    console.log("INFO DEL USER", this.user)
-    console.log("METODODDD", this.navParams.get('metodo'))
-
-    
-    this.storieService.getImageCollection().subscribe(res => {
-      
-      this.stories_user = res.filter(elemento => {
-       return elemento.file_path === 'stories' && elemento.id_usuario === this.user.email
-     })
-     console.log("Historias obtenidas", this.stories_user)
-   
-   })
-
+    this.storieService.getImageCollection().subscribe((res) => {
+      this.stories_user = res.filter((elemento) => {
+        return (
+          elemento.file_path === "stories" &&
+          elemento.id_usuario === this.user.email
+        );
+      });
+    });
   }
 
   goBack() {
-    this.modalCtrl.dismiss()
+    this.modalCtrl.dismiss();
   }
 
-  ionSlideWillChange () {
-    this.slides.getActiveIndex().then(index => {
-      console.log("INDEX", index)
-      console.log('currentIndex:', index);
-      this.currentIndex = index
-    })
-   
-    console.log("EVENTO", event)  
+  //Ciclo de vida que se dispara cuando el slider se cambia
+  ionSlideWillChange() {
+    this.slides.getActiveIndex().then((index) => {
+      this.currentIndex = index;
+    });
+
+    console.log("EVENTO", event);
   }
 
-  nextStoryItem () {
-    this.slides.slideNext()
-    console.log("CURRENT", this.currentIndex)
-    
-    if( this.currentIndex  === this.stories_user.length -1 ) {
-      this.modalCtrl.dismiss()
+  //Metodo creado para comprobar si se es el ultimo y cancelar el modal
+  nextStoryItem() {
+    this.slides.slideNext();
+
+    if (this.currentIndex === this.stories_user.length - 1) {
+      this.modalCtrl.dismiss();
     }
-    // this.ionSlideWillChange()
-    console.log("HOLAA")
   }
-
 }
