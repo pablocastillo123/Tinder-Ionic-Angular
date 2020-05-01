@@ -38,53 +38,63 @@ export class LoginPage implements OnInit {
   }
 
   async onLogin (event: any) {
+
     const loading = await this.loadingController.create({
       message: 'Cargando....'
     });
     await loading.present()
-    window.localStorage.clear()
+    
+    try {
 
-    const user = await this.authSvc.onLogin(this.user)
+      window.localStorage.clear()
 
-    if(event.target.user.value == "" && event.target.password.value == "") {
-      this.utiltool.presentAlert('Error', 'Por favor llene los campos', 'ok')
-      loading.dismiss()
-    }
-    if(event.target.user.value !== "" && event.target.password.value == "") {
-      this.utiltool.presentAlert('Error', 'Por favor llene el campo de contraseña', 'ok' )
-      loading.dismiss()
+      const user = await this.authSvc.onLogin(this.user)
 
-    }
-    if(event.target.user.value == "" && event.target.password.value !== "") {
-      this.utiltool.presentAlert('Error', 'Por favor llene el campo de usuario', 'ok' )
-      loading.dismiss()
-
-    } if(user) {
-      this.UserfirebseService.getUserCollection().subscribe(res => {
-        let res_user = res
-  
-        for(var i=0; i<res_user.length ; i++){
-          if(res_user[i].email ===this.user.email ){
-          
-            let obj_user = {...res_user[i]}
-
-            obj_user.latitud = this.coord_user.latitude
-            obj_user.longitud = this.coord_user.longitude
-            obj_user.token_notification = this.token_user
-
-            // this.UserfirebseService.updateDataUser(obj_user)
-            window.localStorage.setItem('user',JSON.stringify(obj_user))
-            console.log(obj_user)
-            break
-          }
-        }
-
-        this.router.navigateByUrl('/tabs/tab2')
+      if(event.target.user.value == "" && event.target.password.value == "") {
+        this.utiltool.presentAlert('Error', 'Por favor llene los campos', 'ok')
+        loading.dismiss()
+      }
+      if(event.target.user.value !== "" && event.target.password.value == "") {
+        this.utiltool.presentAlert('Error', 'Por favor llene el campo de contraseña', 'ok' )
         loading.dismiss()
 
-      })
+      }
+      if(event.target.user.value == "" && event.target.password.value !== "") {
+        this.utiltool.presentAlert('Error', 'Por favor llene el campo de usuario', 'ok' )
+        loading.dismiss()
 
-    }  else {
+      } if(user) {
+        this.UserfirebseService.getUserCollection().subscribe(res => {
+          let res_user = res
+    
+          for(var i=0; i<res_user.length ; i++){
+            if(res_user[i].email ===this.user.email ){
+            
+              let obj_user = {...res_user[i]}
+
+              obj_user.latitud = this.coord_user.latitude
+              obj_user.longitud = this.coord_user.longitude
+              obj_user.token_notification = this.token_user
+
+              this.UserfirebseService.updateDataUser(obj_user)
+              window.localStorage.setItem('user',JSON.stringify(obj_user))
+              break
+            }
+          }
+
+          this.router.navigateByUrl('/tabs/tab2')
+          loading.dismiss()
+
+        })
+
+      }else {
+        loading.dismiss()
+      }
+
+    }catch (error) {
+      this.utiltool.presentAlert('Error', 'Error en Operacion', 'ok' )
+      loading.dismiss()
+    }finally{
       loading.dismiss()
     }
   }

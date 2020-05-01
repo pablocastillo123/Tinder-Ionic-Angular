@@ -88,13 +88,9 @@ export class PicPage implements OnInit {
             this.data_img.push(res[i])
           }
         }
-
-        
       })
 
-      loading.dismiss()
-
-   
+    loading.dismiss()
   }
 
   async imgSaveFirebase(){
@@ -114,18 +110,13 @@ export class PicPage implements OnInit {
           if(this.data_img[i].id_img){
             this.ImageFirebaseService.deleteImage(this.data_img[i].path)
             this.ImageFirebaseService.deleteImageData(this.data_img[i].id_img)
-            
           }
         }
       }
-   
     }
 
     this.utilTool.presentAlert('Exito', 'Archivo subido exitosamente', 'ok')
     this.router.navigateByUrl('/tabs/tab1')
 
   }
-
-  
-
 }

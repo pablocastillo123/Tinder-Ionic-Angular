@@ -36,7 +36,7 @@
       <h6 class="distancia">Rango de edad</h6>
       <h6 class="number" >{{user_config_age.lower}} - {{user_config_age.upper}}</h6>
     </div>
-    <ion-range color="danger" dualKnobs="true" [(ngModel)]="user_config_age" min="18" max="120"></ion-range>
+    <ion-range pin="true" color="danger" dualKnobs="true" [(ngModel)]="user_config_age" min="18" max="120"></ion-range>
   </ion-card>
 
   <ion-button (click)="updateAjustes()">ACTUALIZAR</ion-button>

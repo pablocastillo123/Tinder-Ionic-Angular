@@ -19,17 +19,13 @@ export class AjustesPage implements OnInit {
     lower:0
   }
 
-  private checkbox = {
-
-  }
-
   constructor(private UserfirebseService:UserfirebseService,private router : Router,
     private utilTool:UtilToolService,private loadingController:LoadingController) { }
 
   ngOnInit() {
     this.obj_user = JSON.parse(window.localStorage.getItem('user'))
-    console.log(this.obj_user)
 
+    //obtenemos los datos de config del usuario logueado
     this.user_config_sexo = this.obj_user.config_sexo
     this.user_config_rango = this.obj_user.config_rango
     this.user_config_age = this.obj_user.config_age
@@ -46,17 +42,23 @@ export class AjustesPage implements OnInit {
     await loading.present()
 
     try {
+      //verificamos si los datos de config del usuario logueado son diferentes 
+      //a los datos que el usuario esta modificando en la app, y por ultimo se actualizan los datos.
+      
+      //verificando el rango
       if(this.user_config_rango != this.obj_user.config_rango){
 
         this.obj_user.config_rango = this.user_config_rango
       }
 
+      //verificando la edad
       if(this.user_config_age.lower !== this.obj_user.config_age.lower || 
         this.user_config_age.upper !== this.obj_user.config_age.upper){
         
         this.obj_user.config_age = this.user_config_age
       }
 
+      //verificando el sexo
       if(this.user_config_sexo.hombre !== this.obj_user.config_sexo.hombre ||
         this.user_config_sexo.mujer !== this.obj_user.config_sexo.mujer){
 
@@ -69,8 +71,6 @@ export class AjustesPage implements OnInit {
       window.localStorage.setItem('user',JSON.stringify(this.obj_user))
       this.utilTool.presentAlert('Mensage','Datos Actualizados','ok');
       this.router.navigateByUrl('/tabs/tab1')
-        
-      
       
     } catch (error) {
       this.utilTool.presentAlert('Error','Error al hacer esta operacion','ok');

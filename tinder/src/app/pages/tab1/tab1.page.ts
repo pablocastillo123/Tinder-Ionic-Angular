@@ -30,7 +30,6 @@ export class Tab1Page implements OnInit {
     await loading.present()
 
     this.obj_user = JSON.parse(window.localStorage.getItem('user'))
-    console.log(this.obj_user)
 
     this.UserfirebseService.getUserCollection().subscribe(user_firebase =>{
       user_firebase.forEach(element => {
@@ -53,7 +52,6 @@ export class Tab1Page implements OnInit {
 
     loading.dismiss()
   }
-  
 
   async signOut(){
     await window.localStorage.clear();

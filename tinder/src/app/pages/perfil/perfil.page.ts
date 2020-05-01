@@ -64,7 +64,6 @@ export class PerfilPage implements OnInit {
 
     try {
       this.obj_user = JSON.parse(window.localStorage.getItem('user'))
-      console.log(this.obj_user)
 
       this.ImageFirebaseService.getImageCollection().subscribe(image_firebase =>{
         for(var i=0; i<image_firebase.length; i++){

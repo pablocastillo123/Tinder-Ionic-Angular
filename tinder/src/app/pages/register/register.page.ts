@@ -64,7 +64,6 @@ export class RegisterPage {
       }
       
       if(reg.get('password').value.length < 6){
-        console.log(reg.get('password').value.length)
         this.utilTool.presentAlert('Error','El password debe tener al menos 6 caracteres','ok');
       
       }if(this.email_user == reg.get('email').value){

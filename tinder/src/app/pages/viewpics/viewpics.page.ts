@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ActivatedRoute } from '@angular/router'
-
 import { ImageFirebaseService } from '../../services/image-firebase.service'
-
 
 @Component({
   selector: 'app-viewpics',
@@ -12,11 +9,9 @@ import { ImageFirebaseService } from '../../services/image-firebase.service'
 })
 export class ViewpicsPage implements OnInit {
 
-  user_id = null
-
-  imagen = []
-
-  imagenes_user = []
+  private user_id = null
+  private imagen = []
+  private imagenes_user = []
 
   constructor(private route : ActivatedRoute, private imagefirebase : ImageFirebaseService ) { }
 
@@ -29,38 +24,13 @@ export class ViewpicsPage implements OnInit {
 
       this.imagen = image_firebase
       
-      console.log("IMAGENES", this.imagen)
-
-      // for(let i = 0; i < this.imagen.length; i++) {
-
-
-      //   if(this.imagen[i].file_path === "historia") {
-      //     console.log(this.imagen[i])
-      //   }
-
-      // }
-
       const imagenes_historia = this.imagen.filter(elemento => {
         return elemento.file_path === 'historia'
       })
 
-      console.log( "HISTORIA", imagenes_historia)
-
       this.imagenes_user = imagenes_historia.filter(elemento => {
         return elemento.id_usuario === this.user_id
       })
-      
-      
-      console.log("NUEVAS IMAGENES ", this.imagenes_user)
-
-
     })
-
-
   }
-
-
-
-  
-
 }
