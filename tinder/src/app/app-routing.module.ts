@@ -48,6 +48,16 @@ const routes: Routes = [
   }
 
 
+  },  {
+    path: 'storieview',
+    loadChildren: () => import('./pages/storieview/storieview.module').then( m => m.StorieviewPageModule)
+  },
+  {
+    path: 'storieotherusers',
+    loadChildren: () => import('./pages/storieotherusers/storieotherusers.module').then( m => m.StorieotherusersPageModule)
+  }
+
+
 
 ];
 @NgModule({

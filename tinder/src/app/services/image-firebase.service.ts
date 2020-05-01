@@ -40,7 +40,7 @@ export class ImageFirebaseService {
     
   }
 
-  public async saveImg(id_user,base64,path){
+  public async saveImg(id_user,base64,path, seen?){
 
     const id_img_storage = this.UtilToolService.generateId()
     const path_img = `${id_user}/${path}/${id_img_storage}`;
@@ -50,7 +50,7 @@ export class ImageFirebaseService {
       snapshot.ref.getDownloadURL().then(downloadURL =>{
         console.log(downloadURL)
         
-        this.setImage(id_user,id_img_storage,path_img,path,snapshot.metadata.name,snapshot.metadata.contentType,downloadURL)
+        this.setImage(id_user,id_img_storage,path_img,path,snapshot.metadata.name,snapshot.metadata.contentType,downloadURL, seen)
       })
 
     }).catch(err =>{
@@ -59,7 +59,7 @@ export class ImageFirebaseService {
 
   }
 
-  private setImage(id_user,id_img_storage,path_img,path,name,type,url){
+  private setImage(id_user,id_img_storage,path_img,path,name,type,url, seen?){
 
     this.db.collection('image').doc(id_img_storage).set({
       id_img: id_img_storage,
@@ -69,7 +69,7 @@ export class ImageFirebaseService {
       type: type,
       path: path_img,
       url: url,
-
+      seen: seen
     }).catch(err =>{
       this.UtilToolService.presentAlert('Error',err,'ok');
     })
@@ -113,6 +113,8 @@ export class ImageFirebaseService {
 
   }
 
-  
+  async updateImage (  imagen , id    ) {
+    return this.db.collection('image').doc(id).update(imagen)
+  }
 
 }

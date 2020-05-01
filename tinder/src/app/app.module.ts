@@ -31,6 +31,10 @@ import { SuperTabsModule } from '@ionic-super-tabs/angular'
 
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
+import { StorieviewPageModule } from './pages/storieview/storieview.module'
+
+import {  StorieotherusersPageModule } from './pages/storieotherusers/storieotherusers.module'
+
 
 
 @NgModule({
@@ -44,7 +48,9 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     HttpClientModule,
-    SuperTabsModule.forRoot()
+    SuperTabsModule.forRoot(),
+    StorieviewPageModule,
+    StorieotherusersPageModule
   ],
   providers: [
     StatusBar,Camera,

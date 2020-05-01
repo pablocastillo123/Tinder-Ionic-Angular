@@ -9,6 +9,19 @@ import { Router } from '@angular/router';
 
 import { AngularFireDatabase } from '@angular/fire/database';
 
+import { Camera } from '@ionic-native/camera/ngx';
+
+import {  UtilToolService } from '../../services/utiltool.service'
+import { ModalController } from '@ionic/angular';
+
+import { StorieviewPage } from '../storieview/storieview.page'
+
+import {  StorieotherusersPage } from '../storieotherusers/storieotherusers.page'
+
+
+
+
+
 
 
 
@@ -45,44 +58,72 @@ export class Tab3Page {
 
   gente = []
 
+  user_pic;
+
   anyone;
 
   mensajes_todos
 
   lastMessague = []
 
+  img_base64;
 
-  constructor(private matchService :MatchService, private userfirebase : UserfirebseService,
-    private imagefirebase: ImageFirebaseService, private router: Router , private afDB : AngularFireDatabase ) {}
+  image;
+
+  stories_user = []
+
+  stories_others = []
+
+  final_array = []
+
+  user_match_stories = []
+
+  currentLength = 0
+
+
+  constructor(private db: AngularFirestore, private matchService :MatchService, private userfirebase : UserfirebseService,
+    private imagefirebase: ImageFirebaseService, private router: Router , 
+    private afDB : AngularFireDatabase, private camera : Camera, private utilTool : UtilToolService,
+    private modalCtrl : ModalController ) {}
 
   ngOnInit() {
 
     this.user_login = JSON.parse(window.localStorage.getItem('user'))
+
+    console.log("USER LOGEADO", this.user_login)
+
+    this.imagefirebase.getImageCollection().subscribe(res => {
+
+      this.user_pic = res.find(elemento => {
+        return elemento.id_usuario === this.user_login.email && elemento.file_path === 'perfil'
+      })
+
+      console.log("RES", this.user_pic)
+
+
+    })
 
     this.matchService.getMatchCollection().subscribe(res => {
       this.matches = res
       this.final = this.matches.filter(elemento => {
         return elemento.id_from_user == this.user_login.id || elemento.id_to_user == this.user_login.id
       })
+    
     })
+
+
    
-
-
   }
 
-  ionViewWillEnter () {
-    setTimeout( ( )=> {
-      this.people = []
-      this.gente = []
-      console.log("Entraste")
-      this.pushPeople();
-      this.pushGente()
-     
-    }, 500  )
-   
+  ionViewWillEnter () { 
+      setTimeout( () => { 
+        console.log("Entraste")
+
+        this.pushPeople();
+        this.pushGente()
+      }, 2500)
   }
   
-
   pushPeople() {
     this.userfirebase.getUserCollection().subscribe (res => {
 
@@ -116,6 +157,8 @@ export class Tab3Page {
   ionViewDidLeave	() {
     this.people = []
     this.gente = []
+    console.log("ABANDONE")
+
   }
 
   goToAnother (genId, index) {
@@ -181,6 +224,20 @@ export class Tab3Page {
   
         }
       }
+
+      this.imagefirebase.getImageCollection().subscribe(res => {
+        this.stories_others = res.filter (elemento => {
+          return elemento.file_path === 'stories' && elemento.id_usuario != this.user_login.email
+        })
+        console.log("LAS HISTORIAS DE OTROS", this.stories_others)
+
+       
+       
+
+      })
+
+      
+
       console.log(this.gente ,"GENTE")
 
       this.anyone = this.gente.find(elemento => {
@@ -189,7 +246,7 @@ export class Tab3Page {
       console.log("SON ESTOS", this.anyone)
       this.getLastMessague()
       window.localStorage.setItem('matches',JSON.stringify(this.gente))
-
+     
 
     })
   }
@@ -221,15 +278,96 @@ export class Tab3Page {
         console.log("MENSAJES ", this.mensajes_todos)
         this.lastMessague[i] = this.mensajes_todos[this.mensajes_todos.length - 1]
         console.log("LAST MESSAGUE", this.lastMessague)
+        this.currentLength = this.mensajes_todos.length
+         
+      this.user_match_stories = this.gente.filter(({ email: id1 }) => 
+            
+      this.stories_others.some(({ id_usuario : id2 }) => id2 === id1));
+
+      console.log("RETORNA LOS QUE TIENEN HISTORIAS", this.user_match_stories)
+
       }
-    )
+      )
+
     } 
 
       
 
   }
 
+  subirHistoria () {
+    this.camera.getPicture({
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      mediaType: this.camera.MediaType.PICTURE,
+      allowEdit: true,
+      encodingType: this.camera.EncodingType.JPEG,
+      targetHeight: 1024,
+      targetWidth: 1024,
+      correctOrientation: true,
+      saveToPhotoAlbum: true
+
+    }).then(resultado => {
+
+      let base64 = 'data:image/jpeg;base64,' + resultado
+      this.img_base64 = resultado
+      this.image = base64
+      //Guardar foto en firebase
+      this.imagefirebase.saveImg(this.user_login.email, this.img_base64, 'stories', [])
+      console.log("Se ha enviado la foto")
+      this.ionViewDidLeave()
+      this.ionViewWillEnter()
+
+
+    }).catch(err =>{
+      console.log(err)
+      this.utilTool.presentAlert('error',err,'ok')
+    })
+
+    console.log("Subir historia")
+
+  }
+
+  async obtenerMisHistorias() {
+
+    let modal = await this.modalCtrl.create({
+      component : StorieviewPage,
+      componentProps: {
+       user_login : this.user_login
+      } 
+    })
+
+    return await modal.present();
+  }
+
+  async verHistoria (usuario) {
+
+    console.log(usuario , "INFO DEL USER")
+
+    let modal = await this.modalCtrl.create({
+      component : StorieotherusersPage,
+      componentProps: {
+       user : usuario
+     } 
+
+    })
+
+    return await modal.present();
+
+  }
+
+  
+
+
+ 
+
+
+ 
+
+
+
 
 }
+
 
 
