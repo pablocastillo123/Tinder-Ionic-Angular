@@ -131,12 +131,6 @@
 
     <super-tab>
       <ion-content>
-        <div class="content_his_message">
-          <img class="his-img" src="../../../assets/image/historia.png">
-          <h1 class="his-h1">Regresa mas tarde</h1>
-          <h6 class="his-h6">No encontramos actividad social reciente de tus matches. Intentalo de nuevo mas tarde.</h6>
-        </div>
-
           <ion-item (click) = "obtenerMisHistorias()">
             <ion-grid>
                <ion-row>
@@ -171,7 +165,11 @@
               </ion-grid>
           </ion-item>
 
-         
+          <div class="content_his_message">
+            <img class="his-img" src="../../../assets/image/historia.png">
+            <h1 class="his-h1">Regresa mas tarde</h1>
+            <h6 class="his-h6">No encontramos actividad social reciente de tus matches. Intentalo de nuevo mas tarde.</h6>
+          </div>
 
           <ion-fab vertical = "bottom" horizontal = "end" slot="fixed" (click) = "subirHistoria()" >
             <ion-fab-button color = "danger">
