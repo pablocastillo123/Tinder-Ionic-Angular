@@ -36,7 +36,7 @@ export class PopoverComponent implements OnInit {
     this.popoverController.dismiss()
     this.matchService.deleteMatch(this.id_Match)
     this.router.navigate(['/tabs/tab2'])
-    this.utilTool.presentAlert('Mensage','Match Eliminado','ok');
+    this.utilTool.presentAlert('Mensaje','Match Eliminado','ok');
 
     console.log("Eliminado")
   }
@@ -44,7 +44,7 @@ export class PopoverComponent implements OnInit {
   vaciarChat() {
     this.popoverController.dismiss()
     this.realTime.deleteMessagues(this.id_Match)
-    this.utilTool.presentAlert('Mensage','Chat Vaciado','ok');
+    this.utilTool.presentAlert('Mensaje','Chat Vaciado','ok');
     this.navCtrl.navigateRoot('/tabs/tab2');
   }
 

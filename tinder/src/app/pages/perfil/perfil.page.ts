@@ -122,7 +122,7 @@ export class PerfilPage implements OnInit {
 
         loading.dismiss()
         window.localStorage.setItem('user',JSON.stringify(this.obj_user))
-        this.utilTool.presentAlert('Mensage','Datos Actualizados','ok');
+        this.utilTool.presentAlert('Mensaje','Datos Actualizados','ok');
         this.router.navigateByUrl('/tabs/tab1')
         
       }
