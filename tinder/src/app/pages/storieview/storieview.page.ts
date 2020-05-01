@@ -6,6 +6,9 @@ import { ImageFirebaseService } from '../../services/image-firebase.service'
 import { IonSlides } from '@ionic/angular';
 import { Router } from '@angular/router';
 
+import { StoriesService } from '../../services/stories.service'
+
+
 
 @Component({
   selector: 'app-storieview',
@@ -50,7 +53,7 @@ export class StorieviewPage implements OnInit {
 
 
   constructor(private navParams: NavParams, private imagefirebase : ImageFirebaseService, private route: Router, 
-    private modalCtrl : ModalController  ) { }
+    private modalCtrl : ModalController, private storieService : StoriesService  ) { }
 
   ngOnInit() {
 
@@ -65,7 +68,7 @@ export class StorieviewPage implements OnInit {
       console.log("PROFILE PIC", this.profile_pic)
     })
 
-    this.imagefirebase.getImageCollection().subscribe(res => {
+    this.storieService.getImageCollection().subscribe(res => {
       
       this.stories_user = res.filter(elemento => {
        return elemento.file_path === 'stories' && elemento.id_usuario === this.user_login.email

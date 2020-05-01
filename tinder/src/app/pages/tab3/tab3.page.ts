@@ -19,6 +19,8 @@ import { StorieviewPage } from '../storieview/storieview.page'
 import {  StorieotherusersPage } from '../storieotherusers/storieotherusers.page'
 
 
+import { StoriesService } from '../../services/stories.service'
+
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
@@ -78,7 +80,7 @@ export class Tab3Page {
   constructor(private matchService :MatchService, private userfirebase : UserfirebseService,
     private imagefirebase: ImageFirebaseService, private router: Router , 
     private afDB : AngularFireDatabase, private camera : Camera, private utilTool : UtilToolService,
-    private modalCtrl : ModalController ) {}
+    private modalCtrl : ModalController, private storiesService : StoriesService ) {}
 
   ngOnInit() {
 
@@ -307,7 +309,8 @@ export class Tab3Page {
       this.img_base64 = resultado
       this.image = base64
       //Guardar foto en firebase
-      this.imagefirebase.saveImg(this.user_login.email, this.img_base64, 'stories', [])
+      this.storiesService.saveImg(this.user_login.email, this.img_base64, 'stories', [])
+      // this.imagefirebase.saveImg(this.user_login.email, this.img_base64, 'stories', [])
       console.log("Se ha enviado la foto")
       this.ionViewDidLeave()
       this.ionViewWillEnter()

@@ -3,6 +3,8 @@ import { NavParams, ModalController, IonSlides } from '@ionic/angular';
 
 import { ImageFirebaseService } from '../../services/image-firebase.service'
 
+import { StoriesService } from '../../services/stories.service'
+
 @Component({
   selector: 'app-storieotherusers',
   templateUrl: './storieotherusers.page.html',
@@ -38,7 +40,9 @@ export class StorieotherusersPage implements OnInit {
   currentIndex = 0
 
 
-  constructor(private navParams: NavParams,  private imagefirebase : ImageFirebaseService,  private modalCtrl : ModalController ) { }
+  constructor(private navParams: NavParams,  
+    private imagefirebase : ImageFirebaseService,  private modalCtrl : ModalController,
+    private storieService : StoriesService  ) { }
 
   ngOnInit() {
 
@@ -47,7 +51,7 @@ export class StorieotherusersPage implements OnInit {
     console.log("METODODDD", this.navParams.get('metodo'))
 
     
-    this.imagefirebase.getImageCollection().subscribe(res => {
+    this.storieService.getImageCollection().subscribe(res => {
       
       this.stories_user = res.filter(elemento => {
        return elemento.file_path === 'stories' && elemento.id_usuario === this.user.email
