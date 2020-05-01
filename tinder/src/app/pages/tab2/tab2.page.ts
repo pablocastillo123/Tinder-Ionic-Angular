@@ -42,13 +42,9 @@ export class Tab2Page implements OnInit {
   private token
   private results =[]
   private user_coord = []
-
   private array_sexo = []
-
   private filter = []
-
   private km = 0
-
   private kilometros = []
 
   constructor(private fcm : FCM, private userfirebase : UserfirebseService, private SwipeService:SwipeService,
@@ -57,18 +53,13 @@ export class Tab2Page implements OnInit {
   }
 
   ngOnInit () {
-
     this.user_login = JSON.parse(window.localStorage.getItem('user'))
-
-    console.log("PRIMERA VEZ", this.user_login)
 
     this.fcm.subscribeToTopic(this.user_login.id)
 
     this.LikeService.getLikeCollection().subscribe(res => {
       this.likes = res
     })
-  
- 
 
     this.SwipeService.getSwipeUser(this.user_login).subscribe(res =>{
       res.forEach(element =>{
@@ -97,12 +88,9 @@ export class Tab2Page implements OnInit {
         return (sexo.sexo == 'Mujer' && this.user_login.config_sexo.mujer) || (sexo.sexo == 'Hombre' && this.user_login.config_sexo.hombre)
       })
 
-      console.log("SEXOO", this.array_sexo)
-
       //filtrando la consulta de firebase para que salgan los usuarios con el match por localizacion
       this.user_coord = this.array_sexo.filter( (user, index) =>{
         this.km = this.getDistanceFromLatLonInKm(this.user_login.latitud,this.user_login.longitud,user.latitud,user.longitud)
-        console.log(`km:${this.km}----${user.email} lat:${user.latitud}--long:${user.longitud}`)
 
         this.kilometros.push( {
           email: this.array_sexo[index].email,
@@ -110,9 +98,6 @@ export class Tab2Page implements OnInit {
         })
         return this.km <= this.user_login.config_rango
       })
-
-      console.log("ESTO ES CON KM", this.kilometros)
-      console.log("ESTO ES LO QUE DEVUELVE", this.user_coord)
 
       for(let i = 0; i < this.kilometros.length; i ++) {
         for(let j = 0; j < this.user_coord.length; j ++ ) {
@@ -133,10 +118,8 @@ export class Tab2Page implements OnInit {
           }
         }
       }
-      console.log("ESTO ES FINAL", this.user_coord)
       this.people = []
       this.people.push(...this.user_coord)
-      console.log(this.people)
     })
 
     this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
@@ -163,12 +146,10 @@ export class Tab2Page implements OnInit {
             
             //asignacion de los datos que se mostraran en el card
             this.gente.push(this.objecto)
-            console.log("LA GENTE", this.gente)
             break;
           }
         }
       }
-
       
       this.results = this.gente.filter(({ id: id1 }) => 
             
@@ -177,11 +158,7 @@ export class Tab2Page implements OnInit {
       this.gente = []
       this.gente.push(...this.results)
       this.currentIndex = this.people.length - 1;
-
-
     })
-
-   
   }
 
   ionViewWillEnter () {
@@ -192,7 +169,6 @@ export class Tab2Page implements OnInit {
       res.forEach(element =>{
         this.swipe_user.push(element.data())
       })
-      console.log("ESTOS SON LOS SWIPE", this.swipe_user)
 
       this.LikeService.getLikeCollection().subscribe(res => {
         this.likes = res
@@ -221,8 +197,7 @@ export class Tab2Page implements OnInit {
   
         //filtrando la consulta de firebase para que salgan los usuarios con el match por localizacion
         this.user_coord = this.array_sexo.filter( (user, index) =>{
-           this.km = this.getDistanceFromLatLonInKm(this.user_login.latitud,this.user_login.longitud,user.latitud,user.longitud)
-          console.log(`km:${this.km}----${user.email} lat:${user.latitud}--long:${user.longitud}`)
+          this.km = this.getDistanceFromLatLonInKm(this.user_login.latitud,this.user_login.longitud,user.latitud,user.longitud)
 
           this.kilometros.push( {
             email: this.array_sexo[index].email,
@@ -232,9 +207,6 @@ export class Tab2Page implements OnInit {
           return this.km <= this.user_login.config_rango
         })
 
-        console.log("ESTO ES CON KM DE ION", this.kilometros)
-        console.log("ESTO ES LO QUE DEVUELVE DE ION", this.user_coord)
-  
         for(let i = 0; i < this.kilometros.length; i ++) {
           for(let j = 0; j < this.user_coord.length; j ++ ) {
             if(this.kilometros[i].email === this.user_coord[j].email) {
@@ -255,10 +227,8 @@ export class Tab2Page implements OnInit {
           }
         }
   
-      console.log("ESTO ES FINAL EN ION", this.user_coord)
       this.people = []
       this.people.push(...this.user_coord)
-      console.log(this.people)
       })
   
       this.imagefirebase.getImageCollection().subscribe(image_firebase =>{
@@ -286,12 +256,10 @@ export class Tab2Page implements OnInit {
               
               //asignacion de los datos que se mostraran en el card
               this.gente.push(this.objecto)
-              console.log("LA GENTE FINAL", this.gente)
               break;
             }
           }
         }
-  
         
         this.results = this.gente.filter(({ id: id1 }) => 
               
@@ -302,19 +270,7 @@ export class Tab2Page implements OnInit {
         this.currentIndex = this.people.length - 1;
   
       })
-  
-
-
     })
-
-    console.log("SEGUNDA VEZ", this.user_login)
-  
-
-    
-
-    
-
-    
   }
 
   async swiped (event , index) {
@@ -349,8 +305,6 @@ export class Tab2Page implements OnInit {
           if(likeotheruser[0].id_from_user === this.likes[i].id_to_user 
             &&  likeotheruser[0].id_to_user === this.likes[i].id_from_user) {
 
-            console.log("MATCH")
-  
             //se guarda el match y se envia una notifiacion a los usuarios
             this.MatchService.setMatch(likeotheruser[0].id_from_user , this.likes[i].id_from_user)
 
@@ -424,33 +378,15 @@ export class Tab2Page implements OnInit {
 
 
   ionViewDidLeave () {
-
     this.people = []
     this.gente = []
     this.kilometros = []
-    // this.km = 0
-    // this.user_pic = []
-    // this.user_coord = []
-    // this.filter = []
-    // this.array_sexo = []
-    // this.results = []
-    // this.likes = []
-    // this.swipe_user = []
-    // this.objecto = {
-    //   id: '',
-    //   email: '',
-    //   name : '',
-    //   age : 0,
-    //   image : '',
-    //   visible: true
-    // }
-    
     this.fcm.unsubscribeFromTopic(this.user_login.id)
   }
 
   getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
-    var R = 6371; // Radius of the earth in km
-    var dLat = this.deg2rad(lat2-lat1);  // deg2rad below
+    var R = 6371; 
+    var dLat = this.deg2rad(lat2-lat1);  
     var dLon = this.deg2rad(lon2-lon1); 
     var a = 
       Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -458,7 +394,7 @@ export class Tab2Page implements OnInit {
       Math.sin(dLon/2) * Math.sin(dLon/2)
        
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-    var d = R * c; // Distance in km
+    var d = R * c; 
     return d;
   }
 
