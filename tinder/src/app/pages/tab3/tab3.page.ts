@@ -77,6 +77,8 @@ export class Tab3Page {
 
   user_match_stories = []
 
+  currentLength = 0
+
 
   constructor(private db: AngularFirestore, private matchService :MatchService, private userfirebase : UserfirebseService,
     private imagefirebase: ImageFirebaseService, private router: Router , 
@@ -107,15 +109,18 @@ export class Tab3Page {
       })
     
     })
+
+
    
   }
 
-  ionViewWillEnter () {
-      setTimeout( () => {
+  ionViewWillEnter () { 
+      setTimeout( () => { 
         console.log("Entraste")
+
         this.pushPeople();
         this.pushGente()
-      }, 1000)
+      }, 2500)
   }
   
   pushPeople() {
@@ -221,13 +226,12 @@ export class Tab3Page {
         })
         console.log("LAS HISTORIAS DE OTROS", this.stories_others)
 
-        this.user_match_stories = this.gente.filter(({ email: id1 }) => 
-            
-        this.stories_others.some(({ id_usuario : id2 }) => id2 === id1));
-
-        console.log("RETORNA LOS QUE TIENEN HISTORIAS", this.user_match_stories)
+       
+       
 
       })
+
+      
 
       console.log(this.gente ,"GENTE")
 
@@ -237,7 +241,7 @@ export class Tab3Page {
       console.log("SON ESTOS", this.anyone)
       this.getLastMessague()
       window.localStorage.setItem('matches',JSON.stringify(this.gente))
-
+     
 
     })
   }
@@ -269,8 +273,17 @@ export class Tab3Page {
         console.log("MENSAJES ", this.mensajes_todos)
         this.lastMessague[i] = this.mensajes_todos[this.mensajes_todos.length - 1]
         console.log("LAST MESSAGUE", this.lastMessague)
+        this.currentLength = this.mensajes_todos.length
+         
+      this.user_match_stories = this.gente.filter(({ email: id1 }) => 
+            
+      this.stories_others.some(({ id_usuario : id2 }) => id2 === id1));
+
+      console.log("RETORNA LOS QUE TIENEN HISTORIAS", this.user_match_stories)
+
       }
-    )
+      )
+
     } 
 
       
@@ -294,10 +307,11 @@ export class Tab3Page {
       let base64 = 'data:image/jpeg;base64,' + resultado
       this.img_base64 = resultado
       this.image = base64
-
       //Guardar foto en firebase
       this.imagefirebase.saveImg(this.user_login.email, this.img_base64, 'stories', [])
       console.log("Se ha enviado la foto")
+      this.ionViewDidLeave()
+      this.ionViewWillEnter()
 
 
     }).catch(err =>{
@@ -317,10 +331,8 @@ export class Tab3Page {
        user_login : this.user_login
       } 
     })
-    this.ionViewDidLeave()
 
     return await modal.present();
-   
   }
 
   async verHistoria (usuario) {
@@ -331,14 +343,19 @@ export class Tab3Page {
       component : StorieotherusersPage,
       componentProps: {
        user : usuario
-      } 
+     } 
 
     })
-    this.ionViewDidLeave()
 
     return await modal.present();
 
   }
+
+  
+
+
+ 
+
 
  
 
@@ -346,5 +363,6 @@ export class Tab3Page {
 
 
 }
+
 
 

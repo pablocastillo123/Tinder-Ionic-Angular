@@ -113,6 +113,8 @@ export class ImageFirebaseService {
 
   }
 
-  
+  async updateImage (  imagen , id    ) {
+    return this.db.collection('image').doc(id).update(imagen)
+  }
 
 }

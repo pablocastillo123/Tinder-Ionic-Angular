@@ -44,6 +44,7 @@ export class StorieotherusersPage implements OnInit {
 
     this.user = this.navParams.get('user')
     console.log("INFO DEL USER", this.user)
+    console.log("METODODDD", this.navParams.get('metodo'))
 
     
     this.imagefirebase.getImageCollection().subscribe(res => {

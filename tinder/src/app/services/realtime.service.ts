@@ -28,7 +28,8 @@ export class RealtimeService {
       date : {
         dia : date,
         hora : time
-      } 
+      },
+      read : false
     });
   }
 
@@ -42,7 +43,7 @@ export class RealtimeService {
     
     
     //Con esto borro
-    this.afDB.list('Mensajes/cp3m01t4t281qlrsl7bepdplf55czcuicwdlufhgp2n/-M5eyEVmowWvr9A7kXMh').remove()
+    // this.afDB.list('Mensajes/cp3m01t4t281qlrsl7bepdplf55czcuicwdlufhgp2n/-M5eyEVmowWvr9A7kXMh').remove()
 
     //Con esto edito
     this.afDB.list('Mensajes/' + chat_id + '/').update('-M5fKKZaNy1i6D14tv4h', {holaa: 'sexo'})
