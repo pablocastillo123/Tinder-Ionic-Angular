@@ -10,6 +10,7 @@ import { NavController } from '@ionic/angular';
 
 import { RealtimeService } from '../../services/realtime.service'
 
+import { UtilToolService } from '../../services/utiltool.service'
 
 
 @Component({
@@ -23,7 +24,7 @@ export class PopoverComponent implements OnInit {
 
   constructor(private matchService : MatchService, public navParams:NavParams, private router : Router, 
     public popoverController: PopoverController, public navCtrl: NavController,
-    private realTime : RealtimeService) { }
+    private realTime : RealtimeService, private utilTool:UtilToolService ) { }
 
   ngOnInit() {
     console.log(this.navParams.data, "La dataa");
@@ -35,13 +36,15 @@ export class PopoverComponent implements OnInit {
     this.popoverController.dismiss()
     this.matchService.deleteMatch(this.id_Match)
     this.router.navigate(['/tabs/tab2'])
+    this.utilTool.presentAlert('Mensage','Match Eliminado','ok');
+
     console.log("Eliminado")
   }
 
   vaciarChat() {
     this.popoverController.dismiss()
     this.realTime.deleteMessagues(this.id_Match)
-    //Este me sirvio
+    this.utilTool.presentAlert('Mensage','Chat Vaciado','ok');
     this.navCtrl.navigateRoot('/tabs/tab2');
   }
 
